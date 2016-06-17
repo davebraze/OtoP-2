@@ -48,29 +48,13 @@ SPECIAL=
 LIBHOME=${MIKENET_DIR}/lib/${ARCH}/
 INCLUDEHOME=${MIKENET_DIR}/include
 
-all:	benchit_v7 benchit_SSE benchit_PIII benchmark_v7 benchmark_SSE benchmark_PIII
-
-
-benchit_SSE:       benchit.c Makefile
-	gcc -o benchit_SSE benchit.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a ${HOME}/ATLAS/lib/Linux_PIIISSE1/libcblas.a ${HOME}/ATLAS/lib/Linux_PIIISSE1/libatlas.a -lm
+all:	benchit_v7 benchmark_v7 
 
 benchit_v7:	benchit.c Makefile
-	gcc -o benchit_v7 benchit.c ${DEBUG} -I${INCLUDEHOME} /home/mharm/Mikenet-v7.01/lib/i686/libmikenet.a -lm
-
-benchit_PIII:	benchit.c Makefile
-	gcc -o benchit_PIII benchit.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a ${HOME}/ATLAS/lib/Linux_PIII/libcblas.a ${HOME}/ATLAS/lib/Linux_PIII/libatlas.a -lm
-
-
-
-benchmark_SSE:       benchmark.c model.c Makefile
-	gcc -o benchmark_SSE benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a ${HOME}/ATLAS/lib/Linux_PIIISSE1/libcblas.a ${HOME}/ATLAS/lib/Linux_PIIISSE1/libatlas.a -lm
-
+	gcc -o benchit_v7 benchit.c ${DEBUG} -I${INCLUDEHOME} /home/gong/Mikenet-v8.0/lib/libmikenet.a -lm
 
 benchmark_v7:	benchmark.c model.c Makefile
-	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} /home/mharm/Mikenet-v7.01/lib/i686/libmikenet.a -lm
-
-benchmark_PIII:	benchmark.c model.c Makefile
-	gcc -o benchmark_PIII benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a ${HOME}/ATLAS/lib/Linux_PIII/libcblas.a ${HOME}/ATLAS/lib/Linux_PIII/libatlas.a -lm
+	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} /home/gong/Mikenet-v8.0/lib/libmikenet.a -lm
 
 clean:
 	rm -f  *~ *.o benchmark_* benchmark_*

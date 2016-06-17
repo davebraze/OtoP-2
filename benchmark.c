@@ -48,6 +48,7 @@ int train(Net *net,ExampleSet *examples,int to)
 	}
       else count++;
     }
+  save_weights(net,"net.out");	
   return 0;
 }
 
@@ -57,7 +58,7 @@ int main(int argc,char *argv[])
 
   setbuf(stdout,NULL);
   /* set random number seed to process id */
-  mikenet_set_seed(666);
+  mikenet_set_seed(0);
 
   announce_version();
 
