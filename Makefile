@@ -36,11 +36,6 @@ LINK_ARGS=
 ####SPECIAL= -funroll-loops
 SPECIAL=
 
-# a generic c compiler setting
-#CC = cc
-#DEBUG= -O
-#LINK_ARGS=  
-
 ### note: if mikenet is installed at the system level,
 ### (like, /usr/local/include, /usr/local/lib) then you don't need
 ### this gunk.  
@@ -48,13 +43,10 @@ SPECIAL=
 LIBHOME=${MIKENET_DIR}/lib/${ARCH}/
 INCLUDEHOME=${MIKENET_DIR}/include
 
-all:	benchit_v7 benchmark_v7 
+all:	benchmark 
 
-benchit_v7:	benchit.c Makefile
-	gcc -o benchit_v7 benchit.c ${DEBUG} -I${INCLUDEHOME} /home/gong/Mikenet-v8.0/lib/libmikenet.a -lm
-
-benchmark_v7:	benchmark.c model.c Makefile
+benchmark:	benchmark.c model.c Makefile
 	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} /home/gong/Mikenet-v8.0/lib/libmikenet.a -lm
 
 clean:
-	rm -f  *~ *.o benchmark_* benchmark_*
+	rm -f *.o benchmark
