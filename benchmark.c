@@ -14,8 +14,9 @@
 #define PHO_FEATURES 11
 #define PHO_NUMBER 35
 #define PHO_OUT 55
-#define phoFileName "./phonemes.txt"
-#define exFileName "./examples.txt"
+#define phoF "./phonemes.txt"
+#define exTrF "./training_examples.txt"
+#define exTeF "./training_examples.txt"	// currently the same as exTrF;
 typedef struct
 { char name;	// name of phoneme;
   Real vec[PHO_FEATURES];	// features of phoneme;
@@ -25,7 +26,7 @@ Phoneme *phon=NULL;
 // parameters for recording timepoints, total iteration, and seed;
 #define SEED (long)(time(NULL))
 #define REP 1000
-#define ITER 50000
+#define ITER 5000
 #define V_METHOD 0
 #define V_THRES 0.5
 
@@ -226,16 +227,16 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, int v_method, double v_th
 }
 
 
-void train(Net *net, ExampleSet *examples, int to, int step, int v_method, double v_thres, FILE *f1, FILE *f2, char *weightFileName)
+void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int v_method, double v_thres, FILE *f1, FILE *f2, FILE *f3, char *weightF)
 { // train the network and record the training error and accuracies;
-  	assert(net!=NULL); assert(examples!=NULL); assert(f1!=NULL); assert(f2!=NULL); assert(weightFileName!=NULL); 
+  	assert(net!=NULL); assert(TrExm!=NULL); assert(TeExm!=NULL); assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(weightF!=NULL); 
 	int i, j, iter, count;
   	Example *ex;
-  	Real error, accu;
+  	Real error, accuTr=0.0, accuTe=0.0;
 
-	count=1; error=0.0; accu=0.0;
+	count=1; error=0.0;
   	for(iter=1;iter<=to;iter++)
-  		{ ex=get_random_example(examples);
+  		{ ex=get_random_example(TrExm);
 		  crbp_forward(net,ex);
     	  crbp_compute_gradients(net,ex);
     	  error+=compute_error(net,ex);
@@ -243,15 +244,16 @@ void train(Net *net, ExampleSet *examples, int to, int step, int v_method, doubl
           /* is it time to write status? */
     	  if(count==step)
 			{ error=error/(float)count;
-			  accu=getAccu(net, examples, iter, v_method, v_thres, f2);
-			  printf("iter=%d\terr=%5.3f\tacu=%5.3f\n", iter, error, accu);	// display on screen;
-	  		  fprintf(f1, "%d\t%d\t%d\t%5.3f\t%5.3f\t%d\t%5.3f\t%5.3f\t%d\t%d\t%d\t%d\t%5.3f\t%5.3f\n", iter, TIME, TAI, EPSI, INTCONST, ACTTYPE, ERRRAD, RANGE, OrthoS, HidS, PhonoS, PhoHidS, error, accu);	// store parameters and results into f;
+			  accuTr=getAccu(net, TrExm, iter, v_method, v_thres, f2);
+			  accuTe=getAccu(net, TeExm, iter, v_method, v_thres, f3);
+			  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
+	  		  fprintf(f1, "%d\t%d\t%d\t%5.3f\t%5.3f\t%d\t%5.3f\t%5.3f\t%d\t%d\t%d\t%d\t%5.3f\t%5.3f\t%5.3f\n", iter, TIME, TAI, EPSI, INTCONST, ACTTYPE, ERRRAD, RANGE, OrthoS, HidS, PhonoS, PhoHidS, error, accuTr, accuTe);	// store parameters and results into f;
 			  count=1; 
-			  error=0.0; accu=0.0;
+			  error=0.0; accuTr=0.0; accuTe=0.0;
 		 	}
     	  else count++;
   		}
-  	save_weights(net,weightFileName);
+  	save_weights(net,weightF);
 }
 
 
@@ -261,16 +263,16 @@ void main(int argc,char *argv[])
   	int i, run, iseq, iter, rep, v_method, sum;
 	Real v_thres;
   	long seed;
-	FILE *f=NULL, *f1=NULL, *f2=NULL;
+	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL;
 	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL;
-	char *root=NULL, *outFileName=NULL, *weightFileName=NULL, *itemAccuFileName=NULL;
+	char *root=NULL, *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL;
 	
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
 
 	announce_version();
 	setbuf(stdout,NULL); 
 	
-	load_phoneme(phoFileName);  // initialize phoneme;
+	load_phoneme(phoF);  // initialize phoneme;
 	  
 	seed=SEED+100*iseq; iter=ITER; rep=REP; v_method=V_METHOD; v_thres=V_THRES;
 	// all the parameters can also be set by input arguments;
@@ -286,8 +288,9 @@ void main(int argc,char *argv[])
 	build_model();	// build a network, with TIME number of time ticks; 
 	sum=count_connections(reading); printf("connections: %d\n",sum);	// calculate number of connections and print out;
 
-	reading_examples=load_examples(exFileName, TIME); // load examples;
-
+	training_examples=load_examples(exTrF, TIME); // load training examples;
+	testing_examples=load_examples(exTeF, TIME);	// load testing examples;
+	
 	// handle subDirect, locDirect;
 	subDirect=malloc((strlen("./")+2+(int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(subDirect!=NULL);
 	locDirect=malloc(((int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(locDirect!=NULL);
@@ -303,30 +306,39 @@ void main(int argc,char *argv[])
 	// set up directories for result files;
 	root=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(root!=NULL); 
 	strcpy(root, subDirect);
-	outFileName=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outFileName!=NULL);
-	strcpy(outFileName, root); strcat(outFileName, "output.txt");
-	itemAccuFileName=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(itemAccuFileName!=NULL);
-	strcpy(itemAccuFileName, root); strcat(itemAccuFileName, "itemacu.txt");
-	weightFileName=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(weightFileName!=NULL);
-	strcpy(weightFileName, root); strcat(weightFileName, "weights.txt");
+	outF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outF!=NULL);
+	strcpy(outF, root); strcat(outF, "output.txt");
+	itemacuTrF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(itemacuTrF!=NULL);
+	strcpy(itemacuTrF, root); strcat(itemacuTrF, "itemacu_tr.txt");
+	itemacuTeF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(itemacuTeF!=NULL);
+	strcpy(itemacuTeF, root); strcat(itemacuTeF, "itemacu_te.txt");
+	weightF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(weightF!=NULL);
+	strcpy(weightF, root); strcat(weightF, "weights.txt");
 
-	if((f1=fopen(outFileName,"w+"))==NULL) { printf("Can't open %s\n", outFileName); exit(1); }
-	fprintf(f1, "ITER\tTICK\tTAI\tEPSI\tINTCONST\tACTTYPE\tERRRAD\tRANGE\tOrthS\tHidS\tPhonoS\tPhoHidS\tErr\tAcu\n");
+	if((f1=fopen(outF,"w+"))==NULL) { printf("Can't open %s\n", outF); exit(1); }
+	fprintf(f1, "ITER\tTICK\tTAI\tEPSI\tINTCONST\tACTTYPE\tERRRAD\tRANGE\tOrthS\tHidS\tPhonoS\tPhoHidS\tErr\tAcuTr\tAcuTe\n");
 	
-	if((f2=fopen(itemAccuFileName,"a+"))==NULL) { printf("Can't open %s\n", itemAccuFileName); exit(1); }
+	if((f2=fopen(itemacuTrF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
 	fprintf(f2,"ITER\tNoItem");
-	for(i=0;i<reading_examples->numExamples;i++)
+	for(i=0;i<training_examples->numExamples;i++)
 		fprintf(f2,"\tAcu%d",i+1);
 	fprintf(f2,"\tAvg\n");
-	
-	train(reading, reading_examples, iter, rep, v_method, v_thres, f1, f2, weightFileName);	// train network
 
-	fclose(f1); fclose(f2);	// close result files;
+	if((f3=fopen(itemacuTeF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTeF); exit(1); }
+	fprintf(f3,"ITER\tNoItem");
+	for(i=0;i<testing_examples->numExamples;i++)
+		fprintf(f3,"\tAcu%d",i+1);
+	fprintf(f3,"\tAvg\n");
 	
-	free(weightFileName); weightFileName=NULL; free(outFileName); outFileName=NULL;
+	train(reading, training_examples, testing_examples, iter, rep, v_method, v_thres, f1, f2, f3, weightF);	// train network
+
+	fclose(f1); fclose(f2);	//fclose(f3); // close result files;
+	
+	free(weightF); weightF=NULL; free(outF); outF=NULL;
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
-	free(reading_examples); reading_examples=NULL;	// free reading_examples;
+	free(training_examples); training_examples=NULL;	// free training_examples;
+	free(testing_examples); testing_examples=NULL;	// free testing_examples;
 	free_net(reading); reading=NULL; // free network components;
 
 	free(phon); phon=NULL;	// free phon;

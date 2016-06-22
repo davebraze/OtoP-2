@@ -2,7 +2,7 @@
 extern Net *reading;
 extern Group *input,*hidden,*output,*phohid;
 extern Connections *c1,*c2,*c3,*c4,*c5;
-extern ExampleSet *reading_examples;
+extern ExampleSet *training_examples, *testing_examples;
 // parameters for network;
 #define TIME 7
 #define TAI 1
