@@ -264,13 +264,11 @@ void main(int argc,char *argv[])
 	Real v_thres;
   	long seed;
 	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL;
-	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL;
-	char *root=NULL, *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL;
+	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL, *root=NULL, *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL;
 	
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
 
-	announce_version();
-	setbuf(stdout,NULL); 
+	announce_version(); setbuf(stdout,NULL); 
 	
 	load_phoneme(phoF);  // initialize phoneme;
 	  
@@ -284,12 +282,11 @@ void main(int argc,char *argv[])
 		  else if(strncmp(argv[i],"-thres",6)==0) { v_thres=atof(argv[i+1]); i++; }
 		}
 	
-	mikenet_set_seed(seed);
-	build_model();	// build a network, with TIME number of time ticks; 
+	mikenet_set_seed(seed); build_model();	// build a network, with TIME number of time ticks; 
 	sum=count_connections(reading); printf("connections: %d\n",sum);	// calculate number of connections and print out;
 
-	training_examples=load_examples(exTrF, TIME); // load training examples;
-	testing_examples=load_examples(exTeF, TIME);	// load testing examples;
+	train_exm=load_examples(exTrF, TIME); // load training examples;
+	test_exm=load_examples(exTeF, TIME);	// load testing examples;
 	
 	// handle subDirect, locDirect;
 	subDirect=malloc((strlen("./")+2+(int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(subDirect!=NULL);
@@ -320,25 +317,25 @@ void main(int argc,char *argv[])
 	
 	if((f2=fopen(itemacuTrF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
 	fprintf(f2,"ITER\tNoItem");
-	for(i=0;i<training_examples->numExamples;i++)
+	for(i=0;i<train_exm->numExamples;i++)
 		fprintf(f2,"\tAcu%d",i+1);
 	fprintf(f2,"\tAvg\n");
 
 	if((f3=fopen(itemacuTeF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTeF); exit(1); }
 	fprintf(f3,"ITER\tNoItem");
-	for(i=0;i<testing_examples->numExamples;i++)
+	for(i=0;i<test_exm->numExamples;i++)
 		fprintf(f3,"\tAcu%d",i+1);
 	fprintf(f3,"\tAvg\n");
 	
-	train(reading, training_examples, testing_examples, iter, rep, v_method, v_thres, f1, f2, f3, weightF);	// train network
+	train(reading, train_exm, test_exm, iter, rep, v_method, v_thres, f1, f2, f3, weightF);	// train network
 
 	fclose(f1); fclose(f2);	//fclose(f3); // close result files;
 	
 	free(weightF); weightF=NULL; free(outF); outF=NULL;
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
-	free(training_examples); training_examples=NULL;	// free training_examples;
-	free(testing_examples); testing_examples=NULL;	// free testing_examples;
+	free(train_exm); train_exm=NULL;	// free training_examples;
+	free(test_exm); test_exm=NULL;	// free testing_examples;
 	free_net(reading); reading=NULL; // free network components;
 
 	free(phon); phon=NULL;	// free phon;

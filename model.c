@@ -8,7 +8,7 @@
 Net *reading;
 Group *input,*hidden,*output,*phohid;
 Connections *c1,*c2,*c3,*c4,*c5;
-ExampleSet *training_examples, *testing_examples;
+ExampleSet *train_exm, *test_exm;
 
 void build_model(void)
 { // build a network, with TIME number of time ticks
