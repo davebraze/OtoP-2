@@ -1,17 +1,19 @@
-#define TIME 7
 // network components;
 extern Net *reading;
 extern Group *input,*hidden,*output,*phohid;
-extern ExampleSet *reading_examples;
 extern Connections *c1,*c2,*c3,*c4,*c5;
+extern ExampleSet *reading_examples;
 // parameters for network;
+#define TIME 7
 #define TAI 1
-#define EPSILON 0.001
-#define INTECONST 0.25
+#define EPSI 0.001
+#define INTCONST 0.25
 #define ACTTYPE TANH_ACTIVATION
-#define ERRORRAD 0.1
-#define RANDRANGE 0.1
-
+#define ERRRAD 0.1
+#define RANGE 0.1
+#define OrthoS 208
+#define HidS 100
+#define PhonoS 55
+#define PhoHidS 20
 // function for building the network;
 void build_model(void);
-void free_model(void);

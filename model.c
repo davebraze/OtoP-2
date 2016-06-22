@@ -7,8 +7,8 @@
 
 Net *reading;
 Group *input,*hidden,*output,*phohid;
-ExampleSet *reading_examples;
 Connections *c1,*c2,*c3,*c4,*c5;
+ExampleSet *reading_examples;
 
 void build_model(void)
 { // build a network, with TIME number of time ticks
@@ -16,20 +16,20 @@ void build_model(void)
   
   	default_tai=TAI;
   	reading=create_net(TIME);
-  	reading->integrationConstant=INTECONST;
+  	reading->integrationConstant=INTCONST;
 
   	/* learning rate */
-  	default_epsilon=EPSILON;
+  	default_epsilon=EPSI;
   	default_activationType=ACTTYPE;
 
   	/* error radius */
-  	default_errorRadius=ERRORRAD;
+  	default_errorRadius=ERRRAD;
 
   	/* create our groups. format is: name, num of units,  ticks */
-  	input=init_group("Ortho",208,TIME);
-  	hidden=init_group("Hidden",100,TIME);
-  	output=init_group("Phono",55,TIME);
-  	phohid=init_group("PhoHid",20,TIME);
+  	input=init_group("Ortho",OrthoS,TIME);
+  	hidden=init_group("Hidden",HidS,TIME);
+  	output=init_group("Phono",PhonoS,TIME);
+  	phohid=init_group("PhoHid",PhoHidS,TIME);
 
   	/* now add our groups to the network object */
   	bind_group_to_net(reading,input);
@@ -52,15 +52,15 @@ void build_model(void)
   	bind_connection_to_net(reading,c5);
 
   	/* randomize the weights in the connection objects. Second argument is weight range. */
-  	randomize_connections(c1,RANDRANGE);
-  	randomize_connections(c2,RANDRANGE);
-  	randomize_connections(c3,RANDRANGE);
-  	randomize_connections(c4,RANDRANGE);
-  	randomize_connections(c5,RANDRANGE);
+  	randomize_connections(c1,RANGE);
+  	randomize_connections(c2,RANGE);
+  	randomize_connections(c3,RANGE);
+  	randomize_connections(c4,RANGE);
+  	randomize_connections(c5,RANGE);
 
-  	c3->epsilon=EPSILON;
-  	c4->epsilon=EPSILON;
-  	c5->epsilon=EPSILON;
+  	c3->epsilon=EPSI; 
+	c4->epsilon=EPSI; 
+	c5->epsilon=EPSI;
 
   	precompute_topology(reading,input);
   	for(i=0;i<reading->numGroups;i++)
@@ -71,13 +71,4 @@ void build_model(void)
       	  c3->weights[i][i]=0.75;	 
       	  c3->frozen[i][i]=1;
     	}
-}
-
-
-void free_model(void)
-{ // release memory space for network components;
-	free(c1); free(c2); free(c3); free(c4); free(c5);
-	free(reading_examples);
-	free(input); free(hidden); free(output); free(phohid); 
-	free(reading);
 }
