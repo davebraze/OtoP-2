@@ -23,7 +23,7 @@ On-screen outputs will be stored in *.log files. To change parameters of the net
 
 To run it using shell command, use: sh SerRunLoc.sh NUM ITER PER
    NUM: number of runs to be conducted, each using a random seed;
-   ITER and PER: same as above;
+   ITER and PER: same as above; ITER and PER are optional.
 
 To run it using Yale HPC (Grace): MikeNet has to be installed there first;
 1. copy *.c, *.h, Makefile, phonemes.txt, training_examples.txt into the working directory;
@@ -32,7 +32,11 @@ To run it using Yale HPC (Grace): MikeNet has to be installed there first;
 4. set up the parallel running via msf.sh:
     #!/bin/bash
     rm -fr $1
-    echo $1 | time ./benchmark -iter $2 -rep $3 > $1.log
+    if [ -z $2 ]; then
+        echo $1 | time ./benchmark > $1.log
+    else
+        echo $1 | time ./benchmark -iter $2 -rep $3 > $1.log
+    fi
 5. use "chmod +rwx msf.sh" to change msf.sh permission
 6. set up tasklist.txt:
     cd ~/workDirec; ./msf.sh 1 5000 1000
