@@ -76,8 +76,7 @@ int count_connections(Net *net)
 	assert(net!=NULL);
   	int i, j, k, count=0;
   	for(i=0;i<net->numConnections;i++)
-    	count += net->connections[i]->from->numUnits * 
-    net->connections[i]->to->numUnits;
+    	count += (net->connections[i]->from->numUnits)*(net->connections[i]->to->numUnits);
   	return count;
 }
 
@@ -175,7 +174,8 @@ Real calaccu(Real *out, Real *target, int v_method, double v_thres)
 		  FindPhoneme(vect, trans, v_method, v_thres);
 		  for(j=0;j<PHO_FEATURES;j++)
 			transout[i+j]=trans[j];
-		
+
+		  // release memory for vect and trans;
 		  free(vect); vect=NULL;
 		  free(trans); trans=NULL;
 		}
@@ -218,7 +218,9 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, int v_method, double v_th
 		  fprintf(f,"\t%5.3f", itemaccu);
 		  accu+=itemaccu;	// calculate accuracy;
 
-		  free(out); free(target);	// release memory for out and target;
+		  // release memory for out and target;
+		  free(out); out=NULL;
+		  free(target); target=NULL;	
     	}
 	avgaccu=accu/(float)(examples->numExamples);
 	fprintf(f,"\t%5.3f\n", avgaccu);
@@ -248,8 +250,8 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int
 			  accuTe=getAccu(net, TeExm, iter, v_method, v_thres, f3);
 			  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
 	  		  fprintf(f1, "%d\t%d\t%d\t%5.3f\t%5.3f\t%d\t%5.3f\t%5.3f\t%d\t%d\t%d\t%d\t%5.3f\t%5.3f\t%5.3f\n", iter, TIME, TAI, EPSI, INTCONST, ACTTYPE, ERRRAD, RANGE, OrthoS, HidS, PhonoS, PhoHidS, error, accuTr, accuTe);	// store parameters and results into f;
-			  count=1; 
 			  error=0.0; accuTr=0.0; accuTe=0.0;
+			  count=1;	// reset count; 
 		 	}
     	  else count++;
   		}

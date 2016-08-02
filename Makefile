@@ -46,7 +46,7 @@ INCLUDEHOME=${MIKENET_DIR}/include
 all:	benchmark 
 
 benchmark:	benchmark.c model.c Makefile
-	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} /home/gong/Mikenet-v8.0/lib/libmikenet.a -lm
+	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a -lm
 
 clean:
 	rm -f *.o benchmark

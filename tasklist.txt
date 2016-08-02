@@ -1,10 +1,4 @@
-cd ~/workDirec; ./msf.sh 1 5000 1000
-cd ~/workDirec; ./msf.sh 2 5000 1000
-cd ~/workDirec; ./msf.sh 3 5000 1000
-cd ~/workDirec; ./msf.sh 4 5000 1000
-cd ~/workDirec; ./msf.sh 5 5000 1000
-cd ~/workDirec; ./msf.sh 6 5000 1000
-cd ~/workDirec; ./msf.sh 7 5000 1000
-cd ~/workDirec; ./msf.sh 8 5000 1000
-cd ~/workDirec; ./msf.sh 9 5000 1000
-cd ~/workDirec; ./msf.sh 10 5000 1000
+cd ~/MikeNet_new; ./msf.sh 1 5000 1000
+cd ~/MikeNet_new; ./msf.sh 2 5000 1000
+cd ~/MikeNet_new; ./msf.sh 3 5000 1000
+cd ~/MikeNet_new; ./msf.sh 4 5000 1000
