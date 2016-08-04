@@ -14,9 +14,6 @@
 #define PHO_FEATURES 11
 #define PHO_NUMBER 35
 #define PHO_OUT 55
-#define phoF "./phonemes.txt"
-#define exTrF "./training_examples.txt"
-#define exTeF "./training_examples.txt"	// currently the same as exTrF;
 typedef struct
 { char name;	// name of phoneme;
   Real vec[PHO_FEATURES];	// features of phoneme;
@@ -25,10 +22,13 @@ Phoneme *phon=NULL;
 
 // parameters for recording timepoints, total iteration, and seed;
 #define SEED (long)(time(NULL))
-#define REP 1000
-#define ITER 5000
+#define REP 1e3
+#define ITER 5e4
 #define V_METHOD 0
 #define V_THRES 0.5
+#define phoF "./phon.txt"
+#define exTrF "./newtrain_exp.txt"
+#define exTeF "./train_exp.txt"	// currently the same as exTrF;
 
 #define Rand0_1 rand()/(RAND_MAX+1.0)
 #define _FileLen 300
@@ -263,6 +263,7 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int
 void main(int argc,char *argv[])
 {
   	int i, run, iseq, iter, rep, v_method, sum;
+	char PhoFile[400], TrainExp[400], TestExp[400];
 	Real v_thres;
   	long seed;
 	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL;
@@ -271,10 +272,9 @@ void main(int argc,char *argv[])
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
 
 	announce_version(); setbuf(stdout,NULL); 
-	
-	load_phoneme(phoF);  // initialize phoneme;
-	  
+		  
 	seed=SEED+100*iseq; iter=ITER; rep=REP; v_method=V_METHOD; v_thres=V_THRES;
+	strcpy(PhoFile, phoF); strcpy(TrainExp, exTrF); strcpy(TestExp, exTeF); 
 	// all the parameters can also be set by input arguments;
 	for(i=1;i<argc;i++)
 		{ if(strcmp(argv[i],"-seed")==0){ seed=atol(argv[i+1]); i++; }
@@ -282,13 +282,16 @@ void main(int argc,char *argv[])
 		  else if(strncmp(argv[i],"-rep",4)==0){ rep=atoi(argv[i+1]); i++; }
 		  else if(strncmp(argv[i],"-met",4)==0) { v_method=atoi(argv[i+1]); i++; }
 		  else if(strncmp(argv[i],"-thres",6)==0) { v_thres=atof(argv[i+1]); i++; }
-		}
-	
+		  else if(strncmp(argv[i],"-phoF",5)==0) { strcpy(PhoFile, argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-exTrF",6)==0) { strcpy(TrainExp, argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-exTeF",6)==0) { strcpy(TestExp, argv[i+1]); i++; }
+		}	
 	mikenet_set_seed(seed); build_model();	// build a network, with TIME number of time ticks; 
 	sum=count_connections(reading); printf("connections: %d\n",sum);	// calculate number of connections and print out;
 
-	train_exm=load_examples(exTrF, TIME); // load training examples;
-	test_exm=load_examples(exTeF, TIME);	// load testing examples;
+	load_phoneme(PhoFile);  // initialize phoneme;
+	train_exm=load_examples(TrainExp, TIME); // load training examples;
+	test_exm=load_examples(TestExp, TIME);	// load testing examples;
 	
 	// handle subDirect, locDirect;
 	subDirect=malloc((strlen("./")+2+(int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(subDirect!=NULL);

@@ -13,12 +13,15 @@ Result files include:
     itemacu_tr.txt: item-based accuracy based on the training data (training_examples.txt) at each sampling point;   
     itemacu_te.txt: item-based accuracy based on the testing data (so far same as the training data) at each sampling point;
 
-One can also specify some parameters, like: benchmark -seed SEED -iter ITER -rep REP -met MET -vthres VTHRES
+One can also specify some parameters, like: benchmark -seed SEED -iter ITER -rep REP -met MET -vthres VTHRES -phoF PHOF -exTrF TRAINFILE -exTeF TESTFILE
    SEED: random seed to be used in that run;
    ITER: number of total iterations;
    REP: iterations for recording the results;
    MET: method for determining which phonemen matches the activation
    VTHRES: if MET is 1, the bit difference threshold for determining which phoneme matches the activation
+   PHOF: phoneme text file (default: phon.txt)
+   TRAINFILE: training example text file (default: newtrain_exp.txt)
+   TESTFILE: testing example text file (default: train_exp.txt) 
 On-screen outputs will be stored in *.log files. To change parameters of the network, see the macros in model.h
 
 To run it using shell command, use: sh SerRunLoc.sh NUM ITER REP
@@ -26,7 +29,7 @@ To run it using shell command, use: sh SerRunLoc.sh NUM ITER REP
    ITER and REP: same as above; ITER and REP are optional.
 
 To run it using Yale HPC (Grace): MikeNet has to be installed there first;
-1. copy *.c, *.h, Makefile, phonemes.txt, training_examples.txt into the working directory;
+1. copy *.c, *.h, Makefile, phon.txt, newtrain_exp.txt, and train_exp.txt into the working directory;
 2. load a module for GCC: $ module load Langs/GCC
 3. load a module for MikeNet: $ module load Libs/MikeNet
 4. compile the source code to exe file: $ make -f Makefile (to clean: make -f Makefile clean)
@@ -56,10 +59,7 @@ To run it using Yale HPC (Grace): MikeNet has to be installed there first;
 To run it using Yale HPC (Omega): MikeNet has to be installed there first;
 1. same as above.
 2. load a module for GCC: $ module load Langs/GCC/4.5.3
-3. same as above.
-4. same as above.
-5. same as above.
-6. same as above.
+3-6. same as above.
 7. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in front of each line in tasklist.txt
 8. run the results via SimpleQueue
     $ module load Tools/SimpleQueue

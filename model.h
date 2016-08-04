@@ -6,7 +6,7 @@ extern ExampleSet *train_exm, *test_exm;
 // parameters for network;
 #define TIME 7
 #define TAI 1
-#define EPSI 0.001
+#define EPSI 1e-3
 #define INTCONST 0.25
 #define ACTTYPE TANH_ACTIVATION
 #define ERRRAD 0.1
