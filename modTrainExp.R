@@ -1,12 +1,11 @@
 library(stringr)
 
-te <- readLines("training_examples.txt")
+te <- readLines("train_exp.txt")
+head(te, 50)
 
 prob <- str_extract(te,  "FOO: ([0-9.]+)")
 prob <- str_replace(prob, "FOO: ", "PROB ")
 loc <- which(!is.na(prob))
-
-head(te, 50)
 
 for (ll in rev(loc)) {
     print(ll)
@@ -16,6 +15,6 @@ for (ll in rev(loc)) {
 head(te, 50)
 
 ## write out the new file
-fileConn <- file("newtraining_examples.txt")
+fileConn <- file("newtrain_exp.txt")
 writeLines(te, fileConn)
 close(fileConn)
