@@ -49,6 +49,12 @@ To run it using Yale HPC (Grace): MikeNet has to be installed there first;
     cd ~/workDirec; ./msf.sh 4 5000 1000
     ....
     This example runs 4 simulations, each having 5000 iterations and sampling results every 1000 iterations.
+    
+    You can use: sh genTasklist.sh NUMRUN WORKDIREC ITER REP to automatically generate tasklist.txt
+        NUMRUN: total number of runs;
+        WORKDIREC: working directory of the code;
+        ITER and REP: total number of training and stepsize to record results
+   
 8. run the results via SimpleQueue
     $ module load Tools/SimpleQueue
     $ sqCreateScript -n 4 -W 24:00 tasklist.txt > job.sh
@@ -61,6 +67,12 @@ To run it using Yale HPC (Omega): MikeNet has to be installed there first;
 2. load a module for GCC: $ module load Langs/GCC/4.5.3
 3-6. same as above.
 7. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in front of each line in tasklist.txt
+    
+    You can use: sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP to automatically generate tasklist.txt
+        NUMRUN: total number of runs;
+        WORKDIREC: working directory of the code;
+        ITER and REP: total number of training and stepsize to record results
+
 8. run the results via SimpleQueue
     $ module load Tools/SimpleQueue
     $ sqCreateScript -n 3 -w 24:00:00 tasklist.txt > job.sh
