@@ -1,0 +1,16 @@
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 1 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 2 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 3 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 4 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 5 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 6 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 7 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 8 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 9 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 10 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 11 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 12 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 13 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 14 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 15 5000 1000
+module load Langs/GCC/4.5.3; cd ~/MikeNet_new; ./msf.sh 16 5000 1000

@@ -2,139 +2,77 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include <mikenet/simulator.h>
 #include <time.h>
-#include <assert.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
 #include "model.h"
 
-// parameters for phonemes
-#define PHO_FEATURES 11
-#define PHO_NUMBER 35
-#define PHO_OUT 55
-typedef struct
-{ char name;	// name of phoneme;
-  Real vec[PHO_FEATURES];	// features of phoneme;
-} Phoneme;
-Phoneme *phon=NULL;
+#define _FileLen 100
+#define _Rand0_1 rand()/(RAND_MAX+1.0)
 
 // parameters for recording timepoints, total iteration, and seed;
-#define SEED (long)(time(NULL))
-#define REP 1e3
-#define ITER 5e4
-#define V_METHOD 0
-#define V_THRES 0.5
-#define phoF "./phon.txt"
-#define exTrF "./newtrain_exp.txt"
-#define exTeF "./train_exp.txt"	// currently the same as exTrF;
-
-#define Rand0_1 rand()/(RAND_MAX+1.0)
-#define _FileLen 300
-
+unsigned int _seed=0;
+unsigned int _rep=1e3;
+unsigned int _iter=5e4;
+int _v_method=0;
+double _v_thres=0.5;
 
 // functions;
-void load_phoneme(char *PhoFileName)
-{ // initialize phon by reading from PhoFileName;
-	assert(PhoFileName!=NULL);
-	int curphon, curvec;
-	FILE *f=NULL;
-	char line[255], *p=NULL;
-	// initialize PhoDic;
-	phon=malloc(PHO_NUMBER*sizeof(Phoneme)); assert(phon!=NULL);
-	// read from PhoFileName;
-	if((f=fopen(PhoFileName,"r"))==NULL){ printf("Can't open %s\n", PhoFileName); exit(1); }
-	curphon=0;
-	fgets(line, 255, f);
-	while(!feof(f))
-    	{ phon[curphon].name=strtok(line," ")[0];
-		  curvec=0;
-		  while(p=strtok(NULL, " "))
-			{ phon[curphon].vec[curvec]=atof(p); 
-			  curvec++;
-			}
-		  curphon++;
-		  fgets(line,255,f);
-		}
-	fclose(f);
-	/*
-	// testing: print PhoDic
-	int i, j;
-	for(i=0;i<PHO_NUMBER;i++)
-		{ printf("Phoneme %c: ", phon[i].name);
-		  for(j=0;j<PHO_FEATURES;j++)
-	  		printf("%2.1f ", phon[i].vec[j]);
-	     	  printf("\n");
-		}
-	*/
-}
-
-
-int count_connections(Net *net)
-{ // calculate number of connections in the network;
-	assert(net!=NULL);
-  	int i, j, k, count=0;
-  	for(i=0;i<net->numConnections;i++)
-    	count += (net->connections[i]->from->numUnits)*(net->connections[i]->to->numUnits);
-  	return count;
-}
-
-
 float euclid_dist(Real *x1, Real *x2)
 { // calculate euclidean distance between two vectors x1 and x2;
 	assert(x1!=NULL); assert(x2!=NULL);
 	int i;
   	float dist=0.0;
-  	for(i=0;i<PHO_FEATURES;i++)
+  	for(i=0;i<_pho_features;i++)
     	dist+=(x1[i]-x2[i])*(x1[i]-x2[i]);
   	return dist;
 }
 
-
-int vect_check(Real *x1, Real *x2, double v_thres)
+int vect_check(Real *x1, Real *x2)
 { // check vector's bit-based threshold between two vectors x1 and x2;
 	assert(x1!=NULL); assert(x2!=NULL);
 	int i, inThres=1;
-	for(i=0;i<PHO_FEATURES;i++)
-		{ if(abs(x1[i]-x2[i])>=v_thres) { inThres=0; break;}
+	for(i=0;i<_pho_features;i++)
+		{ if(abs(x1[i]-x2[i])>=_v_thres) { inThres=0; break;}
 		}
 	return inThres;
 }
 
-
-void FindPhoneme(Real *vect, Real *trans, int v_method, double v_thres)
+void FindPhoneme(Real *vect, Real *trans)
 { // find phoneme matching vect; 
 	assert(vect!=NULL); assert(trans!=NULL); 
 	int i, j, ind, MaxDist, numInThres, *InThresSet=NULL, curind;
 	
-	switch(v_method)
+	switch(_v_method)
 		{ case 0: // using phoneme with smallest Euclidean distance to vect as trans;
 		  		ind=-1; MaxDist=1e6;
-		  		for(i=0;i<PHO_NUMBER;i++)
-					{ if(euclid_dist(vect,phon[i].vec)<=MaxDist) { ind=i; MaxDist=euclid_dist(vect,phon[i].vec); }
+		  		for(i=0;i<_pho_number;i++)
+					{ if(euclid_dist(vect,_phon[i].vec)<=MaxDist) { ind=i; MaxDist=euclid_dist(vect,_phon[i].vec); }
 					}
 		  		assert(ind!=-1);
-		  		for(i=0;i<PHO_FEATURES;i++)
-					trans[i]=phon[ind].vec[i];
+		  		for(i=0;i<_pho_features;i++)
+					trans[i]=_phon[ind].vec[i];
 				break;
 		
 		  case 1: // using phoneme with 0.5 threshold to set trans;
 		  		numInThres=0;
-		  		for(i=0;i<PHO_NUMBER;i++)
-					{ if(vect_check(vect,phon[i].vec,v_thres)) numInThres++;
+		  		for(i=0;i<_pho_number;i++)
+					{ if(vect_check(vect,_phon[i].vec)) numInThres++;
 					}
 		  		if(numInThres==0)
 					{ // no such phoneme;
-		  	  		  for(i=0;i<PHO_FEATURES;i++)
+		  	  		  for(i=0;i<_pho_features;i++)
 						trans[i]=-2.0;
 					}
 		  		else if(numInThres==1)
 					{ // there is only one phoneme that matches this requirement;
-			  		  for(i=0;i<PHO_NUMBER;i++)
-						{ if(vect_check(vect,phon[i].vec,v_thres))
-							{ for(j=0;j<PHO_FEATURES;j++)
-								trans[j]=phon[i].vec[j];
+			  		  for(i=0;i<_pho_number;i++)
+						{ if(vect_check(vect,_phon[i].vec))
+							{ for(j=0;j<_pho_features;j++)
+								trans[j]=_phon[i].vec[j];
 							  break;
 							}
 						}
@@ -143,12 +81,12 @@ void FindPhoneme(Real *vect, Real *trans, int v_method, double v_thres)
 					{ // there are more than one phoneme that match this requirement, randomly select one!
 			  		  InThresSet=malloc(numInThres*sizeof(int)); assert(InThresSet!=NULL);
 			  		  curind=0;
-			  		  for(i=0;i<PHO_NUMBER;i++)
-						{ if(vect_check(vect,phon[i].vec,v_thres)) { InThresSet[curind]=i; curind++; }
+			  		  for(i=0;i<_pho_number;i++)
+						{ if(vect_check(vect,_phon[i].vec)) { InThresSet[curind]=i; curind++; }
 						}
-			  		  ind=Rand0_1*numInThres;
-			  		  for(i=0;i<PHO_FEATURES;i++)
-						trans[i]=phon[InThresSet[ind]].vec[i];
+			  		  ind=_Rand0_1*numInThres;
+			  		  for(i=0;i<_pho_features;i++)
+						trans[i]=_phon[InThresSet[ind]].vec[i];
 			  		  free(InThresSet); InThresSet=NULL;
 					}
 				break;
@@ -156,23 +94,22 @@ void FindPhoneme(Real *vect, Real *trans, int v_method, double v_thres)
 		}
 }
 
-
-Real calaccu(Real *out, Real *target, int v_method, double v_thres)
+Real calaccu(Real *out, Real *target)
 { // calculate accuracy by comparing out with target;
 	assert(out!=NULL); assert(target!=NULL); 
 	int i, j, same, NoAccu, NoPho;
 	Real *vect=NULL, *trans=NULL, *transout=NULL;	// vect is each segment of out, transout is translated out based on accuMethod;
 
-	transout=malloc(PHO_OUT*sizeof(Real)); assert(transout!=NULL);
+	transout=malloc(_pho_out*sizeof(Real)); assert(transout!=NULL);
 	// translate
-	for(i=0;i<PHO_OUT;i+=PHO_FEATURES)
-		{ vect=malloc(PHO_FEATURES*sizeof(Real)); assert(vect!=NULL);
-		  trans=malloc(PHO_FEATURES*sizeof(Real)); assert(trans!=NULL);
+	for(i=0;i<_pho_out;i+=_pho_features)
+		{ vect=malloc(_pho_features*sizeof(Real)); assert(vect!=NULL);
+		  trans=malloc(_pho_features*sizeof(Real)); assert(trans!=NULL);
 
-		  for(j=0;j<PHO_FEATURES;j++)
+		  for(j=0;j<_pho_features;j++)
 			vect[j]=out[i+j];
-		  FindPhoneme(vect, trans, v_method, v_thres);
-		  for(j=0;j<PHO_FEATURES;j++)
+		  FindPhoneme(vect, trans);
+		  for(j=0;j<_pho_features;j++)
 			transout[i+j]=trans[j];
 
 		  // release memory for vect and trans;
@@ -182,9 +119,9 @@ Real calaccu(Real *out, Real *target, int v_method, double v_thres)
 	
 	// check correct translation
 	NoAccu=0; NoPho=1;
-	for(i=0;i<PHO_OUT;i+=PHO_FEATURES)
+	for(i=0;i<_pho_out;i+=_pho_features)
 		{ same=1;
-		  for(j=0;j<PHO_FEATURES;j++)
+		  for(j=0;j<_pho_features;j++)
 			{ if(transout[i+j]!=target[i+j]) { same=0; break; }
 			}
 		  if(same==1) NoAccu++;
@@ -193,8 +130,7 @@ Real calaccu(Real *out, Real *target, int v_method, double v_thres)
 	return NoAccu/(float)(NoPho);	
 }
 
-
-Real getAccu(Net *net, ExampleSet *examples, int iter, int v_method, double v_thres, FILE *f)
+Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f)
 { // calculate accuracy of the network;
 	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL);
 	int i, j;
@@ -208,13 +144,13 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, int v_method, double v_th
       	  crbp_forward(net,ex);	// put to the network;
 	  	
 		  // initialize out and target;
-		  out=malloc(PHO_OUT*sizeof(Real)); assert(out!=NULL); 
-		  target=malloc(PHO_OUT*sizeof(Real)); assert(target!=NULL);
-		  for(j=0;j<PHO_OUT;j++)
-			{ out[j]=output->outputs[TIME-1][j];	// get output from the network;
-			  target[j]=get_value(ex->targets,output->index,TIME-1,j);	// get target from the example;
+		  out=malloc(_pho_out*sizeof(Real)); assert(out!=NULL); 
+		  target=malloc(_pho_out*sizeof(Real)); assert(target!=NULL);
+		  for(j=0;j<_pho_out;j++)
+			{ out[j]=output->outputs[_tick-1][j];	// get output from the network;
+			  target[j]=get_value(ex->targets,output->index,_tick-1,j);	// get target from the example;
 			}
-		  itemaccu=calaccu(out,target, v_method, v_thres);
+		  itemaccu=calaccu(out,target);
 		  fprintf(f,"\t%5.3f", itemaccu);
 		  accu+=itemaccu;	// calculate accuracy;
 
@@ -228,8 +164,7 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, int v_method, double v_th
   	return avgaccu;
 }
 
-
-void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int v_method, double v_thres, FILE *f1, FILE *f2, FILE *f3, char *weightF)
+void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, FILE *f2, FILE *f3, char *weightF)
 { // train the network and record the training error and accuracies;
   	assert(net!=NULL); assert(TrExm!=NULL); assert(TeExm!=NULL); assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(weightF!=NULL); 
 	int i, j, iter, count;
@@ -237,19 +172,19 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int
   	Real error, accuTr=0.0, accuTe=0.0;
 
 	count=1; error=0.0;
-  	for(iter=1;iter<=to;iter++)
+  	for(iter=1;iter<=_iter;iter++)
   		{ ex=get_random_example(TrExm);
-		  crbp_forward(net,ex);
-    	  crbp_compute_gradients(net,ex);
+		  crbp_forward(net,ex); 
+		  crbp_compute_gradients(net,ex);
     	  error+=compute_error(net,ex);
     	  bptt_apply_deltas(net);
           /* is it time to write status? */
-    	  if(count==step)
+    	  if(count==_rep)
 			{ error=error/(float)count;
-			  accuTr=getAccu(net, TrExm, iter, v_method, v_thres, f2);
-			  accuTe=getAccu(net, TeExm, iter, v_method, v_thres, f3);
+		  	  accuTr=getAccu(net, TrExm, iter, f2); 
+			  accuTe=getAccu(net, TeExm, iter, f3);
 			  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
-	  		  fprintf(f1, "%d\t%d\t%d\t%5.3f\t%5.3f\t%d\t%5.3f\t%5.3f\t%d\t%d\t%d\t%d\t%5.3f\t%5.3f\t%5.3f\n", iter, TIME, TAI, EPSI, INTCONST, ACTTYPE, ERRRAD, RANGE, OrthoS, HidS, PhonoS, PhoHidS, error, accuTr, accuTe);	// store parameters and results into f;
+	  		  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
 			  error=0.0; accuTr=0.0; accuTe=0.0;
 			  count=1;	// reset count; 
 		 	}
@@ -258,41 +193,35 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, int to, int step, int
   	save_weights(net,weightF);
 }
 
-
 // main function;
 void main(int argc,char *argv[])
-{
-  	int i, run, iseq, iter, rep, v_method, sum;
-	char PhoFile[400], TrainExp[400], TestExp[400];
-	Real v_thres;
-  	long seed;
+{ // main function: initialize network, and train, and calculate parameters;
+  	int i, iseq;
+	unsigned int run;
 	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL;
-	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL, *root=NULL, *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL;
+	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL, *root=NULL;
+	char *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL;
 	
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
+	_seed=(long)(time(NULL))+100*iseq;
 
 	announce_version(); setbuf(stdout,NULL); 
 		  
-	seed=SEED+100*iseq; iter=ITER; rep=REP; v_method=V_METHOD; v_thres=V_THRES;
-	strcpy(PhoFile, phoF); strcpy(TrainExp, exTrF); strcpy(TestExp, exTeF); 
 	// all the parameters can also be set by input arguments;
 	for(i=1;i<argc;i++)
-		{ if(strcmp(argv[i],"-seed")==0){ seed=atol(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-iter",5)==0){ iter=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-rep",4)==0){ rep=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-met",4)==0) { v_method=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-thres",6)==0) { v_thres=atof(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-phoF",5)==0) { strcpy(PhoFile, argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-exTrF",6)==0) { strcpy(TrainExp, argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-exTeF",6)==0) { strcpy(TestExp, argv[i+1]); i++; }
+		{ if(strcmp(argv[i],"-seed")==0){ _seed=atol(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-iter",5)==0){ _iter=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-rep",4)==0){ _rep=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-met",4)==0) { _v_method=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-thres",6)==0) { _v_thres=atof(argv[i+1]); i++; }
 		}	
-	mikenet_set_seed(seed); build_model();	// build a network, with TIME number of time ticks; 
-	sum=count_connections(reading); printf("connections: %d\n",sum);	// calculate number of connections and print out;
+	mikenet_set_seed(_seed); build_model();	// build a network, with TIME number of time ticks; 
+	printf("No. Connections: %d\n", count_connections());	// calculate number of connections and print out;
 
-	load_phoneme(PhoFile);  // initialize phoneme;
-	train_exm=load_examples(TrainExp, TIME); // load training examples;
-	test_exm=load_examples(TestExp, TIME);	// load testing examples;
-	
+	load_phoneme(_phoF);  // initialize phoneme;
+	train_exm=load_examples(_exTrF, _tick); // load training examples;
+	test_exm=load_examples(_exTeF, _tick);	// load testing examples;
+
 	// handle subDirect, locDirect;
 	subDirect=malloc((strlen("./")+2+(int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(subDirect!=NULL);
 	locDirect=malloc(((int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(locDirect!=NULL);
@@ -302,7 +231,7 @@ void main(int argc,char *argv[])
 	// save seed into seed.txt;
 	seedDirect=malloc((strlen(subDirect)+strlen("seed.txt")+1)*sizeof(char)); assert(seedDirect!=NULL);
 	strcpy(seedDirect, subDirect); strcat(seedDirect, "seed.txt");
-	if((f=fopen(seedDirect,"w"))==NULL) { printf("Can't create %s\n", seedDirect); exit(1); } fprintf(f, "Seed=%lu\n", seed); fclose(f);	// store seed into seed.txt;
+	if((f=fopen(seedDirect,"w"))==NULL) { printf("Can't create %s\n", seedDirect); exit(1); } fprintf(f, "Seed=%u\n", _seed); fclose(f);	// store seed into seed.txt;
 	free(seedDirect); seedDirect=NULL;
 
 	// set up directories for result files;
@@ -318,7 +247,7 @@ void main(int argc,char *argv[])
 	strcpy(weightF, root); strcat(weightF, "weights.txt");
 
 	if((f1=fopen(outF,"w+"))==NULL) { printf("Can't open %s\n", outF); exit(1); }
-	fprintf(f1, "ITER\tTICK\tTAI\tEPSI\tINTCONST\tACTTYPE\tERRRAD\tRANGE\tOrthS\tHidS\tPhonoS\tPhoHidS\tErr\tAcuTr\tAcuTe\n");
+	fprintf(f1, "ITER\tErr\tAcuTr\tAcuTe\n");
 	
 	if((f2=fopen(itemacuTrF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
 	fprintf(f2,"ITER\tNoItem");
@@ -331,18 +260,16 @@ void main(int argc,char *argv[])
 	for(i=0;i<test_exm->numExamples;i++)
 		fprintf(f3,"\tAcu%d",i+1);
 	fprintf(f3,"\tAvg\n");
-	
-	train(reading, train_exm, test_exm, iter, rep, v_method, v_thres, f1, f2, f3, weightF);	// train network
+
+	train(reading, train_exm, test_exm, f1, f2, f3, weightF);	// train network
 
 	fclose(f1); fclose(f2);	//fclose(f3); // close result files;
-	
 	free(weightF); weightF=NULL; free(outF); outF=NULL;
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
 	free(train_exm); train_exm=NULL;	// free training_examples;
 	free(test_exm); test_exm=NULL;	// free testing_examples;
+	delete_phoneme();	// empty _phon;
 	free_net(reading); reading=NULL; // free network components;
-
-	free(phon); phon=NULL;	// free phon;
 }
 
