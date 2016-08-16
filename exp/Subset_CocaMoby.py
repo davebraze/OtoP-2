@@ -234,6 +234,40 @@ def sumfreq(lemitem):
         freq += np.float64(lemitem[i+1])
     return(freq)                   
 
+def writeExp(wordDF, expFileName, epoch):
+    with open(expFileName, "w+") as exp_file:
+        cur = 0    
+        for i in range(len(wordDF)):
+            cur += 1; print "Cur: ", cur        
+            # TAG line        
+            line = "TAG Word: " + str(wordDF.wordform[i]) + ' Rep_O: ' + wordDF.Rep_O[i] + ' Rep_P: ' + wordDF.Rep_P[i] + ','
+            exp_file.write(line + '\n')
+            # PROB line        
+            line = 'PROB ' + str(wordDF.norm_freq[i])
+            exp_file.write(line + '\n')
+            # CLAMP line        
+            line = 'CLAMP Ortho 0-' + str(epoch) + ' EXPANDED'
+            exp_file.write(line + '\n')
+            # Orthography encoding
+            for j in range(0, len(wordDF.Rep_O[i]), 2):
+                encodList = LettDic[wordDF.Rep_O[i][j]]
+                line = ''
+                for k in range(len(encodList)):
+                    line = line + str(int(encodList[k])) + ' '
+                exp_file.write(line + '\n')
+            exp_file.write('\n')
+            # TARGET line
+            line = 'TARGET Phono ' + str(epoch) + ' EXPANDED'
+            exp_file.write(line + '\n')
+            # Phonology encoding
+            for j in range(0, len(wordDF.Rep_P[i]), 2):
+                encodList = PhonDic[wordDF.Rep_P[i][j]]
+                line = ''
+                for k in range(len(encodList)):
+                    line = line + str(encodList[k]) + ' '
+                exp_file.write(line + '\n')
+            exp_file.write(';\n')    
+
 
 # ---------------------------------------------- #
 # for creating example files: ortho: 8-letter length (3(con) + 2(vow) + 3(con))
@@ -441,7 +475,7 @@ for i in range(len(resDF)):
         for j in range(len(resDF)):
             if j != i and curwordform == resDF.wordform[j] and curpron == resDF.Moby_pron[j] and curclassID == resDF.word_class[j][0:2]:
                 sumFreq += resDF.sum_freq[j] # sum up the frequency
-                resDF.wordform[j] = '_' # mask the item in case it is chosen again!
+                resDF.loc[j,'wordform'] = '_' # mask the item in case it is chosen again!
         # after searching all data frame for items in the similar classes, add it
         newresDF = newresDF.append({'word_class': curclassID, 'sum_freq': np.float64(sumFreq), 
                                     'wordform': curwordform, 'Moby_pron': curpron, 
@@ -451,6 +485,28 @@ for i in range(len(resDF)):
 newresDF['norm_freq'] = newresDF['sum_freq']/450.0 # frequency per million
 newresDF = newresDF[['wordform', 'word_class', 'sum_freq', 'norm_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
 newresDF.to_csv('./extwords2.csv', index=False)
+
+newresDF2 = pd.DataFrame()
+findNo = 0
+for i in range(len(newresDF)):
+    if newresDF.wordform[i] != '_': # not masked, it means this is a new item
+        print "Cur: ", i+1
+        curwordform = newresDF.wordform[i]; curpron = newresDF.Moby_pron[i]
+        curP = newresDF.Rep_P[i]; curO = newresDF.Rep_O[i]
+        sumFreq = newresDF.sum_freq[i]
+        for j in range(len(newresDF)):
+            if j != i and curwordform == newresDF.wordform[j] and curpron == newresDF.Moby_pron[j]:
+                sumFreq += newresDF.sum_freq[j] # sum up the frequency
+                newresDF.loc[j,'wordform'] = '_' # mask the item in case it is chosen again!
+        # after searching all data frame for items in the similar classes, add it
+        newresDF2 = newresDF2.append({'sum_freq': np.float64(sumFreq), 
+                                    'wordform': curwordform, 'Moby_pron': curpron, 
+                                    'Rep_P': curP, 'Rep_O': curO}, ignore_index=True)
+        findNo += 1; print "No. found: ", findNo  
+
+newresDF2['norm_freq'] = newresDF2['sum_freq']/450.0 # frequency per million
+newresDF2 = newresDF2[['wordform', 'sum_freq', 'norm_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+newresDF2.to_csv('./extwords3.csv', index=False)
 
 
 # Step 5: create benchmark training examples using extracted words
@@ -507,41 +563,23 @@ for i in range(len(cand)):
 LettDic['_'] = lettList # filler
 
 # write to example file
-wordDF = pd.read_csv('./extwords.csv')
+# ver 1: using extwords1.csv
+wordDF = pd.read_csv('./extwords1.csv')
+expFileName = './trainexp_full1.txt'
 epoch = 6
-with open("./trainexp_full.txt", "w+") as exp_file:
-    cur = 0    
-    for i in range(len(wordDF)):
-        cur += 1; print "Cur: ", cur        
-        # TAG line        
-        line = "TAG Word: " + str(wordDF.wordform[i]) + ' Rep_O: ' + wordDF.Rep_O[i] + ' Rep_P: ' + wordDF.Rep_P[i] + ','
-        exp_file.write(line + '\n')
-        # PROB line        
-        line = 'PROB ' + str(wordDF.norm_freq[i])
-        exp_file.write(line + '\n')
-        # CLAMP line        
-        line = 'CLAMP Ortho 0-' + str(epoch) + ' EXPANDED'
-        exp_file.write(line + '\n')
-        # Orthography encoding
-        for j in range(0, len(wordDF.Rep_O[i]), 2):
-            encodList = LettDic[wordDF.Rep_O[i][j]]
-            line = ''
-            for k in range(len(encodList)):
-                line = line + str(int(encodList[k])) + ' '
-            exp_file.write(line + '\n')
-        exp_file.write('\n')
-        # TARGET line
-        line = 'TARGET Phono ' + str(epoch) + ' EXPANDED'
-        exp_file.write(line + '\n')
-        # Phonology encoding
-        for j in range(0, len(wordDF.Rep_P[i]), 2):
-            encodList = PhonDic[wordDF.Rep_P[i][j]]
-            line = ''
-            for k in range(len(encodList)):
-                line = line + str(encodList[k]) + ' '
-            exp_file.write(line + '\n')
-        exp_file.write(';\n')    
+writeExp(wordDF, expFileName, epoch)
 
+# ver 2: using extwords2.csv
+wordDF = pd.read_csv('./extwords2.csv')
+expFileName = './trainexp_full2.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch)
+
+# ver 3: using extwords3.csv
+wordDF = pd.read_csv('./extwords3.csv')
+expFileName = './trainexp_full3.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch)
 
     
     
