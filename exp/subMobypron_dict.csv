@@ -86,12 +86,12 @@ r/&/N/,['rang']
 fl/E/kst,['flexed']
 fl/I/nt,['flint']
 /S/ArlmAr/i/,['charles_marie']
-p/@/N/k,['punk']
+bl/I/N/k,['blink']
 /dZ/E/f,['jeff']
 skw/I/ft,['squiffed']
 sl/aI/,['sly']
 st/I/lb,['stilb']
-sp/@/n/dZ/d,['sponged']
+kl/eI/v,['clave']
 z/eI/n,['zane']
 kl/eI/m,['claim']
 st/I/lt,['stilt']
@@ -122,7 +122,6 @@ bl/&/N/k,['blank']
 w/i/d,"[""we'd"", 'weed']"
 s/I/mp,['simp']
 s/I/mz,"['simms', 'sims']"
-/j/(@)/,['yeah']
 k/&/vz,['calves']
 /A/ntrakt,"[""entr'acte""]"
 b/O/r/S/t,['borscht']
@@ -171,6 +170,7 @@ r/oU/r,['roar']
 r/oU/p,['rope']
 r/oU/v,['rove']
 r/oU/t,"['rote', 'wrote']"
+p/oU/r,"['pore', 'pour']"
 m/eI/nz,['mains']
 m/eI/nd,['maned']
 w/E/n/tS/,['wench']
@@ -215,7 +215,7 @@ kl/u/,"['clou', 'clew', 'clue']"
 h/oU/ld,['hold']
 kr/@/mp,['crump']
 h/oU/lm,['holm']
-kl/&/N/,['clang']
+/S/r/@/N/k,['shrunk']
 /Z/Yl,['jules']
 kr/@/mz,['crumbs']
 fl/&/k,"['flack', 'flach', 'flak']"
@@ -301,7 +301,6 @@ w/A/S/,['wash']
 k/&/lks,['calx']
 /j/A/rn,['yarn']
 /j/A/rl,['jarl']
-bl/(@)/r,"['blair', 'blare']"
 d/i/lz,['diels']
 g/A/r/T/,['garth']
 w/I/S/t,['whisht']
@@ -315,7 +314,7 @@ v/i/n,['wien']
 v/i/l,['veal']
 f/aI/,"['phi', 'fie']"
 v/i/r,['veer']
-r/eI/T/,['wraith']
+v/i/p,['veep']
 v/i/v,['vive']
 /S/U/dst,['shouldst']
 b/i/n,['bean']
@@ -347,7 +346,7 @@ pr/&/d,['prad']
 h/i/,['he']
 h/i/t,['heat']
 h/i/v,['heave']
-h/i/p,"['heep', 'heap']"
+/D/@/rz,"[""there's""]"
 n/I/l,"['nil', 'nill']"
 h/i/r,"['heer', 'hear', 'here']"
 pr/&/t,['prat']
@@ -368,7 +367,7 @@ b/E/st,['best']
 m/eI/ld,['mailed']
 d/eI/zArg,['desargues']
 Alw/E/t,"['alouette', 'alouettes']"
-sw/i/ps,['sweeps']
+v/Oi/s,['voice']
 s/u/s,['seuss']
 s/u/p,['soup']
 h/O/lt,['halt']
@@ -386,7 +385,6 @@ d/E/T/,['death']
 t/@/rk,['turk']
 t/@/rd,['turd']
 t/@/rf,['turf']
-m/AU/T/,"['mouth', 'mouth/n']"
 s/O/t,['sought']
 s/O/s,['sauce']
 s/O/m,['somme']
@@ -414,6 +412,7 @@ tr/&/kt,['tract']
 s/A/NfrwA,['sang-froid']
 d/@/z,['does']
 d/@/p,['dup']
+d/@/r,['dare']
 /A/NbrWAZ,['ambroise']
 d/@/v,['dove']
 d/@/k,['duck']
@@ -436,11 +435,11 @@ skw/E/g,['squeg']
 rYd,['rude']
 m/&/S/,['mash']
 sA/i/rA,['ca_ira']
-kr/(@)/r,"['crare', 'crayer']"
+r/eI/klAm,['reclame']
 /S/r/A/f,['shroff']
 mAr/&/N,['marin']
 sw/aI/p,['swipe']
-gl/I/ts,['glitz']
+st/oU/r,['store']
 st/oU/s,['stoss']
 st/oU/p,"['stope', 'stowp']"
 st/oU/v,['stove']
@@ -462,7 +461,7 @@ skr/I/p,['scrip']
 br/I/sk,['brisk']
 f/AU/lz,['fouls']
 trWA/j/O/N,['troyon']
-bl/I/N/k,['blink']
+p/@/N/k,['punk']
 p/&/tS/,['patch']
 p/oU/rn,['porn']
 sw/&/ts,['swats']
@@ -475,12 +474,12 @@ skor/tS/@/r,['scorcher']
 fl/@/b,['flub']
 /eI/p,['ape']
 /eI/s,['ace']
-kr/i/S/,['creesh']
+l/j/O/d,['liod']
 /eI/t,"['ait', 'ate', 'eight']"
 dw/O/rf,['dwarf']
 katsf/U/t,"[""cat's-foot""]"
 /eI/b,['abe']
-kl/eI/v,['clave']
+sp/@/n/dZ/d,['sponged']
 /eI/k,"['ache', 'ake']"
 pl/@/mp,['plump']
 /eI/l,"['ail', 'ale']"
@@ -515,6 +514,7 @@ h/&/N/,['hang']
 /S/A/pt,['schapped']
 n/I/ks,"['nix', 'nyx']"
 br/A/,"['brahe', 'bra']"
+kl/&/N/,['clang']
 s/AU/nd,['sound']
 d/A/rnd,['darned']
 /Z/A/NbAr,['jambart']
@@ -526,7 +526,6 @@ t/I/N/kt,['tinct']
 kr/u/T/,['crwth']
 dr/Oi/S/,['drawish']
 b/i/sk,['bisk']
-frAg/O/nAr,['fragonard']
 /D/i/z,['these']
 b/i/st,['beast']
 gr/u/,['grew']
@@ -536,7 +535,7 @@ w/i/z,['wheeze']
 v/AU/tS/,['vouch']
 bArbYS,['barbusse']
 k/@/t,['cut']
-k/@/r,"['curr', 'cur']"
+k/@/r,"['curr', 'cur', 'care']"
 k/@/s,['cuss']
 k/@/p,['cup']
 k/@/z,['coz']
@@ -582,7 +581,7 @@ tr/E/d,['tread']
 gr/i/z,['grease/v']
 l/E/t,"['let', 'lett']"
 b/eI/D/,['bathe']
-gr/i/s,"['gris', 'greece', 'grease/n', 'grease']"
+gr/i/s,"['gris', 'grease', 'grease/n', 'greece']"
 gr/i/t,['greet']
 gr/i/v,"['greave', 'grieve']"
 l/E/s,['less']
@@ -619,14 +618,14 @@ d/I/dst,['didst']
 r/oU/rk,['roark']
 m/O/rn,['morn']
 l/E/dZ/,['ledge']
-k/&/b,"['cab', 'kab']"
+f/O/lk,['volk']
 f/O/ld,['fauld']
 /tS/aI/ld,"['childe', 'child']"
 sp/I/N/k,['spink']
+hou/@/r,"[""howe'er""]"
 r/O/,['raw']
 h/E/st,['hest']
 v/aI/vz,['vives']
-/D/(@)/r,"['their', 'there']"
 str/@/t,['strut']
 str/@/k,['struck']
 str/@/m,['strum']
@@ -642,7 +641,7 @@ p/@/rld,['pearled']
 g/O/,['gaw']
 h/&/S/,['hash']
 /S/I/m,['shim']
-trw/A/,['trois']
+m/O/nd,['maund']
 r/I/p,['rip']
 /S/I/n,['shin']
 r/I/n,['rin']
@@ -662,7 +661,7 @@ sw/E/l,['swell']
 bl/@/dZ/,['bludge']
 gr/U/z,['groesz']
 spl/I/nt,['splint']
-f/O/ks,['fawkes']
+t/AU/nz,['townes']
 tr/u/D/z,['truths']
 spr/E/d,['spread']
 st/oU/nd,['stoned']
@@ -680,6 +679,7 @@ st/I/k,"['stick', 'stich']"
 st/I/l,['still']
 pr/eI/z,"['prase', 'praise']"
 p/O/tA/Z/,['potage']
+kr/@/tS/,['crutch']
 st/&/nd,['stand']
 st/E/l/T/,['stealth']
 lAkl/oU/,['laclos']
@@ -712,11 +712,11 @@ n/E/rnst,['nernst']
 m/I/lk,['milk']
 l/I/N/,['ling']
 /S/I/t,['shit']
-m/I/ld,['milled']
+/T/@/m,['thumb']
 /j/U/rt,['yurt']
 /j/U/rn,"[""your'n""]"
 m/I/lz,['mills']
-h/&/nts,['hants']
+sl/@/dZ/,['sludge']
 sn/&/S/,['snash']
 pAn/j/O/l,['pagnol']
 b/I/ts,['bitts']
@@ -767,7 +767,6 @@ f/eI/,"['fae', 'fay', 'phaye', 'fey']"
 s/eI/eI/,['say_aye']
 f/A/rd,['fard']
 /oU/boil,"[""o'boyle""]"
-z/I/f,['zif']
 v/A/st,['wast']
 nArb/O/n,['narbonne']
 tr/i/,['tree']
@@ -786,7 +785,7 @@ beg/@/rstik,"[""beggar's-tick""]"
 /oU/ld,['old']
 /S/Ar/A/Nt,['charente']
 r/E/dZ/,['reg']
-/@/r/T/,['earth']
+/@/r/T/,"['earth', 'airth']"
 l/i/nd,['leaned']
 /T/r/oU/,"['throw', 'throe']"
 /T/r/E/S/,['thresh']
@@ -839,6 +838,7 @@ k/E/n,"['ken', 'kenn']"
 k/E/p,['kep']
 /i/dz,['eads']
 kl/I/pt,"['clipped', 'clipt']"
+h/aI/nd,['hind']
 kr/E/mz,['cremes']
 v/oU/Z/,['vosges']
 b/u/T/,['booth']
@@ -928,7 +928,7 @@ k/O/NtrAst,['contraste']
 fl/Oi/s,['floyce']
 l/I/z,['liz']
 /U/lm,['ulm']
-h/aI/nd,['hind']
+m/AU/T/,"['mouth', 'mouth/n']"
 p/AU/tS/t,['pouched']
 dw/A/m,['dwalm']
 f/I/st,['fist']
@@ -978,19 +978,19 @@ n/aI/t,"['knight', 'night']"
 /oU/rt,['ort']
 /oU/rz,['oars']
 /oU/rd,['oared']
-k/O/,['caw']
+p/A/p,['pop']
 /T/&/n,['tanh']
 p/&/lp,['palp']
 k/AU/ld,['cowled']
 sn/E/kt,['snecked']
 kw/@/rt,['quirt']
 mus/@/nt,"[""mustn't""]"
-kw/@/rk,"['quark', 'quirk']"
+kw/@/rk,"['quirk', 'quark']"
 s/@/rks,['circs']
 kw/@/rn,['quern']
 r/u/z,"['roose', 'ruse']"
 /tS/U/k,['chook']
-f/i/ld,['field']
+/S/i/z,"[""she's""]"
 r/u/p,['roup']
 r/u/t,"['route', 'root']"
 st/eI/k,"['steak', 'stake']"
@@ -1001,7 +1001,7 @@ r/u/b,['rube']
 r/u/f,['roof']
 r/u/d,"['rood', 'rude']"
 pAs/i/,['passy']
-n/aI/l,['nile']
+p/A/l,['pawl']
 h/O/n/tS/,['haunch']
 sk/I/mp,['skimp']
 d/@/rst,['durst']
@@ -1025,7 +1025,7 @@ skr/&/tS/,['scratch']
 sk/oU/r,"['score', 'scaur']"
 sk/oU/p,['scope']
 g/I/S/,['gish']
-v/Oi/s,['voice']
+sw/i/ps,['sweeps']
 v/Oi/t,['voyt']
 fr/oU/,"['fro', 'froe', 'frow']"
 d/E/bz,['debs']
@@ -1045,7 +1045,7 @@ drO/@/,['drau']
 str/i/t,['street']
 tw/I/n/dZ/,['twinge']
 m/oU/r,['more']
-r/E/m,['rem']
+k/i/ts,['keats']
 m/oU/v,['mauve']
 m/oU/t,"['moat', 'mote']"
 m/oU/k,['moke']
@@ -1081,7 +1081,7 @@ t/eI/k,['take']
 tr/&/N/k,['trank']
 st/u/dZ/,['stooge']
 tw/I/st,['twist']
-sl/@/dZ/,['sludge']
+h/&/nts,['hants']
 t/eI/t,['tate']
 t/eI/p,['tape']
 sp/@/rn,['spurn']
@@ -1090,10 +1090,9 @@ sp/@/rd,['spurred']
 sp/@/rt,"['spurt', 'spirt']"
 /tS/i/ld,['chield']
 b/&/N/ks,['banks']
-st/(@)/r,"['stare', 'stair']"
 k/@/rst,"['curst', 'kerst']"
 g/i/st,['geest']
-w/aI/lst,['whilst']
+kl/u/f,['kloof']
 /A/ntWAn,['antoine']
 fl/eI/,"['fley', 'flay']"
 k/&/lst,['calced']
@@ -1109,7 +1108,6 @@ n/AU/n,['noun']
 kr/oU/m,['chrome']
 kr/oU/n,['crone']
 sw/AU/nd,['swound']
-p/(@)/rl,['pairle']
 kr/oU/k,['croak']
 kr/oU/z,['croze']
 kr/oU/r,['crore']
@@ -1125,7 +1123,7 @@ fr/AU/n,['frown']
 w/@/z,['was']
 b/&/l,['bal']
 b/&/k,['back']
-w/@/r,"['were', 'whir', 'whirr']"
+w/@/r,"['whir', 'wear', 'were', 'ware', 'where', 'whirr']"
 b/&/d,"['bad', 'bade']"
 b/&/g,['bag']
 b/&/f,"['baff', 'barf']"
@@ -1153,6 +1151,7 @@ h/aI/k,"['haick', 'haik', 'haec', 'huic', 'hike', 'yoicks', 'hoick']"
 w/I/S/,"['wish', 'whish']"
 h/aI/v,['hive']
 h/aI/t,"['hyte', 'hight', 'height']"
+h/aI/r,['hire']
 h/aI/s,['heis']
 h/aI/p,['hype']
 g/oU/nd,['gond']
@@ -1171,7 +1170,7 @@ skr/@/n/tS/,['scrunch']
 sk/A/rvz,['scarves']
 f/E/n,['fen']
 f/E/l,['fell']
-/S/r/@/N/k,['shrunk']
+g/oU/sts,['ghosts']
 str/@/nt,['strunt']
 s/E/T/,"['saith', 'seth']"
 f/E/f,['feoff']
@@ -1220,10 +1219,11 @@ kr/i/ps,['creeps']
 dr/i/mz,['dreams']
 l/j/oU/D/,['ljod']
 b/I/l/dZ/,['bilge']
+tr/aI/k,['trike']
 l/I/n/tS/,"['linch', 'lynch']"
 darest,"[""d'arrest""]"
 lAl/oU/,['lalo']
-w/&/k,"['wack', 'whack']"
+/T/i/bz,['thebes']
 gl/&/s,['glass']
 gl/&/d,['glad']
 p/U/nt,['punt']
@@ -1257,7 +1257,7 @@ h/@/mp,['hump']
 w/I/ld,['willed']
 /T/r/I/l,['thrill']
 f/i/ldz,['fields']
-dr/AU/n,['drown']
+/@/ks,['aix']
 kr/@/S/,['crush']
 dr/AU/t,['drought']
 dr/AU/z,['drowse']
@@ -1291,6 +1291,7 @@ m/&/ns,['manse']
 m/&/nd,['manned']
 b/eI/st,['baste']
 skr/oU/ld,['scrolled']
+sm/@/g,['smug']
 h/&/vz,['halves']
 f/E/m,['feme']
 s/A/nd,['sonde']
@@ -1310,7 +1311,6 @@ Ar/S/b/A/N,"['archbanc', 'archebanc']"
 dw/eI/n,"['duane', 'dwayne']"
 lAb/i/S/,['labiche']
 n/AU/,"['knowe', 'now']"
-p/(@)/tS/,['pecs']
 h/E/dz,['heads']
 sk/@/N/k,['skunk']
 /tS/A/r,"['char', 'charr']"
@@ -1349,7 +1349,7 @@ b/A/b,['bob']
 b/A/n,"['ban', 'bonn']"
 b/A/l,"['baale', 'basle', 'baal']"
 b/A/m,"['bombe', 'balm', 'bomb']"
-m/(@)/rznest,"[""mare's-nest""]"
+b/A/k,['bock']
 At/E/r,['a_terre']
 b/A/v,['badb']
 b/A/t,"['bot', 'bott', 'baht']"
@@ -1415,6 +1415,7 @@ f/&/N/,['fang']
 sk/@/rf,['scurf']
 sk/eI/ld,['scaled']
 sk/@/rt,['skirt']
+sk/@/rs,['scarce']
 t/&/lk,['talc']
 d/E/ft,['deft']
 /S/i/psbit,"[""sheep's-bit""]"
@@ -1432,6 +1433,7 @@ w/eI/n,"['wayne', 'wain', 'wane']"
 w/eI/m,['wame']
 w/eI/l,"['wale', 'whale', 'wail']"
 l/j/A/N/,['liang']
+kl/@/r,"['clare', 'claire', 'clair']"
 m/A/k,"['moc', 'mock', 'mach']"
 m/A/m,"['malm', 'mom']"
 m/A/l,"['moll', 'maul']"
@@ -1494,7 +1496,7 @@ gl/i/t,['gleet']
 p/Oi/,['poi']
 st/@/mp,['stump']
 bl/AU/s,['blouse']
-tw/A/l,['toile']
+d/aI/r,['dire']
 d/aI/s,"['dice', 'dyce']"
 d/aI/v,['dive']
 d/aI/t,['dight']
@@ -1540,7 +1542,7 @@ s/I/kst,['sixte']
 m/I/T/,['myth']
 tw/I/g,['twig']
 tw/I/l,['twill']
-sp/eI/D/,['spathe']
+tw/I/n,['twin']
 drag/@/nztu/N/,"[""dragon's-tongue""]"
 d/@/rm,['derm']
 d/@/rn,"['dern', 'durn']"
@@ -1614,12 +1616,12 @@ pw/&/NtnwAr,['pointe-noire']
 fl/@/N/,['flung']
 st/O/n/tS/,['stanch']
 p/oU/n,['pone']
-w/@/rd,['word']
+w/@/rd,"['word', ""where'd""]"
 h/E/,['heh']
 d/I/b,['dib']
 fl/&/ps,['flaps']
 tr/O/l,['trawl']
-mA/j/A/Ns,['mayence']
+r/&/sk,['rask']
 t/@/rkshed,"[""turk's-head""]"
 v/E/kst,['vexed']
 r/A/mp,['romp']
@@ -1650,13 +1652,13 @@ n/@/rts,['nerts']
 tr/A/d,['trod']
 d/I/n/dZ/,['dinge']
 tr/A/f,['trough']
-/S/u/,"['shtreimel', 'chou', 'shue', 'shoe', 'shoo']"
+/S/u/,"['shtreimel', 'shue', 'shoe', 'chou', 'shoo']"
 tr/A/t,['trot']
 b/@/rks,['berks']
 b/u/r/Z/,['bourges']
 pl/&/n/tS/,['planch']
 w/eI/st,"['waste', 'waist']"
-p/(@)/r,"['pare', 'pear']"
+l/@/nt,['lunt']
 Al/O/st,['alost']
 b/aI/,"['bayh', 'buy', 'bye', 'by', 'bai']"
 /tS/w/i/,['twi']
@@ -1675,7 +1677,6 @@ k/j/u/b,['cube']
 /j/E/p,['yep']
 /j/E/r,"['jer', 'hyeres']"
 /j/E/s,['yes']
-l/(@)/rd,"['laird', 'layard']"
 kw/eI/,"['qua', 'quey']"
 /j/A/,"['ja', 'yah']"
 f/AU/l,"['fowl', 'foul']"
@@ -1694,13 +1695,13 @@ fr/I/t,['frit']
 b/@/rt,"['bert', 'birt', 'burt']"
 b/@/rs,"['birse', 'burse']"
 b/@/rp,['burp']
-b/@/rn,"['byrne', 'bern', 'beirne', 'berne', 'burn']"
+b/@/rn,"['burn', 'byrne', 'beirne', 'bairn', 'bern', 'berne']"
 b/@/rl,"['byrle', 'byrl', 'burl', 'birle', 'birl', 'berl']"
 b/@/rm,['berm']
 st/O/l,['stall']
 b/@/rk,"['birk', 'berk', 'burke']"
 b/@/rg,"['berg', 'burg', 'burgh']"
-b/@/rd,"['burd', 'bird', 'burred', 'byrd']"
+b/@/rd,"['burd', 'baird', 'bird', 'burred', 'byrd']"
 fr/A/g,['frog']
 fr/A/m,"['fromm', 'fromme']"
 fr/A/k,['frock']
@@ -1726,7 +1727,7 @@ s/i/k,"['sieck', 'seek', 'sikh']"
 fr/Oi/d,['freud']
 /S/eI/pt,['shaped']
 sw/A/n,['swan']
-s/i/d,"['cede', 'seed']"
+sw/A/b,"['swob', 'swab']"
 d/@/rnd,['durned']
 sl/u/S/,['sloosh']
 s/i/z,"['seise', 'seize']"
@@ -1750,6 +1751,7 @@ b/E/g,['beg']
 b/E/d,['bed']
 pl/@/N/k,['plunk']
 kr/I/mp,['crimp']
+m/@/rznest,"[""mare's-nest""]"
 h/A/N/,['hong']
 /dZ/E/nt,['gent']
 h/@/N/,['hung']
@@ -1780,7 +1782,6 @@ s/E/nt,"['scent', 'cent', 'sent']"
 sk/u/lmam,"[""schoolma'am""]"
 s/E/ns,"['cense', 'sense']"
 /dZ/u/s,['juice']
-/S/O/n,"['shawn', 'shaun', 'dunston', 'sean']"
 w/A/ft,['wafd']
 /dZ/u/p,['jupe']
 fr/u/t,['fruit']
@@ -1801,7 +1802,7 @@ gr/eI/nz,['grains']
 w/O/f,['waugh']
 br/E/n,['brengun']
 w/O/k,"['wauk', 'walk']"
-/(@)/r,"[""e'er"", 'eyre', 'heir', 'air', 'ere', 'ayre', 'ayer', 'ayr']"
+w/O/l,['wall']
 /E/lk,['elk']
 kw/O/rts,['quartz']
 w/E/ns,['whence']
@@ -1817,6 +1818,7 @@ s/U/r,['sur']
 s/U/t,['soot']
 spr/I/ts,['spritz']
 z/aI/m,['zyme']
+pr/@/r,['prayer']
 z/AU/ndz,['zounds']
 /S/r/I/N/k,['shrink']
 pl/A/p,['plop']
@@ -1843,19 +1845,19 @@ m/E/v,['mev']
 sn/i/d,['snead']
 m/E/s,['mess']
 skr/i/k,['screak']
-skr/i/n,['screen']
+g/i/dZ/,['guige']
 h/E/n/tS/,['hench']
 skr/i/m,"['scream', 'scrim']"
 skr/i/b,['scribe']
 f/oU/rd,['ford']
 skr/i/d,['screed']
 f/oU/rs,['force']
-/@/ks,['aix']
+dr/AU/n,['drown']
 f/oU/rt,['fort']
 m/A/N/S/,['manche']
 w/A/r,['war']
-f/O/,['foh']
-w/A/t,"['watt', 'wot', 'wat']"
+w/A/p,"['wop', 'whap', 'wap']"
+m/I/st,['mist']
 w/A/b,['wab']
 w/A/d,['wad']
 ro/N/@/n,"[""wrong'un""]"
@@ -1875,9 +1877,9 @@ bl/I/nts,"['blintz', 'blintze']"
 b/u/S/Ar,['bouchard']
 kw/oU/,['quo']
 f/i/nd,['fiend']
-v/i/p,['veep']
+r/eI/T/,['wraith']
 sl/@/N/k,['slunk']
-fl/@/r,['fleur']
+fl/@/r,"['flare', 'fleur', 'flair']"
 k/&/mp,['camp']
 fl/@/d,['flood']
 v/i/t,['vite']
@@ -1896,7 +1898,7 @@ t/i/t,['teat']
 n/@/n,"['nun', 'non']"
 n/@/m,['numb']
 n/@/l,['null']
-n/@/r,['knur']
+n/@/r,"['knur', ""ne'er""]"
 t/i/k,"['teak', 'tieck']"
 t/i/l,"['teel', 'teal', 'teil']"
 t/i/m,"['teem', 'team']"
@@ -1933,7 +1935,7 @@ fr/A/sk,['frosk']
 spr/I/N/,['spring']
 /tS/eI/st,['chaste']
 t/O/N/z,['tongs']
-s/A/f,['soph']
+kl/oU/k,"['cloke', 'cloak']"
 r/eI/D/,['rathe']
 tr/oU/p,['trope']
 dr/u/ss,['druce']
@@ -1944,7 +1946,7 @@ f/j/u/g,['fugue']
 f/j/u/d,"['feud', 'feod']"
 f/j/u/z,"['fuse', 'fuze']"
 f/j/u/r,['fuhr']
-sp/i/r,"['spere', 'speer', 'spear', 'speir', 'spier']"
+sp/i/r,"['spere', 'speer', 'speir', 'spier', 'spear']"
 /A/nd/j/,['hendaye']
 g/oU/vz,['goaves']
 sp/i/d,['speed']
@@ -1961,6 +1963,7 @@ f/@/rst,['first']
 sAbAt/j/eI/,['sabatier']
 s/@/r/dZ/,"['serge', 'surge']"
 /tS/in,"[""ch'in""]"
+t/O/ft,['toft']
 dr/i/m,['dream']
 dr/i/n,['drin']
 dr/i/r,['drear']
@@ -1972,6 +1975,7 @@ f/aI/k,"['fike', 'fyke']"
 f/aI/f,"['fife', 'phyfe']"
 f/aI/t,"['veit', 'fight']"
 f/aI/v,['five']
+f/aI/r,['fire']
 f/aI/s,['fice']
 dYkAS,['ducasse']
 tr/i/r,['trier']
@@ -1988,7 +1992,6 @@ br/eI/n,['brain']
 br/eI/l,"['braille', 'brale', 'brail']"
 br/eI/k,"['break', 'brake']"
 br/eI/d,['braid']
-p/(@)/r/S/,['perche']
 fr/@/nt,['front']
 br/eI/z,"['braise', 'braze']"
 br/eI/v,['brave']
@@ -2011,6 +2014,7 @@ w/E/lt,['welt']
 w/E/lp,['whelp']
 w/E/ls,['wels']
 gr/I/p,"['grip', 'grippe']"
+h/i/p,"['heep', 'heap']"
 gr/I/t,['grit']
 v/E/nd,['vend']
 w/E/lz,"['welles', 'wells']"
@@ -2044,7 +2048,7 @@ m/@/N/,['mong']
 kl/oU/zd,['closed']
 kr/oU/,['crow']
 g/aI/l,['guile']
-/tS/@/r,"['chirre', 'chirr', 'churr']"
+/tS/@/r,"['chirre', 'chair', 'chirr', 'chare', 'churr']"
 g/aI/d,['guide']
 f/Oi/n,['foin']
 f/Oi/l,['foil']
@@ -2059,10 +2063,8 @@ r/E/nt,['rent']
 r/O/t,"['raught', 'wrought']"
 de/T/shed,"[""death's-head""]"
 r/O/s,"['rosse', 'ross']"
-v/(@)/r,['vair']
-f/(@)/r,"['fare', 'fair']"
 kl/@/tS/,['clutch']
-t/O/ft,['toft']
+gr/eI/,"['gray', 'greige', 'grey', 'griege']"
 br/I/dZ/,['bridge']
 p/A/ks,['pox']
 p/A/kt,['pocked']
@@ -2086,6 +2088,7 @@ m/A/sk,"['masque', 'mosque']"
 /j/I/p,['yip']
 kr/@/p,['krupp']
 kr/@/s,['crus']
+kr/@/r,"['crare', 'crayer']"
 kr/@/m,"['crumb', 'crum']"
 s/I/T/,['sith']
 kr/@/k,['cruck']
@@ -2100,7 +2103,7 @@ h/j/u/,"['hue', 'hew', 'hugh']"
 /S/i/p,['sheep']
 /S/i/r,"['sheer', 'shear']"
 /S/i/t,['sheet']
-/S/i/z,"[""she's""]"
+f/i/ld,['field']
 sn/aI/p,['snipe']
 gArs/O/N,['garcon']
 w/A/tS/,['watch']
@@ -2116,13 +2119,12 @@ h/ju/g/oU/,['hugo']
 l/eI/v,['lave']
 l/eI/t,['late']
 l/eI/s,['lace']
-kl/u/f,['kloof']
+w/aI/lst,['whilst']
 /S/j/@/n,['hsien']
 l/eI/z,"['lase', 'laze']"
 l/i/dZ/,['liege']
 fr/E/d,['fred']
 s/I/n/tS/,"['cinch', 'sinh']"
-/j/(@)/r,"['yare', 'yar']"
 fr/E/s,['fress']
 fr/E/r,"['freres', 'frere']"
 fr/E/t,['fret']
@@ -2143,7 +2145,7 @@ w/&/t,['wat']
 p/A/S/,['posh']
 w/&/f,"['waf', 'waaf']"
 w/&/g,['wag']
-/T/i/bz,['thebes']
+w/&/k,"['wack', 'whack']"
 w/&/m,['wham']
 g/O/lt,['galt']
 kw/I/d,['quid']
@@ -2159,7 +2161,7 @@ l/&/ns,"['lance', 'launce']"
 kw/I/s,['cuisse']
 st/AU/nd,['stound']
 pl/&/t,"['platte', 'plat']"
-kw/I/t,['quit']
+b/j/E/n,['bienne']
 pl/&/k,"['plack', 'plaque']"
 pl/&/n,['plan']
 pl/i/tS/,['pleach']
@@ -2174,7 +2176,6 @@ n/oU/l,['knoll']
 n/oU/m,"['gnome', 'nome']"
 vlAm/&/Nk,['vlaminck']
 /j/u/z,"['youse', 'yous', 'use/v']"
-sk/&/nt,['scant']
 /j/u/t,['ute']
 /j/u/v,"[""you've""]"
 /j/u/s,['use/n']
@@ -2224,11 +2225,12 @@ d/I/m,['dim']
 d/I/n,['din']
 w/@/rk,['work']
 d/I/d,['did']
-w/@/rl,"['whirl', 'whorl']"
+w/@/rl,"['whirl', ""where'll"", 'whorl']"
 d/I/g,['dig']
 w/@/rs,['worse']
 p/A/N/,['pong']
 w/@/rt,"['wort', 'wert', 'whort']"
+w/@/rv,"[""where've""]"
 d/I/p,['dip']
 d/I/s,['dis']
 d/I/t,['dit']
@@ -2326,6 +2328,7 @@ fl/@/mp,['flump']
 p/@/n/tS/,['punch']
 A/S/@/VAl,['a_cheval']
 fr/&/tS/,['fratch']
+t/aI/r,"['tire', 'tyre']"
 /T/i/i/n,['theine']
 s/@/dz,['suds']
 kr/i/z,['crises']
@@ -2384,6 +2387,7 @@ n/eI/v,"['nave', 'knave']"
 b/Oi/l,"['boil', 'boyle']"
 /O/d,['awed']
 str/aI/v,['strive']
+w/A/t,"['watt', 'wot', 'wat']"
 skr/u/dZ/,['scrooge']
 l/oU/T/,"['loath', 'loth']"
 tr/A/mp,['trompe']
@@ -2399,7 +2403,6 @@ v/&/N/,['vang']
 sk/I/d,['skid']
 sw/oU/rt,['swart']
 sk/I/f,['skiff']
-b/A/k,['bock']
 k/A/T/,['coth']
 skr/I/mp,['scrimp']
 /S/oU/rts,['shorts']
@@ -2456,7 +2459,7 @@ sAr/oU/t,['sarraute']
 l/i/k,"['leak', 'leek']"
 l/i/l,"['lisle', 'leal', 'lille']"
 l/i/n,"['ligne', 'lean']"
-l/i/p,['leap']
+z/I/f,['zif']
 l/i/r,"['lear', 'leer', 'lir', 'lehr']"
 l/i/s,"['lease', 'lys']"
 l/i/t,"['leet', 'leat']"
@@ -2492,11 +2495,11 @@ m/oU/,"['mo', 'mow', 'mot']"
 /AU/l,['owl']
 bAr/oU/,['barrault']
 pr/aI/,['pry']
-st/@/r,['stir']
-/E/dZ/,['edge']
+st/@/r,"['stare', 'stir', 'stair']"
+sk/A/rf,"['scarph', 'scarf']"
 kw/Oi/t,['quoit']
 h/I/ks,['hicks']
-sk/A/rt,['scart']
+pl/Oi/,['ploy']
 st/@/b,['stub']
 sk/A/rp,"['scarp', 'scarpe']"
 st/@/f,['stuff']
@@ -2510,14 +2513,12 @@ br/A/nz,['bronze']
 st/u/,"['stu', 'stew']"
 gr/aI/m,['grime']
 gr/aI/d,['gride']
-fr/@/m,['from']
+g/@/r/T/,['girth']
 s/oU/,"['soh', 'so', 'sow']"
 gr/aI/s,['grice']
 gr/aI/p,['gripe']
 Ad/y/,['a_deux']
 fl/&/n/dZ/,['flange']
-r/eI/klAm,['reclame']
-h/(@)/r,"['hair', 'hare']"
 s/E/kst,"['sexed', 'sext']"
 m/O/N/Z/,['monge']
 b/AU/AU/t,['bow_out']
@@ -2528,11 +2529,12 @@ r/U/r,['ruhr']
 sw/@/m,['swum']
 /tS/u/z,['choose']
 r/U/k,['rook']
+sw/@/r,"['sware', 'swear']"
 n/@/rld,['knurled']
 str/aI/d,['stride']
 /I/lk,['ilk']
 n/eI/,"['nay', 'neigh', 'nee', 'nae']"
-st/oU/r,['store']
+gl/I/ts,['glitz']
 t/&/s,"['tass', 'tace', 'tasse']"
 t/&/p,['tap']
 b/A/nd,['bond']
@@ -2547,10 +2549,10 @@ t/&/n,['tan']
 t/&/m,['tam']
 str/aI/p,['stripe']
 k/eI/nz,['keynes']
-s/@/r,"['sir', 'sur']"
+s/@/r,"['sir', 'sayre', 'sur']"
 /S/I/vz,['sheaves']
 s/@/n,"['sun', 'sunn', 'son']"
-g/@/r/T/,['girth']
+fr/@/m,['from']
 s/@/k,['suck']
 s/@/f,['sough']
 s/@/g,['sugg']
@@ -2580,7 +2582,6 @@ s/Oi/l,['soil']
 l/I/N/ks,"['links', 'lynx']"
 tr/@/mp,['trump']
 fl/E/tS/,['fletch']
-h/(@)/rzbred/T/,"[""hair's-breadth""]"
 sAbA/j/O/N,['sabayon']
 /T/A/N/,['thong']
 m/A/,['ma']
@@ -2592,9 +2593,8 @@ str/E/tS/t,['stretched']
 w/aI/ld,"['wild', 'wyld', 'wilde']"
 g/I/ft,['gift']
 m/u/s,"['moose', 'mousse']"
-w/A/p,"['wop', 'whap', 'wap']"
-/D/(@)/rz,"[""there's""]"
 sk/A/tS/,['scotch']
+/j/E/ld,['yeld']
 sk/E/tS/,['sketch']
 l/aI/,"['lie', 'lye']"
 z/I/st,['xyst']
@@ -2603,6 +2603,7 @@ tr/oU/,"['trop', 'trow']"
 p/&/st,"['past', 'passed']"
 /aI/v,"[""i've""]"
 /aI/s,['ice']
+/aI/r,['ire']
 /aI/m,"[""i'm""]"
 /aI/l,"[""i'll"", 'aisle', 'isle']"
 /aI/n,['eyne']
@@ -2611,7 +2612,7 @@ p/&/st,"['past', 'passed']"
 m/eI/st,"['maist', 'mayst']"
 /aI/d,"[""i'd"", 'eyed', 'ide']"
 r/O/N/,['wrong']
-s/I/N/k,"['cinque', 'sink', 'sync']"
+s/I/N/k,"['cinque', 'sync', 'sink']"
 st/AU/t,['stout']
 s/E/lvz,['selves']
 h/oU/ks,['hoax']
@@ -2623,7 +2624,7 @@ pl/@/g,['plug']
 br/u/n,"['bruhn', 'broun']"
 /dZ/A/nz,['johns']
 pl/@/k,['pluck']
-z/E/st,['zest']
+r/i/mz,['reims']
 pl/@/m,"['plum', 'plumb']"
 m/AU/D/,['mouth/v']
 spl/A/dZ/,['splodge']
@@ -2652,6 +2653,7 @@ n/u/z,['news']
 Arg/O/n,['argonne']
 /E/ft,['eft']
 kl/@/mp,['clump']
+skw/@/r,['square']
 lwAr,['loire']
 k/A/rn,['carn']
 kl/E/bz,['klebs']
@@ -2670,7 +2672,7 @@ w/AU/,"['waw', 'wow']"
 fl/I/N/,['fling']
 kw/I/ns,['quince']
 z/A/rf,['zarf']
-pr/i/n,['preen']
+p/A/rl,['parle']
 p/A/rk,['park']
 pr/i/k,['prick']
 w/A/nd,['wand']
@@ -2680,7 +2682,6 @@ p/A/rz,['pars']
 /T/oU/l,['thole']
 p/A/rt,['part']
 p/A/rs,['parse']
-n/(@)/rn,['nairn']
 bAr/i/,['barye']
 p/I/T/,['pith']
 l/&/tS/,['latch']
@@ -2712,7 +2713,7 @@ p/Oi/l,['poil']
 n/I/bz,['nibs']
 r/&/z,['razz']
 r/&/t,['rat']
-br/aI/,['brei']
+t/I/t/S/,['titch']
 r/&/p,"['wrap', 'rapp', 'rap']"
 r/&/s,['wrasse']
 r/&/m,['ram']
@@ -2740,7 +2741,6 @@ br/&/kt,['bract']
 gr/E/ks,['grex']
 f/@/rm,['firm']
 /S/E/lv,['shelve']
-n/(@)/r,"[""ne'er""]"
 /I/nd,['ind']
 /I/nf,['inf']
 d/eI/,"['dey', 'daye', 'day']"
@@ -2749,6 +2749,7 @@ n/@/rs,['nurse']
 n/@/rv,['nerve']
 sp/Oi/lt,['spoilt']
 sp/E/ns,['spence']
+n/@/rn,['nairn']
 sp/E/nt,['spent']
 n/@/rl,"['nurl', 'knurl']"
 fl/O/,['flaw']
@@ -2773,6 +2774,7 @@ g/@/l,['gull']
 g/@/m,['gum']
 d/@/tS/,['dutch']
 p/E/g,['peg']
+g/@/r,['gare']
 g/@/s,['gus']
 p/E/k,['peck']
 g/@/v,['guv']
@@ -2780,7 +2782,7 @@ g/@/t,['gut']
 /Z/y/,"['jeux', 'jeu']"
 sp/A/rk,['spark']
 t/A/gz,['togs']
-l/j/O/d,['liod']
+kr/i/S/,['creesh']
 sp/A/rs,['sparse']
 f/E/tS/,['fetch']
 /tS/oU/ks,['chokes']
@@ -2807,8 +2809,6 @@ f/oU/rst,['forced']
 kw/E/tS/,['quetsch']
 f/A/ks,"['fox', 'foxe']"
 b/Oi/n,['boyne']
-/(@)/rt,['airt']
-sl/&/tS/,['slatch']
 b/U/k,"['bukh', 'book']"
 b/U/l,['bull']
 sw/A/S/,['swash']
@@ -2819,7 +2819,6 @@ p/i/gAl,['pigalle']
 oulzkroun,"[""owl's-crown""]"
 mAdmwAz/E/l,['mademoiselle']
 Artw/A/,['artois']
-sp/(@)/r,['spare']
 h/A/r/S/,['harsh']
 f/I/l/T/,['filth']
 f/@/nd,['fund']
@@ -2846,8 +2845,8 @@ kr/A/w,['crowe']
 kr/A/p,['crop']
 fl/O/n/tS/t,['flaunched']
 kr/A/l,"['craal', 'kraal']"
-kw/I/lt,['quilt']
-kr/A/k,"['croc', 'crock', 'krak']"
+kr/A/n,['kran']
+kr/A/k,"['crock', 'croc', 'krak']"
 h/&/tS/,['hatch']
 spr/i/,['spree']
 gh/@/r/S/,['guerche']
@@ -2856,7 +2855,7 @@ f/AU/st,['faust']
 fl/@/rt,['flirt']
 dr/&/k,['drack']
 /oU/tmArn,['haute-marne']
-dr/&/m,"['dram', 'drachm']"
+kanthelp,"[""can't_help""]"
 dr/&/b,['drab']
 br/oU/,['breaux']
 dr/&/g,['drag']
@@ -2889,6 +2888,7 @@ r/@/b,['rub']
 lYrSA,['lurcat']
 r/@/t,['rut']
 r/@/s,['russ']
+r/@/r,['rare']
 str/&/T/,['strath']
 str/I/N/,['string']
 b/I/sk,"['bisk', 'bisque']"
@@ -2916,10 +2916,12 @@ l/oU/d,"['load', 'lode']"
 l/oU/f,['loaf']
 sw/&/m,['swam']
 s/aI/s,"['saice', 'sice', 'syce']"
+s/aI/r,['sire']
 s/aI/p,['sipe']
 sw/&/g,['swag']
 l/oU/n,"['loan', 'lone']"
 s/aI/t,"['cite', 'sight', 'site']"
+l/@/rd,"['laird', 'layard']"
 b/A/rt,"['bart', 'barth']"
 /aI/dz,['ides']
 l/@/rn,['learn']
@@ -2932,8 +2934,8 @@ b/A/rm,['barm']
 b/A/rn,['barn']
 b/A/rk,"['barque', 'bourque', 'bark']"
 r/I/ns,['rinse']
+sn/@/r,['snare']
 sn/@/k,['snuck']
-/tS/E/k,"['czech', 'check', 'cheque']"
 sn/@/b,['snub']
 sn/@/g,['snug']
 sn/@/f,['snuff']
@@ -3024,6 +3026,7 @@ skr/i/tS/,['screech']
 /T/@/rm,"['therme', 'therm', 'thurm']"
 /T/@/rd,['third']
 h/I/n/dZ/,['hinge']
+t/U/k,"['tooke', 'took']"
 f/oU/r/dZ/,['forge']
 k/O/rd,"['cord', 'chord']"
 /A/N/kst,['angst']
@@ -3032,7 +3035,7 @@ l/A/dZ/,['lodge']
 k/&/d,['cad']
 k/&/f,"['caff', 'calf']"
 pr/i/N/k,['prink']
-f/O/lk,['volk']
+k/&/b,"['cab', 'kab']"
 k/&/l,['cal']
 k/&/m,"['cam', 'cham']"
 k/&/n,"['can', 'cannes']"
@@ -3042,10 +3045,10 @@ k/&/v,['calve']
 k/&/p,['cap']
 f/O/lz,['falls']
 f/O/lt,['fault']
-/D/(@)/z,['theirs']
 f/O/ls,['false']
 w/E/lkt,['whelked']
 /eI/dz,['aids']
+kw/&/g,['quag']
 tw/i/t,['tweet']
 w/u/m,['womb']
 w/u/f,['woof']
@@ -3089,7 +3092,6 @@ p/u/n,['poon']
 p/u/p,['poop']
 p/u/r,['puir']
 kl/i/vz,['cleves']
-r/(@)/r,['rare']
 f/eI/s,['face']
 f/eI/t,"['fete', 'fate']"
 str/I/kt,['strict']
@@ -3110,7 +3112,7 @@ f/@/z,['fuzz']
 h/aI/,"['high', 'hi', 'hy', 'hie']"
 m/&/N/ks,['manx']
 f/@/s,['fuss']
-f/@/r,"['fir', 'fer', 'fur']"
+f/@/r,"['fir', 'fer', 'fare', 'fur', 'fair']"
 f/@/k,['fuck']
 f/@/n,['fun']
 f/@/b,['fub']
@@ -3121,12 +3123,11 @@ s/j/u/d,['pseud']
 d/aI/,"['die', 'di', 'dye']"
 h/O/rn,['horn']
 h/O/rs,['horse']
-wot/(@)/r,"[""whate'er""]"
 dYkA,['dukas']
 p/A/t,"['pot', 'pott']"
 sk/A/ts,['scots']
 p/@/r/T/,['perth']
-p/A/p,['pop']
+k/O/,['caw']
 p/A/r,"['par', 'parr']"
 n/aI/s,"['gneiss', 'nice']"
 s/oU/rd,['sword']
@@ -3137,7 +3138,7 @@ n/aI/f,['knife']
 p/A/g,['pogge']
 st/eI/l,['stale']
 st/eI/n,"['stain', 'stane', 'steen']"
-p/A/l,['pawl']
+n/aI/l,['nile']
 p/A/m,['palm']
 n/aI/n,['nine']
 n/i/m,['nimes']
@@ -3157,7 +3158,6 @@ d/&/p,['dap']
 spr/I/n/dZ/,['springe']
 m/j/U/r,"['muir', 'mure']"
 br/O/T/,['broth']
-sn/(@)/r,['snare']
 kl/I/nt,['clint']
 bl/I/n,['blin']
 bl/I/p,['blip']
@@ -3176,7 +3176,6 @@ tr/oU/S/,['troche']
 br/E/st,"['brest', 'breast']"
 f/aI/st,['feist']
 m/eI/n/dZ/,['mange']
-tw/I/n,['twin']
 str/eI/n,['strain']
 str/eI/k,['strake']
 str/eI/f,['strafe']
@@ -3184,11 +3183,10 @@ st/u/p,"['stoop', 'stoup', 'stupe']"
 st/u/l,['stool']
 /dZ/oU/,"['jo', 'chou', 'joe']"
 st/u/k,['stook']
-d/(@)/r,['dare']
 st/u/d,['stewed']
 str/eI/t,"['straight', 'strait']"
 kr/u/tS/,['krutch']
-sm/@/g,['smug']
+/E/dZ/,['edge']
 tr/u/p,"['troupe', 'troop', 'throop']"
 tr/u/s,['truce']
 sm/@/t,['smut']
@@ -3207,7 +3205,7 @@ h/A/t,['hot']
 br/A/N/k,['bronc']
 h/A/p,['hop']
 h/A/r,['haar']
-pl/Oi/,['ploy']
+sk/A/rt,['scart']
 mA/j/O/l,['maillol']
 mA/j/O/t,['mayotte']
 d/O/,['daw']
@@ -3233,10 +3231,12 @@ r/&/lf,['ralph']
 /S/aI/d,['shied']
 /dZ/aI/v,"['jive', 'gyve']"
 /S/aI/n,"['shine', 'schein']"
+/dZ/aI/r,['gyre']
 /S/aI/t,['scheidt']
 /S/aI/v,['shive']
 sw/u/p,['swoop']
 sw/u/s,['swoose']
+/S/aI/r,['shire']
 k/A/N/ks,['conchs']
 sk/eI/D/,['scathe']
 sw/A/D/,['swathe']
@@ -3254,7 +3254,7 @@ b/I/l,['bill']
 b/I/m,['bim']
 p/oU/p,['pope']
 h/AU/nd,['hound']
-p/oU/r,"['pore', 'pour']"
+frAg/O/nAr,['fragonard']
 b/I/f,['biff']
 m/i/T/,['meath']
 b/I/d,['bid']
@@ -3267,6 +3267,7 @@ p/oU/m,['pome']
 b/I/t,"['bit', 'bitt']"
 b/I/s,['bis']
 p/oU/k,"['poke', 'polk']"
+tw/A/l,['toile']
 h/oU/mz,['holmes']
 br/E/nt,['brent']
 k/j/U/r,['cure']
@@ -3318,7 +3319,7 @@ st/eI/dZ/d,['staged']
 s/A/p,['sop']
 kl/oU/s,"['close', 'close/aj']"
 kl/oU/v,['clove']
-kl/oU/k,"['cloke', 'cloak']"
+s/A/f,['soph']
 s/A/d,"['saad', 'sade', 'sod']"
 kl/oU/n,['clone']
 s/A/b,['sob']
@@ -3333,7 +3334,6 @@ k/E/lp,['kelp']
 st/eI/vz,['staves']
 k/E/lt,"['celt', 'kelt']"
 l/I/nt,['lint']
-g/oU/sts,['ghosts']
 d/@/mps,['dumps']
 kr/@/tS/t,['crutched']
 l/@/v/j/n,['levine']
@@ -3346,10 +3346,11 @@ sl/i/kt,['sleeked']
 b/O/rn,['born']
 f/E/lt,"['felt', 'veldt']"
 /@/rp,['earp']
+/@/rt,['airt']
 /@/rk,"['irk', 'erk']"
 b/O/rt,"['bort', 'boart']"
 b/O/rs,['bors']
-/@/rn,"['urn', 'erne', 'earn']"
+/@/rn,"['erne', 'urn', 'earn']"
 k/A/dz,['cods']
 /@/rl,"['earl', 'irl']"
 /@/rb,['herb']
@@ -3359,7 +3360,7 @@ v/@/rn,"['verne', 'vern']"
 /S/O/rt,['short']
 lw/i/,['louys']
 gw/E/n,['gwen']
-w/I/t,"['whit', 'wit']"
+/dZ/I/p,"['gip', 'gyp']"
 d/Oi/tS/,['deutsch']
 gr/eI/n/dZ/,['grange']
 v/I/k,"['vic', 'vick']"
@@ -3392,11 +3393,10 @@ tr/E/k,['trek']
 g/A/rm,['garm']
 g/A/rb,['garb']
 g/A/rd,['guard']
-/S/&/k,['shack']
 h/@/N/k,['hunk']
 tr/eI/lz,['tralles']
-vr/eI/ns,['vranes']
 br/i/D/,['breathe']
+b/@/l,['beall']
 plA/Z/,"['plage', 'plages']"
 p/i/nAr,['pinard']
 t/E/t,['teth']
@@ -3453,7 +3453,6 @@ dr/I/b,['drib']
 l/Oi/n,['loin']
 l/Oi/k,['luik']
 b/E/rg,['berg']
-k/(@)/rnz,['cairns']
 b/&/T/,['bath']
 h/@/rdzgras,"[""herd's-grass""]"
 gr/aI/nd,['grind']
@@ -3513,7 +3512,6 @@ g/A/r,['gar']
 katskl/O/,"[""cat's-claw""]"
 g/A/t,['got']
 w/U/ps,['whoops']
-g/(@)/r,['gare']
 f/I/S/,['fish']
 d/&/dburnd,['dad-burned']
 /&/lps,['alps']
@@ -3552,7 +3550,6 @@ l/A/p,['lop']
 l/A/r,['lar']
 tr/I/m,['trim']
 h/j/u/z,['hughes']
-sw/A/b,"['swob', 'swab']"
 p/oU/lt,['poult']
 d/i/nAr,['dinard']
 h/U/k,"['hook', 'hooke', 'huk']"
@@ -3605,9 +3602,9 @@ pr/I/g,['prig']
 b/i/rs,['bierce']
 tr/@/st,"['trussed', 'trust']"
 pAr/eI/,['pare']
-t/(@)/r,"['tear', 'tare']"
 vwA/j/y/z,"['voyeuse', 'voyeuses']"
 /S/i/T/,['sheath']
+h/@/rzbred/T/,"[""hair's-breadth""]"
 fr/E/md,['fremd']
 kr/E/st,['crest']
 w/@/rnt,"[""weren't""]"
@@ -3629,7 +3626,7 @@ h/O/rst,['horst']
 r/@/sk,['rusk']
 pl/i/d,['plead']
 w/A/sp,['wasp']
-w/A/st,['wast']
+p/@/tS/,['pecs']
 d/I/N/k,['dink']
 pl/A/N/k,"['plonk', 'planck']"
 st/E/m,['stem']
@@ -3647,7 +3644,6 @@ w/E/st,['west']
 kAZAb/j/A/NkA,['casabianca']
 nAtAl/i/,['nathalie']
 sl/&/k,['slack']
-w/u/ts,['wootz']
 sw/A/v,['suave']
 w/u/S/,"['whoosh', 'woosh']"
 d/eI/z,"['days', 'daze']"
@@ -3711,7 +3707,7 @@ h/eI/g,"['hague', 'haig']"
 h/eI/d,['hade']
 bl/I/ts,['blitz']
 mAt/j/y/,['mathieu']
-pr/A/d,"['prod', 'prodd']"
+st/A/dZ/,['stodge']
 pr/A/g,"['prog', 'prague']"
 pr/A/f,['prof']
 /S/p/O/r,['spohr']
@@ -3729,13 +3725,13 @@ w/O/rt,['wart']
 k/A/,"['ka', ""ca'""]"
 her/@/nzbil,"[""heron's-bill""]"
 f/&/dZ/,['fadge']
-k/@/rnz,['kearns']
+k/@/rnz,"['cairns', 'kearns']"
 g/I/ld,"['gild', 'guild']"
 AkAd/i/,['acadie']
 n/i/pt,['neaped']
 g/I/lt,"['gilt', 'guilt']"
 t/@/k,['tuck']
-d/i/l,"['diehl', 'deal', 'deil']"
+t/@/m,['tum']
 skr/A/g,['scrog']
 skr/A/d,['scrod']
 t/@/n,"['tonne', 'ton', 'tun']"
@@ -3749,7 +3745,7 @@ w/I/sp,['wisp']
 w/I/st,"['whist', 'wist']"
 d/i/p,['deep']
 d/i/r,"['dear', 'dere', 'deer']"
-t/@/r,['ter']
+t/@/r,"['tear', 'ter', 'tare']"
 d/i/v,['deave']
 st/&/mp,['stamp']
 mAlArm/eI/,['mallarme']
@@ -3761,7 +3757,7 @@ kAlv/eI/,['calve']
 /S/r/I/l,['shrill']
 /dZ/&/m,"['jam', 'jamb']"
 tw/aI/t,['twite']
-/dZ/&/k,"['jac', 'jack', 'jak']"
+/dZ/&/k,"['jak', 'jack', 'jac']"
 /dZ/&/g,['jag']
 /dZ/&/b,['jab']
 m/eI/z,"['maize', 'mays', 'maze']"
@@ -3792,13 +3788,13 @@ f/U/t,"['foot', 'foote']"
 p/O/S/Ad,['pochade']
 f/U/l,"['ful', 'full']"
 /Oi/,"['oe', 'oy']"
-gl/@/m,['glum']
+p/I/mp,['pimp']
 /U/mf,['oomph']
 gl/@/v,['glove']
 skr/u/d,['screwed']
 gl/@/t,['glut']
 f/I/ts,['fitz']
-kl/(@)/r,"['clare', 'claire', 'clair']"
+gl/@/r,"['glair', 'glare', 'glaire']"
 dAm/A/,['damas']
 dr/E/n/tS/,['drench']
 s/I/ft,['sift']
@@ -3880,7 +3876,7 @@ dr/O/l,['drawl']
 kl/I/f,['cliff']
 /S/Ard/&/N,['chardin']
 k/A/rts,['cartes']
-t/AU/nz,['townes']
+f/O/ks,['fawkes']
 /tS/Oi/,['choy']
 p/@/n,['pun']
 l/i/f,"['leaf', 'leif', 'lief']"
@@ -3894,7 +3890,7 @@ p/@/t,['putt']
 sk/I/nd,['skinned']
 p/@/p,['pup']
 p/@/s,['pus']
-p/@/r,"['purr', 'per']"
+p/@/r,"['purr', 'pare', 'pear', 'per']"
 /I/l,['ill']
 /I/n,"['inn', 'in']"
 /I/k,['ich']
@@ -3926,7 +3922,7 @@ s/@/N/,['sung']
 l/U/k,['look']
 /A/mz,['alms']
 dr/A/p,['drop']
-r/i/mz,['reims']
+z/E/st,['zest']
 d/I/tS/,['ditch']
 /S/A/NtA/Z/,['chantage']
 m/@/l/tS/,['mulch']
@@ -3936,13 +3932,14 @@ v/&/s,['vas']
 v/&/t,['vat']
 /S/O/m,['shawm']
 /S/O/l,['shawl']
-/A/r/tS/,['arch']
+p/U/t,['put']
 s/&/l,['sal']
 sl/I/k,['slick']
 sl/I/m,['slim']
 s/&/d,['sad']
 s/&/g,['sag']
 sl/I/d,['slid']
+l/i/p,['leap']
 s/&/t,['sat']
 sl/I/p,['slip']
 s/&/p,['sap']
@@ -3970,7 +3967,7 @@ h/@/n,"['hon', 'hun']"
 f/aI/nd,['find']
 h/@/t,['hut']
 h/@/s,['huss']
-h/@/r,['her']
+h/@/r,"['hair', 'hare', 'her']"
 z/i/l,['zeal']
 z/i/k,['zeke']
 n/aI/n/T/,['ninth']
@@ -4010,6 +4007,7 @@ gr/@/mp,['grump']
 /S/A/k,['shock']
 /S/A/l,['chasles']
 /j/@/p,['yup']
+/j/@/r,"['yare', 'yar']"
 /S/A/d,['shod']
 /S/A/g,['shog']
 AZh/@/nWA,['agenois']
@@ -4076,11 +4074,11 @@ dr/aI/aI/s,['dry_ice']
 /oU/st,"['hoste', 'oast', 'oost']"
 sk/oU/ld,['scold']
 m/aI/s,['mice']
+m/aI/r,['mire']
 m/aI/m,['mime']
 m/aI/l,['mile']
 m/aI/n,['mine']
 m/aI/k,['mike']
-gl/(@)/r,"['glair', 'glare', 'glaire']"
 kr/&/kt,['cracked']
 fr/&/N/ks,['francs']
 k/aI/nd,['kind']
@@ -4112,6 +4110,7 @@ d/O/r,"['dor', 'dorr']"
 w/aI/t,"['wite', 'wight', 'white', 'wyte']"
 d/O/t,"['dawt', 'daut']"
 d/O/z,['dawes']
+b/@/r/dZ/,['berge']
 d/O/b,['daub']
 l/eI/T/,['laith']
 d/O/g,['dog']
@@ -4142,7 +4141,7 @@ b/I/ld,['build']
 b/I/lk,['bilk']
 g/u/rd,"['gourdes', 'gourde']"
 kl/I/st,['khlyst']
-b/(@)/r,"['bare', 'baer', 'bear']"
+w/A/st,['wast']
 b/oU/,"['beau', 'bo']"
 fl/u/t,['flute']
 kAl/E/S/,['caleche']
@@ -4154,11 +4153,10 @@ fl/u/k,['fluke']
 sl/&/N/k,['slank']
 p/&/N/,['pang']
 m/E/j/Ak,['meilhac']
-t/i/,"['tea', 't', 'tee', 'ti']"
+t/i/,"['tee', 'tea', 't', 'ti']"
 sm/&/S/t,['smashed']
 gl/oU/,['glow']
 m/AU/nt,['mount']
-hou/(@)/r,"[""howe'er""]"
 m/AU/nd,['mound']
 v/&/st,['vast']
 m/O/Ns,['mons']
@@ -4166,7 +4164,6 @@ h/oU/,"['hoe', 'ho']"
 n/U/k,['nook']
 n/E/lt,['knelt']
 k/I/st,['kist']
-sk/A/rf,"['scarph', 'scarf']"
 bAr/E/s,['barres']
 t/S/I/d,['chid']
 d/U/r,"['dour', 'dure']"
@@ -4177,14 +4174,10 @@ gl/I/mps,['glimpse']
 d/U/k,['doek']
 g/O/nAV,['gonave']
 w/E/lk,['whelk']
-k/(@)/rd,['caird']
 st/E/p,"['step', 'steppe']"
 /S/pr/eI/,['spree']
-k/(@)/rn,['cairn']
 lA,['la']
-/S/(@)/r,"['cher', 'share']"
 v/i/tS/,['veitch']
-s/(@)/r,['sayre']
 t/E/mp,['temp']
 b/oU/rn,"['bourne', 'bourn', 'borne']"
 t/E/mz,['thames']
@@ -4209,7 +4202,7 @@ g/aI/,['guy']
 /D/i/,['thee']
 g/oU/,"['go', 'gogh']"
 /S/oU/rn,['shorn']
-p/A/rl,['parle']
+pr/i/n,['preen']
 n/&/ns,['nance']
 fr/AU/st,['frowst']
 t/O/rs,['torse']
@@ -4218,7 +4211,8 @@ t/O/rk,['torque']
 tr/@/dZ/,['trudge']
 t/O/rn,['thorn']
 /D/@/s,['thus']
-/D/@/r,['thir']
+/D/@/r,"['thir', 'there', 'their']"
+/D/@/z,['theirs']
 k/@/l/tS/,"['cultch', 'culch']"
 m/aI/ld,['mild']
 m/aI/lz,['miles']
@@ -4294,6 +4288,7 @@ l/@/g,['lug']
 l/@/f,['luff']
 l/@/k,['luck']
 l/@/l,['lull']
+l/@/r,['lair']
 /S/U/,['cheux']
 f/Oi/st,['foist']
 l/@/v,['love']
@@ -4307,8 +4302,9 @@ n/i/,['knee']
 dr/oU/l,['droll']
 str/E/s,['stress']
 str/E/p,['strep']
-sk/(@)/r,['scare']
+sk/&/nt,['scant']
 m/i/,"['me', 'mi']"
+w/aI/rd,['wired']
 l/A/Nd,['landes']
 k/ju/p/@/d,['cupid']
 tw/O/rt,['thwart']
@@ -4319,12 +4315,10 @@ m/&/T/s,['maths']
 b/A/r/dZ/,['barge']
 d/A/lf,['dolph']
 /T/@/g,['thug']
-/tS/(@)/r,"['chair', 'chare']"
 p/@/rk,['perk']
-p/@/rl,"['pearl', 'purl']"
+p/@/rl,"['pearl', 'pairle', 'purl']"
 p/@/rm,['perm']
 p/@/rn,"['pirn', 'pern']"
-t/I/t/S/,['titch']
 l/I/pt,['lipped']
 v/&/mp,['vamp']
 /AU/tS/,['ouch']
@@ -4335,11 +4329,11 @@ p/@/rs,"['perse', 'purse']"
 p/@/rt,['pert']
 p/@/rv,['perv']
 fr/oU/z,"['froese', 'froze']"
-sp/@/r,['spur']
+sp/@/r,"['spare', 'spur']"
 r/&/tS/,['ratch']
 sp/@/d,['spud']
 sp/@/n,['spun']
-/T/@/m,['thumb']
+m/I/ld,['milled']
 pl/&/N/k,['plank']
 gr/i/,['gree']
 kr/eI/v,['crave']
@@ -4364,7 +4358,7 @@ m/I/lt,['milt']
 /tS/E/s,['chess']
 n/A/rld,['gnarled']
 /tS/E/t,['chet']
-/j/E/ld,['yeld']
+/tS/E/k,"['czech', 'check', 'cheque']"
 gr/&/sp,['grasp']
 mA/S/oU/,['machaut']
 b/@/st,['bust']
@@ -4382,7 +4376,7 @@ k/A/rS,['carse']
 /T/r/I/ft,['thrift']
 l/O/rn,['lorn']
 /T/O/t,['thought']
-k/A/rl,"['carl', 'karl']"
+k/A/rl,"['karl', 'carl']"
 k/A/rk,['cark']
 /T/O/r,['thor']
 /tS/O/,['chaw']
@@ -4412,7 +4406,6 @@ bl/eI/d,['blade']
 /T/r/eI/l,['thrale']
 /T/r/eI/v,['thrave']
 pr/A/mpt,['prompt']
-w/(@)/r,"['ware', 'where', 'wear']"
 n/U/N/k,['nunc']
 bl/eI/z,"['blaze', 'blaise']"
 bl/eI/t,['blate']
@@ -4433,9 +4426,9 @@ f/I/nd,['finned']
 v/oU/l,['vole']
 fl/E/S/,['flesh']
 v/oU/g,['vogue']
-l/@/nt,['lunt']
 p/E/bl,['pebble']
 kr/I/l,['krill']
+/u/d,['oud']
 /tS/i/t,['cheat']
 /tS/i/r,"['chir', 'cheer']"
 /tS/i/p,"['cheep', 'cheap']"
@@ -4449,7 +4442,7 @@ k/O/Nt,"['conte', 'contes', 'comte', 'comtes']"
 /tS/i/l,['chiel']
 /tS/i/m,['cheam']
 /O/rb,['orb']
-kr/@/tS/,['crutch']
+br/aI/,['brei']
 kr/I/s,['chris']
 r/eI/,"['rae', 'ray']"
 tr/eI/s,['trace']
@@ -4462,13 +4455,12 @@ tr/eI/d,['trade']
 tr/eI/f,['tref']
 sw/A/T/s,['swaths']
 br/eI/rd,['braird']
-sk/(@)/rs,['scarce']
 n/A/rd,['nard']
 str/&/nd,['strand']
 n/A/rl,['gnarl']
 kr/A/,['kra']
 kw/aI/t,['quite']
-t/U/k,"['tooke', 'took']"
+kw/aI/r,"['choir', 'quire']"
 /tS/AU/,['chow']
 t/U/r,"['tour', 'tours']"
 /T/r/i/i/rd,['three-eared']
@@ -4484,6 +4476,7 @@ sn/E/k,['sneck']
 b/&/nz,"['banns', 'bans']"
 b/&/nd,['band']
 d/I/gd,['digged']
+sp/aI/r,['spire']
 sp/aI/s,"['speiss', 'spice']"
 sp/aI/t,['spite']
 sp/aI/k,['spike']
@@ -4511,12 +4504,12 @@ w/I/z,"['whiz', 'wiz', 'whizz']"
 b/O/rts,['bortz']
 l/A/dZ/d,['lodged']
 w/I/p,['whip']
-/dZ/I/p,"['gip', 'gyp']"
+w/I/t,"['whit', 'wit']"
 w/I/k,['wick']
 /dZ/I/n,"['jin', 'djin', 'jinn']"
 /dZ/I/m,"['gym', 'jim']"
 /dZ/I/l,['jill']
-w/I/n,"['whin', 'wynne', 'wyn', 'wynn', 'win']"
+w/I/n,"['whin', 'wynne', 'win', 'wynn', 'wyn']"
 w/I/m,['whim']
 w/I/l,['will']
 /dZ/I/g,['jig']
@@ -4583,7 +4576,7 @@ skr/i/,['scree']
 r/I/st,['wrist']
 sl/&/m,['slam']
 l/@/mp,['lump']
-k/(@)/r,['care']
+w/u/ts,['wootz']
 sl/&/p,['slap']
 sl/&/t,['slat']
 n/E/rVAl,['nerval']
@@ -4611,13 +4604,13 @@ w/O/,"[""wa'"", 'waugh']"
 /@/t,"['ut', 'at']"
 /@/v,['of']
 /@/p,['up']
-/@/r,"['or', 'err', 'ur']"
+/@/r,"[""e'er"", 'err', 'eyre', 'heir', 'air', 'ere', 'ayre', 'ayer', 'ur', 'or', 'ayr']"
 /@/s,['us']
 /@/n,"['un', 'an']"
 b/oU/nd,['boned']
 /T/r/O/l,['thrall']
 /T/r/O/n,['thrawn']
-bl/@/r,['blur']
+f/I/l,"['phil', 'fil', 'fill']"
 /dZ/I/mp,"['jimp', 'gimp']"
 kl/O/,['claw']
 kl/@/N/k,['clunk']
@@ -4629,13 +4622,13 @@ dr/eI/n,['drain']
 p/U/l,['pull']
 p/U/r,['poor']
 p/U/s,['puss']
-p/U/t,['put']
+/A/r/tS/,['arch']
 dr/eI/p,['drape']
 k/A/ps,['copse']
 k/A/pt,"['copht', 'copt']"
 sk/@/f,['scuff']
 dr/eI/v,['drave']
-/j/@/,['ya']
+/j/@/,"['ya', 'yeah']"
 t/&/N/,['tang']
 Ab/A/,['a_bas']
 d/@/sk,['dusk']
@@ -4671,8 +4664,9 @@ t/oU/rn,['torn']
 dr/@/b,['drub']
 dr/@/g,['drug']
 dr/@/m,['drum']
-st/A/dZ/,['stodge']
+pr/A/d,"['prod', 'prodd']"
 sk/Oi/t,"['schuit', 'schuyt']"
+sp/eI/D/,['spathe']
 w/@/rts,['wirtz']
 /Z/An/E/,['janet']
 s/I/ks/T/,['sixth']
@@ -4684,17 +4678,14 @@ fr/A/nz,['frons']
 m/j/u/l,"['mewl', 'mule']"
 l/A/rd,['lard']
 bl/i/d,['bleed']
-w/(@)/rv,"[""where've""]"
 kr/aI/n,['crine']
 mArg/oU/,['margaux']
 kr/aI/l,['crile']
 kr/aI/m,['crime']
 kr/aI/d,['cried']
-w/(@)/rd,"[""where'd""]"
 bl/i/t,['bleat']
 bl/i/p,['bleep']
 bl/i/r,['blear']
-w/(@)/rl,"[""where'll""]"
 gr/AU/nd,['ground']
 kr/aI/t,['krait']
 pr/A/p,['prop']
@@ -4720,7 +4711,7 @@ g/eI/b,['gabe']
 dw/aI/t,['dwight']
 g/eI/n,"['gaine', 'gain']"
 g/eI/m,['game']
-g/eI/l,"['gale', 'gail', 'gael', 'gayle']"
+g/eI/l,"['gayle', 'gail', 'gael', 'gale']"
 g/eI/p,['gape']
 p/I/tS/,"['pich', 'pitch']"
 g/eI/v,['gave']
@@ -4730,6 +4721,7 @@ dw/aI/n,['dwine']
 spr/eI/nt,['spraint']
 skw/eI/l,['squail']
 k/y/ln,"['coln', 'koln']"
+l/aI/r,['lyre']
 l/aI/s,"['lice', 'lyse']"
 l/aI/v,['live']
 l/aI/t,['light']
@@ -4740,7 +4732,7 @@ l/aI/l,"['lisle', 'lyle']"
 l/aI/m,['lime']
 lWAr/E/,['loiret']
 l/aI/f,['life']
-/S/@/r,['shirr']
+/S/@/r,"['cher', 'shirr', 'share']"
 /S/@/t,"['chut', 'shut']"
 kw/eI/k,['quake']
 sn/@/rk,['snark']
@@ -4771,7 +4763,7 @@ p/eI/s,['pace']
 p/eI/v,['pave']
 sk/@/t,['scut']
 sk/@/p,['scup']
-sk/@/r,['skirr']
+sk/@/r,"['skirr', 'scare']"
 t/u/T/,['tooth']
 s/u/T/,['sooth']
 k/oU/rt,['court']
@@ -4811,8 +4803,10 @@ haz/@/nt,"[""hasn't""]"
 /Z/A/k,['jacques']
 /Z/A/n,['jeanne']
 v/E/t,['vet']
+sp/aI/rd,['spired']
 pl/E/bz,['plebs']
 v/E/l,['vel']
+sp/aI/rz,['spires']
 sw/O/rm,['swarm']
 /U/ps,['oops']
 sw/O/rf,['swarf']
@@ -4825,7 +4819,7 @@ p/E/t,['pet']
 sp/eI/l,['spale']
 g/I/bd,['gibbed']
 g/I/bz,['gibbs']
-t/@/m,['tum']
+d/i/l,"['diehl', 'deal', 'deil']"
 h/A/bz,"['hobbs', 'hobbes']"
 g/O/r/dZ/,['gorge']
 d/&/S/t,['dashed']
@@ -4841,13 +4835,11 @@ b/oU/d/j/n,['bodine']
 h/@/rd,"['heard', 'herd', 'hurd']"
 k/i/k/j/,['kikai']
 mArk/A/NtWAn,['marc_antoine']
-b/(@)/rd,['baird']
 h/@/rl,"['herl', 'hurl']"
 h/@/rm,['herm']
 h/@/rn,"['hearne', 'herne', 'hearn', 'hern', ""her'n""]"
 tr/I/st,['tryst']
 /&/n,['ann']
-pr/(@)/r,['prayer']
 /&/l,['al']
 /&/m,['am']
 kw/A/S/,['quash']
@@ -4878,7 +4870,7 @@ t/I/f,['tiff']
 t/I/g,['tyg']
 h/aI/t/T/,['heighth']
 t/S/I/ps,['chips']
-k/@/rn,"['curn', 'kern', 'kirn', 'kurn']"
+k/@/rn,"['cairn', 'curn', 'kirn', 'kurn', 'kern']"
 /&/sk,['ask']
 t/E/n/T/,['tenth']
 mA/j/Ar,['maillart']
@@ -4913,7 +4905,7 @@ s/I/m,['sim']
 s/I/l,['sill']
 s/I/k,"['sic', 'sick']"
 s/I/f,['syph']
-s/I/d,"['cid', 'sid', 'syd', 'cyd']"
+s/I/d,"['sid', 'cid', 'syd', 'cyd']"
 s/I/b,['sib']
 /I/n/tS/,['inch']
 b/@/sk,['busk']
@@ -4940,6 +4932,7 @@ l/&/S/,['lash']
 g/j/u/lz,['gules']
 tw/aI/n,['twine']
 t/E/tS/t,['tetched']
+wot/@/r,"[""whate'er""]"
 sn/u/l,['snool']
 /dZ/&/l,['jal']
 sn/u/k,['snook']
@@ -4968,7 +4961,6 @@ st/aI/,"['stye', 'sty']"
 pr/oU/,['pro']
 str/O/,['straw']
 spr/eI/n,['sprain']
-w/oU/d,['woad']
 p/@/r/dZ/,['purge']
 skw/I/z,['squiz']
 kr/aI/st,['christ']
@@ -5042,7 +5034,6 @@ vr/I/l,['vrille']
 gl/&/nd,['gland']
 r/O/ss,['rouse']
 r/O/st,['rost']
-sw/(@)/r,"['sware', 'swear']"
 h/U/ft,['hoofed']
 s/j/y/r,['sieur']
 n/i/dz,['needs']
@@ -5062,7 +5053,7 @@ m/A/rs,['marse']
 m/A/rl,['marl']
 b/@/rnt,['burnt']
 m/A/rn,['marne']
-m/i/r,"['mear', 'mir', 'meer', 'mere']"
+m/i/r,"['mear', 'mere', 'mir', 'meer']"
 m/A/rk,"['marque', 'marc', 'mark']"
 l/i/Nns,['lins']
 b/@/rnz,"['byrnes', 'burns']"
@@ -5087,13 +5078,14 @@ bl/AU/zd,"['blowsed', 'blowzed']"
 h/A/rdz,['hards']
 skr/u/p,['scroop']
 s/eI/lz,['sales']
-m/O/nd,['maund']
-p/I/mp,['pimp']
+trw/A/,['trois']
+gl/@/m,['glum']
 /I/n/dZ/,['inge']
 t/aI/ts,['tights']
 kr/aI/nd,['crined']
+s/i/d,"['cede', 'seed']"
 r/i/v,"['reive', 'reave', 'reeve']"
-s/i/,"['c', 'si', 'see', 'sea']"
+s/i/,"['c', 'see', 'si', 'sea']"
 r/i/r,['rear']
 r/i/s,['riis']
 p/AU/tS/,['pouch']
@@ -5153,7 +5145,7 @@ z/u/s,['zeus']
 p/@/mp,['pump']
 r/E/k,"['reck', 'wreck']"
 r/E/n,"['rennes', 'wren']"
-k/i/ts,['keats']
+r/E/m,['rem']
 r/E/b,['reb']
 kw/E/st,['quest']
 r/E/f,['ref']
@@ -5177,9 +5169,8 @@ t/@/tS/t,['touched']
 l/u/pt,['looped']
 br/A/mz,['brahms']
 /S/r/aI/v,['shrive']
-s/i/r,"['sear', 'sere', 'cere', 'ser', 'cyr']"
+s/i/r,"['sear', 'cere', 'sere', 'ser', 'cyr']"
 h/@/,['huh']
-b/(@)/rn,['bairn']
 drAm,['drame']
 sl/aI/d,['slide']
 bent/dZ/ub/A/l,"[""bent_j'beil""]"
@@ -5219,7 +5210,6 @@ bl/aI/ndmanzbuf,"[""blindman's_buff""]"
 v/A/v,['vav']
 v/A/t,['waadt']
 hmm,"[""h'm""]"
-gr/eI/,"['gray', 'greige', 'grey', 'griege']"
 s/eI/st,['sayst']
 v/A/n,['van']
 v/A/l,"['vaal', 'waal']"
@@ -5251,11 +5241,12 @@ p/aI/,"['pi', 'pie', 'pye']"
 /oU/t,['oat']
 /oU/r,"['oar', ""o'er""]"
 /oU/p,['ope']
-r/&/sk,['rask']
+mA/j/A/Ns,['mayence']
 r/u/nd,['runed']
 r/&/sp,['rasp']
 Am/i/,"['ami', 'amie', 'amies', 'amis']"
 k/O/rvz,['corves']
+vAn/j/eI/,['vanier']
 gr/A/ss,['grosse']
 br/E/t,['brett']
 kl/U/k,['kluck']
@@ -5283,7 +5274,6 @@ tr/aI/p,['tripe']
 tr/aI/s,['trice']
 tr/@/nt,['triunitarian']
 s/eI/nt,['saint']
-w/O/l,['wall']
 tr/aI/d,['tried']
 kAl/oU/,['callot']
 tr/aI/b,['tribe']
@@ -5303,7 +5293,6 @@ k/@/S/,['cush']
 m/@/lkt,['mulct']
 t/oU/ld,['told']
 skl/E/nt,"['sclent', 'sklent']"
-l/(@)/r,['lair']
 gr/I/ls,['grilse']
 r/E/n/tS/,['wrench']
 k/u/pt,['couped']
@@ -5311,7 +5300,6 @@ k/O/rkt,['corked']
 /E/rnst,['ernst']
 k/&/sk,"['casque', 'cask']"
 /&/sp,['asp']
-fl/(@)/r,"['flare', 'flair']"
 /dZ/@/mp,['jump']
 n/O/tS/,['nautch']
 m/@/T/,['math']
@@ -5333,12 +5321,11 @@ k/O/s,['cos']
 k/O/r,['cor']
 kw/I/p,['quip']
 s/E/ks,['sex']
-b/j/E/n,['bienne']
+kw/I/t,['quit']
 k/O/z,['cause']
 f/u/l,['fool']
 str/I/N/d,['stringed']
 f/u/d,['food']
-/(@)/r/T/,['airth']
 g/oU/st,['ghost']
 t/S/A/,['cha']
 p/S/,['pish']
@@ -5371,6 +5358,7 @@ k/&/tS/,['catch']
 pr/O/N/,['prong']
 k/oU/ts,['coates']
 g/eI/VArt,['gevaert']
+p/@/r/S/,['perche']
 l/AU/T/,['louth']
 l/E/nt,"['leant', 'lent']"
 l/E/nz,['lens']
@@ -5433,7 +5421,7 @@ d/O/rs,['dorse']
 d/O/rt,['dort']
 /dZ/@/N/k,['junk']
 /j/E/zd,['yezd']
-tr/u/,"['true', 'trew']"
+sl/&/tS/,['slatch']
 k/Oi/p,"['kuyp', 'cuyp']"
 k/Oi/r,['coir']
 /Z/Ar/i/,['jarry']
@@ -5459,7 +5447,7 @@ z/E/d,['zed']
 lw/O/f,['lwoff']
 bl/eI/md,['blamed']
 z/E/n,['zen']
-kr/A/n,['kran']
+kw/I/lt,['quilt']
 w/i/mz,"['weems', 'wemyss']"
 sl/i/k,['sleek']
 gr/oU/ts,['groats']
@@ -5493,7 +5481,6 @@ gr/@/b,['grub']
 gr/@/f,['gruff']
 f/A/nd,['fond']
 gr/@/s,['grus']
-skw/(@)/r,['square']
 /Z/@/mAp,['jemappes']
 fl/E/n/tS/,['flench']
 bl/aI/p,['blype']
@@ -5505,12 +5492,13 @@ dalb/@/rt,"[""d'albert""]"
 /S/m/A/lts,['schmaltz']
 sl/eI/,"['sleigh', 'sley', 'slay']"
 /S/Ark/oU/,['charcot']
-g/i/dZ/,['guige']
+skr/i/n,['screen']
 /S/Am/i/nAd,['chaminade']
 t/oU/j/,['toy']
 /S/n/A/N/,['chnang']
 str/I/k,['strick']
 str/aI/pt,['striped']
+skw/aI/r,['squire']
 fl/u/,"['flu', 'flue', 'flew']"
 str/I/p,['strip']
 bl/A/,['blah']
@@ -5537,11 +5525,11 @@ w/I/D/,['with']
 w/O/ld,"['wald', 'wold']"
 b/@/t,"['but', 'butt']"
 b/@/s,"['bus', 'buss']"
-b/@/r,"['bur', 'birr', 'buhr', 'burr']"
+b/@/r,"['buhr', 'baer', 'bur', 'birr', 'bear', 'bare', 'burr']"
 fr/I/dZ/,['fridge']
 b/@/n,"['bun', 'bunn']"
 b/@/m,['bum']
-b/@/l,['beall']
+f/O/,['foh']
 b/@/k,['buck']
 b/@/g,['bug']
 b/@/f,"['buffe', 'buff']"
@@ -5655,9 +5643,9 @@ pAn/j/@/,"['pagnes', 'pagne']"
 w/aI/z,"[""why's"", 'wise']"
 rAs/i/n,['racine']
 w/aI/v,['wive']
-kanthelp,"[""can't_help""]"
+dr/&/m,"['dram', 'drachm']"
 w/aI/s,['weiss']
-b/@/r/dZ/,['berge']
+w/aI/r,['wire']
 w/aI/p,['wipe']
 w/aI/n,"['whine', 'wine']"
 pt/A/,['ptah']
@@ -5727,11 +5715,12 @@ bl/&/k,['black']
 b/@/kt,['bucked']
 b/@/ks,['bucks']
 /S/n/A/ps,"['shnaps', 'schnapps']"
-kw/&/g,['quag']
+vr/eI/ns,['vranes']
 b/aI/k,['bike']
 b/aI/l,['bile']
 b/aI/n,['bine']
 b/aI/d,['bide']
+b/aI/r,['byre']
 b/aI/s,"['buice', 'bice']"
 b/aI/t,"['bite', 'bight', 'byte']"
 d/I/pt,['dipt']
@@ -5749,7 +5738,7 @@ bl/@/b,['blub']
 f/I/t,"['fytte', 'fit']"
 f/I/k,"['fikh', 'fiqh']"
 f/I/n,"['finn', 'fin', 'fionn']"
-f/I/l,"['phil', 'fil', 'fill']"
+bl/@/r,"['blair', 'blare', 'blur']"
 f/I/b,['fib']
 fArS/y/Z,['farceuse']
 f/I/g,['fig']
@@ -5758,6 +5747,7 @@ w/I/tS/,"['witch', 'which']"
 kw/O/rt,['quart']
 l/&/ks,['lax']
 br/E/kt,['brecht']
+t/aI/rd,['tired']
 gr/oU/n,"['grown', 'groan']"
 gr/oU/p,['grope']
 r/I/tS/,['rich']
@@ -5767,7 +5757,7 @@ gr/oU/v,['grove']
 b/u/k,['bouk']
 /D/oU/,"['tho', 'though']"
 n/aI/vz,['knives']
-vAn/j/eI/,['vanier']
+/S/&/k,['shack']
 sl/A/p,['slop']
 sl/A/v,['slav']
 /S/&/l,['shall']
@@ -5788,7 +5778,7 @@ g/A/T/,['goth']
 sk/eI/p,['scape']
 t/@/tS/,['touch']
 p/O/,['paw']
-k/@/rd,"['curd', 'kurd', 'koord']"
+k/@/rd,"['caird', 'curd', 'kurd', 'koord']"
 k/@/rf,"['curf', 'kerf']"
 sk/A/r,['scar']
 k/@/rl,['curl']
@@ -5804,12 +5794,12 @@ bl/I/mp,['blimp']
 b/u/t,"['bhoot', 'boot', 'bhut']"
 mAr/O/k,['maroc']
 s/eI/,"['say', 'sei']"
-/u/d,['oud']
+/S/O/n,"['shawn', 'shaun', 'dunston', 'sean']"
 r/O/NSAr,['ronsard']
 tr/O/T/,['troth']
 w/oU/v,['wove']
 f/oU/nz,['fons']
-tr/aI/k,['trike']
+w/oU/d,['woad']
 w/oU/k,"['woke', 'wouk']"
 pwAt/j/eI/,['poitiers']
 b/E/rnArt,['beernaert']
@@ -5866,6 +5856,7 @@ str/E/N/k/T/,['strength']
 k/O/rps,['corpse']
 mAgr/i/t,['magritte']
 n/&/tS/,['natch']
+tr/u/,"['true', 'trew']"
 /S/U/ln,['shuln']
 r/Oi/l,['roil']
 b/A/sk,"['bosc', 'bosk']"
@@ -5887,7 +5878,7 @@ m/eI/ps,['mapes']
 /S/E/lvd,['shelved']
 gr/&/b,['grab']
 kr/u/z,"['cruz', 'cruse', 'cruise']"
-d/i/,"['d', 'die', 'dee', 'di']"
+d/i/,"['dee', 'die', 'd', 'di']"
 gr/&/f,['graph']
 gr/&/d,['grad']
 g/&/N/,"['gangue', 'gang']"
@@ -5913,7 +5904,6 @@ d/oU/,"['doh', 'dough', 'doe']"
 h/@/tS/,['hutch']
 kw/&/k,['quack']
 kw/oU/t,['quote']
-m/I/st,['mist']
 sp/A/rks,['sparks']
 l/oU/p,['lope']
 b/u/n,"['boon', 'boone']"
@@ -5946,4 +5936,5 @@ l/@/N/,['lung']
 l/E/r,['ler']
 b/A/N/,['bong']
 l/oU/m,['loam']
+v/@/r,['vair']
 k/A/NtAl,['cantal']
