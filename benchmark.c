@@ -217,6 +217,7 @@ void main(int argc,char *argv[])
 		}	
 	mikenet_set_seed(_seed); build_model();	// build a network, with TIME number of time ticks; 
 	printf("No. Connections: %d\n", count_connections());	// calculate number of connections and print out;
+	printf("Seed = %u\n", _seed);	// print out the seed used;
 
 	load_phoneme(_phoF);  // initialize phoneme;
 	train_exm=load_examples(_exTrF, _tick); // load training examples;
@@ -261,7 +262,8 @@ void main(int argc,char *argv[])
 		fprintf(f3,"\tAcu%d",i+1);
 	fprintf(f3,"\tAvg\n");
 
-	train(reading, train_exm, test_exm, f1, f2, f3, weightF);	// train network
+	train(reading, train_exm, test_exm, f1, f2, f3, weightF);	// train network;
+	printf("Done!\n");
 
 	fclose(f1); fclose(f2);	//fclose(f3); // close result files;
 	free(weightF); weightF=NULL; free(outF); outF=NULL;
