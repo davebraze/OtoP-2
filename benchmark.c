@@ -130,13 +130,14 @@ Real calaccu(Real *out, Real *target)
 	return NoAccu/(float)(NoPho);	
 }
 
-Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f)
+Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName)
 { // calculate accuracy of the network;
 	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL);
 	int i, j;
 	Example *ex=NULL;
   	Real *target=NULL, *out=NULL, accu, itemaccu, avgaccu;
 	
+	if((f=fopen(fileName,"a+"))==NULL) { printf("Can't open %s\n", fileName); exit(1); }
 	fprintf(f,"%d\t%d", iter, examples->numExamples);
 	accu=0.0;
 	for(i=0;i<examples->numExamples;i++)
@@ -160,11 +161,12 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f)
     	}
 	avgaccu=accu/(float)(examples->numExamples);
 	fprintf(f,"\t%5.3f\n", avgaccu);
+	fclose(f);
 
   	return avgaccu;
 }
 
-void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, FILE *f2, FILE *f3, char *weightF)
+void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileName1, FILE *f2, char *fileName2, FILE *f3, char *fileName3, char *weightF)
 { // train the network and record the training error and accuracies;
   	assert(net!=NULL); assert(TrExm!=NULL); assert(TeExm!=NULL); assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(weightF!=NULL); 
 	int i, j, iter, count;
@@ -181,10 +183,12 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, FILE *f2, F
           /* is it time to write status? */
     	  if(count==_rep)
 			{ error=error/(float)count;
-		  	  accuTr=getAccu(net, TrExm, iter, f2); 
-			  accuTe=getAccu(net, TeExm, iter, f3);
+		  	  accuTr=getAccu(net, TrExm, iter, f2, fileName2); 
+			  accuTe=getAccu(net, TeExm, iter, f3, fileName3);
 			  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
-	  		  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
+	  		  if((f1=fopen(fileName1,"a+"))==NULL) { printf("Can't open %s\n", fileName1); exit(1); }
+			  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
+			  fclose(f1);
 			  error=0.0; accuTr=0.0; accuTe=0.0;
 			  count=1;	// reset count; 
 		 	}
@@ -249,23 +253,25 @@ void main(int argc,char *argv[])
 
 	if((f1=fopen(outF,"w+"))==NULL) { printf("Can't open %s\n", outF); exit(1); }
 	fprintf(f1, "ITER\tErr\tAcuTr\tAcuTe\n");
+	fclose(f1);
 	
-	if((f2=fopen(itemacuTrF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
+	if((f2=fopen(itemacuTrF,"w+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
 	fprintf(f2,"ITER\tNoItem");
 	for(i=0;i<train_exm->numExamples;i++)
 		fprintf(f2,"\tAcu%d",i+1);
 	fprintf(f2,"\tAvg\n");
+	fclose(f2);
 
-	if((f3=fopen(itemacuTeF,"a+"))==NULL) { printf("Can't open %s\n", itemacuTeF); exit(1); }
+	if((f3=fopen(itemacuTeF,"w+"))==NULL) { printf("Can't open %s\n", itemacuTeF); exit(1); }
 	fprintf(f3,"ITER\tNoItem");
 	for(i=0;i<test_exm->numExamples;i++)
 		fprintf(f3,"\tAcu%d",i+1);
 	fprintf(f3,"\tAvg\n");
+	fclose(f3);
 
-	train(reading, train_exm, test_exm, f1, f2, f3, weightF);	// train network;
+	train(reading, train_exm, test_exm, f1, outF, f2, itemacuTrF, f3, itemacuTeF, weightF);	// train network;
 	printf("Done!\n");
 
-	fclose(f1); fclose(f2);	//fclose(f3); // close result files;
 	free(weightF); weightF=NULL; free(outF); outF=NULL;
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
