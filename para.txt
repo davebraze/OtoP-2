@@ -13,7 +13,6 @@
 // Phoneme library and example file
 11	// int _pho_features;
 35	// int _pho_number;
-55	// int _pho_out;
 ./phon.txt	// char *_phoF;
 ./trainexp_full.txt	// char *_exTrF;
 ./trainexp_full.txt	// char *_exTeF;

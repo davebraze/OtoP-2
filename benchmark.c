@@ -100,9 +100,9 @@ Real calaccu(Real *out, Real *target)
 	int i, j, same, NoAccu, NoPho;
 	Real *vect=NULL, *trans=NULL, *transout=NULL;	// vect is each segment of out, transout is translated out based on accuMethod;
 
-	transout=malloc(_pho_out*sizeof(Real)); assert(transout!=NULL);
+	transout=malloc(_PhonoS*sizeof(Real)); assert(transout!=NULL);
 	// translate
-	for(i=0;i<_pho_out;i+=_pho_features)
+	for(i=0;i<_PhonoS;i+=_pho_features)
 		{ vect=malloc(_pho_features*sizeof(Real)); assert(vect!=NULL);
 		  trans=malloc(_pho_features*sizeof(Real)); assert(trans!=NULL);
 
@@ -119,7 +119,7 @@ Real calaccu(Real *out, Real *target)
 	
 	// check correct translation
 	NoAccu=0; NoPho=1;
-	for(i=0;i<_pho_out;i+=_pho_features)
+	for(i=0;i<_PhonoS;i+=_pho_features)
 		{ same=1;
 		  for(j=0;j<_pho_features;j++)
 			{ if(transout[i+j]!=target[i+j]) { same=0; break; }
@@ -145,9 +145,9 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName)
       	  crbp_forward(net,ex);	// put to the network;
 	  	
 		  // initialize out and target;
-		  out=malloc(_pho_out*sizeof(Real)); assert(out!=NULL); 
-		  target=malloc(_pho_out*sizeof(Real)); assert(target!=NULL);
-		  for(j=0;j<_pho_out;j++)
+		  out=malloc(_PhonoS*sizeof(Real)); assert(out!=NULL); 
+		  target=malloc(_PhonoS*sizeof(Real)); assert(target!=NULL);
+		  for(j=0;j<_PhonoS;j++)
 			{ out[j]=output->outputs[_tick-1][j];	// get output from the network;
 			  target[j]=get_value(ex->targets,output->index,_tick-1,j);	// get target from the example;
 			}

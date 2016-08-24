@@ -14,7 +14,7 @@ double _errrad, _range;
 int _OrthoS, _HidS, _PhonoS, _PhoHidS;
 
 // parameters for phonemes
-int _pho_features, _pho_number, _pho_out;
+int _pho_features, _pho_number;
 typedef struct
 { char name;	// name of phoneme;
   Real *vec;	// features of phoneme;

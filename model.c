@@ -81,7 +81,6 @@ void readPara(void)
 	fgets(line, _LineLen, f);	// read: // Phoneme library and example file
 	GetIntPara(f, &_pho_features);	// read _pho_features;
 	GetIntPara(f, &_pho_number);	// read _pho_number;
-	GetIntPara(f, &_pho_out);	// read _pho_out;
 	GetStringPara(f, &_phoF);	// read _phoF;
 	GetStringPara(f, &_exTrF);	// read _exTrF;
 	GetStringPara(f, &_exTeF);	// read _exTeF;
@@ -161,7 +160,7 @@ void build_model(void)
 	printf("TAI=%d, TICK=%d;\n", default_tai, _tick);
 	printf("INTCONST=%f, EPSI=%f, ACTTYPE=%d, ERRRAND=%f, RANGE=%f\n", reading->integrationConstant, default_epsilon, default_activationType, default_errorRadius, _range);
 	printf("OrthoS=%d, HidS=%d, PhonoS=%d, PhoHidS=%d\n", _OrthoS, _HidS, _PhonoS, _PhoHidS);
-	printf("Pho_feature=%d, Pho_number=%d, Pho_out=%d\n", _pho_features, _pho_number, _pho_out);
+	printf("Pho_feature=%d, Pho_number=%d\n", _pho_features, _pho_number);
 	printf("PhonF: %s, TrainF: %s, TestF: %s\n", _phoF, _exTrF, _exTeF);
 }
 
