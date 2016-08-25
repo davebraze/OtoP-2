@@ -9,12 +9,12 @@ To clean it, type: make -f Makefile clean. It will clear the exe file
 To run it, put the exe file, para.txt parameter file, phon.txt, and trainexp_full.txt into the same directory
 para.txt has the following format:
 =====
-// Network Parameters
-1	// int _tai;
-7	// int _tick;
-0.25	// double _intconst;
-1e-3	// double _epsi;
-...
+\// Network Parameters
+1	\// int _tai;
+7	\// int _tick;
+0.25	\// double _intconst;
+1e-3	\// double _epsi;
+\...
 =====
 The first line is a comment line; in each of the following lines, the format is: value + \t + // type and name of the parameter.
 One can easily change the value of each parameter to fit in new condition.
