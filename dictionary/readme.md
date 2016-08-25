@@ -28,8 +28,6 @@ in order to facilitate use in a Mikenet framework.
       stereotypical American English.
    4. Replace 'R' with 'r'.
    5. Replace '/(@)/' and '/[@]/' with '/@/'.
-      __TAO, CAN YOU RECONCILE THIS SUBSTITUTION WITH THE ONE LISTED
-      AT 4.1 BELOW ('/(@)/'->'E' )?__
    6. Remove words containing phone '/x/' (Bach, loch).
 
 2. Read modified Moby lexicon after 1) and select only those words
@@ -60,7 +58,7 @@ in order to facilitate use in a Mikenet framework.
 		* '/&/'->'@'
 		* '/A/'->'a'
 		* '/O/'->'a'
-		* '/(@)/'->'E' SEE QUERY AT 1.5, ABOVE.
+		* '/(@)/'->'E'
 		* '/oU/'->'o'
 		* '/U/'->'U'
 		* '/u/'->'u'
