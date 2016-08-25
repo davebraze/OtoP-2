@@ -15,10 +15,15 @@ To run it, put the exe file, para.txt parameter file, phon.txt, and trainexp_ful
 para.txt has the following format:
 
 > // Network Parameters
+
 > 1	// int _tai;
+
 > 7	// int _tick;
+
 > 0.25	// double _intconst;
+
 > 1e-3	// double _epsi;
+
 > ...
 
 The first line is a comment line; in each of the following lines, the format is: value + \t + // type and name of the parameter.
@@ -33,18 +38,21 @@ There are sevearl ways of running the model:
     *	output.txt: network parameters and training and testing errors at each sampling point of the training;
     *	itemacu\_tr.txt: item-based accuracy based on the training data (training\_examples.txt) at each sampling point;   
     *	itemacu\_te.txt: item-based accuracy based on the testing data (so far same as the training data) at each sampling point;
+    
     One can specify some running parameters, like: ./benchmark -seed SEED -iter ITER -rep REP -met MET -vthres VTHRES
  	  * SEED: random seed to be used in that run;
  	  * ITER: number of total iterations;
  	  * REP: iterations for recording the results;
  	  * MET: method for determining which phonemen matches the activation;
  	  * VTHRES: if MET is 1, the bit difference threshold for determining which phoneme matches the activation;
-  There are default values for these running parameters, and one can specify all or only some of them using the key words "-*" 
+    
+    There are default values for these running parameters, and one can specify all or only some of them using the key words "-*" 
 
 2. Using shell command, put SerRunLoc.sh into the same folder with the exe file, para.txt, phon.txt, and trainexp_full.txt
     On-screen outputs will be stored in *.log files.
     * type: sh SerRunLoc.sh NUM ITER REP MET VTHRES
     * NUM: number of runs to be conducted, each using a random seed; 
+    
     The other parameters are the same as above and optional.
 
 3. Using Yale HPC: 
@@ -53,15 +61,18 @@ There are sevearl ways of running the model:
       1. copy *.c, *.h, Makefile, para.txt, phon.txt, trainexp_full.txt, msf.sh into the working directory;
       2. load a module for GCC: $ module load Langs/GCC
       3. load a module for MikeNet: $ module load Libs/MikeNet
-      4. compile the source code to exe file: $ make -f Makefile (to clean: make -f Makefile clean)  
-      Once the code is compiled, use the same exe file with different para.txt in different conditions, no need recompilation.	
+      4. compile the source code to exe file: $ make -f Makefile (to clean: make -f Makefile clean). Once the code is compiled, use the same exe file with different para.txt in different conditions, no need recompilation.	
    	  5. set up the parallel running via msf.sh:
    	  6. use "chmod +rwx msf.sh" to change msf.sh permission
    	  7. set up tasklist.txt:
    	    > cd ~/workDirec; ./msf.sh 1 5000 1000
+   		  
    		  > cd ~/workDirec; ./msf.sh 2 5000 1000
+   		  
    		  > cd ~/workDirec; ./msf.sh 3 5000 1000
+   		  
    		  > cd ~/workDirec; ./msf.sh 4 5000 1000
+   		  
    		  > ...
    		
    		  This example runs 4 simulations, each having 5000 iterations and sampling results every 1000 iterations.
@@ -73,7 +84,9 @@ There are sevearl ways of running the model:
    
       8. run the results via SimpleQueue
    		  > $ module load Tools/SimpleQueue
+    	  
     	  > $ sqCreateScript -n 4 -W 24:00 tasklist.txt > job.sh
+    	  
     	  > $ bsub < job.sh
     	
     	  It recruits 4 nodes (8 cpus each) to run for 24 hours. Note that the total number of runs has to be a multipler of 32.
@@ -94,7 +107,9 @@ There are sevearl ways of running the model:
 
       8. run the results via SimpleQueue
         > $ module load Tools/SimpleQueue
+    	  
     	  > $ sqCreateScript -n 3 -w 24:00:00 tasklist.txt > job.sh
+    	  
     	  > $ qsub < job.sh
     	  
     	  It recruits 3 nodes (8 cpus each) to run for 24 hours. Note that the total number of runs has to be a multipler of 24.
