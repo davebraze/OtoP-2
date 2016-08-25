@@ -295,7 +295,7 @@ for key in mobyDic.keys():
 mobyDic = newDic; mobyDic = clnDict(1, mobyDic)
 # 2) replace '/-/' with '/@/'
 ori, rep = '/-/', '/@/'; mobyDic = repKey(1, mobyDic, ori, rep, comb_convow, keepList); mobyDic = clnDict(1, mobyDic)
-# 3) replace '/hw/' with '/w/'
+# 3) replace '/hw/' with 'w'
 ori, rep = '/hw/', 'w'; mobyDic = repKey(0, mobyDic, ori, rep, comb_convow, keepList); mobyDic = clnDict(1, mobyDic) 
 # 4) replace 'R' with 'r'
 ori, rep = 'R', 'r'; mobyDic = repKey(1, mobyDic, ori, rep, comb_convow, keepList); mobyDic = clnDict(1, mobyDic) 
