@@ -154,7 +154,7 @@ void build_model(void)
       	  c3->frozen[i][i]=1;
     	}
 
-
+	/*
 	// finally, show network parameters to make sure they are correctly read and assigned!
 	printf("Network Parameters:\n");
 	printf("TAI=%d, TICK=%d;\n", default_tai, _tick);
@@ -162,6 +162,7 @@ void build_model(void)
 	printf("OrthoS=%d, HidS=%d, PhonoS=%d, PhoHidS=%d\n", _OrthoS, _HidS, _PhonoS, _PhoHidS);
 	printf("Pho_feature=%d, Pho_number=%d\n", _pho_features, _pho_number);
 	printf("PhonF: %s, TrainF: %s, TestF: %s\n", _phoF, _exTrF, _exTeF);
+	*/
 }
 
 int count_connections(void)
@@ -196,7 +197,7 @@ void load_phoneme(char *PhoF)
 		  curphon++;
 		}
 	fclose(f);
-	
+	/*
 	// print PhoDic
 	int i, j;
 	for(i=0;i<_pho_number;i++)
@@ -205,6 +206,7 @@ void load_phoneme(char *PhoF)
 	  		printf("%2.1f ", _phon[i].vec[j]);
 	     	  printf("\n");
 		}
+	*/
 }
 
 void delete_phoneme(void)

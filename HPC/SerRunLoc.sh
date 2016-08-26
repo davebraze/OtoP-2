@@ -3,7 +3,7 @@ if [ "$#" -eq 0 ]; then
 	echo "At least one argument is required!"
 	exit 1
 fi
-if [ "$#" -gt 6 ]; then
+if [ "$#" -gt 7 ]; then
 	echo "Too many arguments!"
 	exit 1
 fi
@@ -14,15 +14,17 @@ do
   echo "run: " $i
   rm -fr $i
   if [ "$#" -eq 1 ]; then
-  	echo $i | time ./benchmark > $i.log
+  	echo $i | time ./OtoP > $i.log
   elif [ "$#" -eq 2 ]; then
-  	echo $i | time ./bemchmark -iter $2 > $i.log
+  	echo $i | time ./OtoP -iter $2 > $i.log
   elif [ "$#" -eq 3 ]; then
-  	echo $i | time ./benchmark -iter $2 -rep $3 > $i.log
+  	echo $i | time ./OtoP -iter $2 -rep $3 > $i.log
   elif [ "$#" -eq 4 ]; then
-  	echo $i | time ./benchmark -iter $2 -rep $3 -met $4 > $i.log
+  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 > $i.log
+  elif [ "$#" -eq 5 ]; then
+  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 > $i.log
   else
-  	echo $i | time ./benchmark -iter $2 -rep $3 -met $4 -vthres $5 -> $i.log
+  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 -vthres $6 -> $i.log
   fi
   i=$((i+1))
 done

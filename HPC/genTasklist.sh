@@ -19,8 +19,10 @@ do
   	echo "cd" $2 "; ./msf.sh" $i $3 $4 >> tasklist.txt
   elif [ "$#" -eq 5 ]; then
   	echo "cd" $2 "; ./msf.sh" $i $3 $4 $5 >> tasklist.txt
-  else
+  elif [ "$#" -eq 6 ]; then
   	echo "cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 >> tasklist.txt
+  else
+  	echo "cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 >> tasklist.txt
   fi
   i=$((i+1))
 done

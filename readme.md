@@ -1,7 +1,7 @@
 ---
 output: pdf_document
 ---
-# Document Use of OtoP Simulation (Author: Tao Gong (Haskins Laboratories, New Haven, CT 06511, USA))
+# Document Use of OtoP Simulation (Author: Tao Gong), Haskins Laboratories, New Haven, CT 06511, USA
 This is a demo of using MikeNet to simulate an Orthography to Phonology neural network model.
 
 ## Compilation
@@ -10,7 +10,7 @@ To compile it, type: make -f Makefile. It will generate the exe file called benc
 To clean it, type: make -f Makefile clean. It will clear the exe file
 
 ## Run
-To run it, put the exe file, para.txt parameter file, phon.txt, and trainexp_full.txt into the same directory
+To run it, put the exe file (OtoP), parameter file (para.txt), phoneme dictionary (phon.txt), and training examples (trainexp_full.txt) into the same directory
 
 para.txt has the following format:
 
@@ -31,7 +31,7 @@ One can easily change the value of each parameter to fit in new condition.
 
 There are sevearl ways of running the model:
 
-1. Using exe file, type: ./benchmark. It will ask user to input an integer folder name, and the results are stored there. 
+1. Using exe file, type: ./OtoP. It will ask user to input an integer folder name, and the results are stored there. 
     Results include: 
 	  seed.txt: store random seed in that run;
     * weights.txt.gz: zipped connection weights of the trained network;
@@ -39,18 +39,19 @@ There are sevearl ways of running the model:
     *	itemacu\_tr.txt: item-based accuracy based on the training data (training\_examples.txt) at each sampling point;   
     *	itemacu\_te.txt: item-based accuracy based on the testing data (so far same as the training data) at each sampling point;
     
-    One can specify some running parameters, like: ./benchmark -seed SEED -iter ITER -rep REP -met MET -vthres VTHRES
+    One can specify some running parameters, like: ./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES
  	  * SEED: random seed to be used in that run;
  	  * ITER: number of total iterations;
  	  * REP: iterations for recording the results;
+ 	  * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP is set to 1, REP is no longer useful.
  	  * MET: method for determining which phonemen matches the activation;
  	  * VTHRES: if MET is 1, the bit difference threshold for determining which phoneme matches the activation;
     
     There are default values for these running parameters, and one can specify all or only some of them using the key words "-*" 
 
-2. Using shell command, put SerRunLoc.sh into the same folder with the exe file, para.txt, phon.txt, and trainexp_full.txt
-    On-screen outputs will be stored in *.log files.
-    * type: sh SerRunLoc.sh NUM ITER REP MET VTHRES
+2. Using shell command, put SerRunLoc.sh into the same folder with the exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen outputs will be stored in *.log files.
+    
+    type: sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES
     * NUM: number of runs to be conducted, each using a random seed; 
     
     The other parameters are the same as above and optional.
@@ -77,7 +78,7 @@ There are sevearl ways of running the model:
    		
    		  This example runs 4 simulations, each having 5000 iterations and sampling results every 1000 iterations.
     
-      	You can use: sh genTasklist.sh NUMRUN WORKDIREC ITER REP MET VTHRES to automatically generate tasklist.txt
+      	You can use: sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES to automatically generate tasklist.txt
       	* NUMRUN: total number of runs;
       	* WORKDIREC: working directory of the code;
       	The other parameters are the same as above and optional.
@@ -98,7 +99,7 @@ There are sevearl ways of running the model:
       2. load a module for GCC: $ module load Langs/GCC/4.5.3
       3-6. same as above.
       7. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in front of each line in tasklist.txt
-        You can use: sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP MET VTHRES to automatically generate tasklist.txt
+        You can use: sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES to automatically generate tasklist.txt
         * NUMRUN: total number of runs;
         * WORKDIREC: working directory of the code;
         

@@ -2,18 +2,18 @@
 1	// int _tai;
 7	// int _tick;
 0.25	// double _intconst;
-1e-3	// double _epsi;
+1e-2	// double _epsi;
 1	// int _acttype; // TANH_ACTIVATION
 0.1	// double _errrad;
 0.1	// double _range;
 208	// int _OrthoS;
 100	// int _HidS;
-55	// int _PhonoS;
+77	// int _PhonoS;
 20	// int _PhoHidS;
 // Phoneme library and example file
 11	// int _pho_features;
-35	// int _pho_number;
+36	// int _pho_number; 35 phonemes + 1 none
 ./phon.txt	// char *_phoF;
-./trainexp_full.txt	// char *_exTrF;
-./trainexp_full.txt	// char *_exTeF;
+./trainexp_full3.txt	// char *_exTrF;
+./trainexp_full3.txt	// char *_exTeF;
 

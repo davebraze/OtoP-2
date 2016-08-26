@@ -43,10 +43,10 @@ SPECIAL=
 LIBHOME=${MIKENET_DIR}/lib/${ARCH}/
 INCLUDEHOME=${MIKENET_DIR}/include
 
-all:	benchmark 
+all:	OtoP 
 
-benchmark:	benchmark.c model.c Makefile
-	gcc -o benchmark benchmark.c model.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a -lm
+OtoP:	OtoP.c model.c Makefile
+	gcc -o OtoP OtoP.c model.c ${DEBUG} -I${INCLUDEHOME} ${LIBHOME}/libmikenet.a -lm
 
 clean:
-	rm -f *.o benchmark
+	rm -f *.o OtoP

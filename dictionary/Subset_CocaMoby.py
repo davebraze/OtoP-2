@@ -243,7 +243,7 @@ def writeExp(wordDF, expFileName, epoch):
             line = "TAG Word: " + str(wordDF.wordform[i]) + ' Rep_O: ' + wordDF.Rep_O[i] + ' Rep_P: ' + wordDF.Rep_P[i] + ','
             exp_file.write(line + '\n')
             # PROB line        
-            line = 'PROB ' + str(wordDF.norm_freq[i])
+            line = 'PROB ' + str(wordDF.log_freq[i])
             exp_file.write(line + '\n')
             # CLAMP line        
             line = 'CLAMP Ortho 0-' + str(epoch) + ' EXPANDED'
@@ -420,7 +420,9 @@ for word in cocaDic.keys():
                         break
 
 resDF['norm_freq'] = resDF['sum_freq']/450.0 # frequency per million
-resDF = resDF[['wordform', 'sum_freq', 'norm_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+resDF['log_freq'] = np.log(resDF['norm_freq']+1)/np.log(max(resDF['norm_freq']))
+resDF.loc[(resDF['log_freq'] < 0.05), 'log_freq'] = 0.05
+resDF = resDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
 resDF.to_csv('./extwords1.csv', index=False)
 
 # ver 2: using subCoca_dict2.csv
@@ -483,7 +485,9 @@ for i in range(len(resDF)):
         findNo += 1; print "No. found: ", findNo  
 
 newresDF['norm_freq'] = newresDF['sum_freq']/450.0 # frequency per million
-newresDF = newresDF[['wordform', 'word_class', 'sum_freq', 'norm_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+newresDF['log_freq'] = np.log(newresDF['norm_freq']+1)/np.log(max(newresDF['norm_freq']))
+newresDF.loc[(newresDF['log_freq'] < 0.05), 'log_freq'] = 0.05
+newresDF = newresDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
 newresDF.to_csv('./extwords2.csv', index=False)
 
 newresDF2 = pd.DataFrame()
@@ -505,7 +509,9 @@ for i in range(len(newresDF)):
         findNo += 1; print "No. found: ", findNo  
 
 newresDF2['norm_freq'] = newresDF2['sum_freq']/450.0 # frequency per million
-newresDF2 = newresDF2[['wordform', 'sum_freq', 'norm_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+newresDF2['log_freq'] = np.log(newresDF2['norm_freq']+1)/np.log(max(newresDF2['norm_freq']))
+newresDF2.loc[(newresDF2['log_freq'] < 0.05), 'log_freq'] = 0.05
+newresDF2 = newresDF2[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
 newresDF2.to_csv('./extwords3.csv', index=False)
 
 
