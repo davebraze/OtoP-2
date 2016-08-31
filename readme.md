@@ -125,17 +125,14 @@ There are two ways of running the model:
 	* The other parameters are the same as above and optional.
 
 ## Yale HPC
-
     On-screen outputs as in the first way of running will be stored in
     *.log files.
 
 ### Using Grace
 
 #### Compilation
-
 	Note that MikeNet has to be installed on Grace before it can be
 	linked into an executable.
-
       1. copy *.c, *.h, Makefile, para.txt, phon.txt,
          trainexp_full.txt, msf.sh into the working directory;
 
@@ -149,13 +146,11 @@ There are two ways of running the model:
          conditions, no need recompilation.
 
 #### Running the Simulation
-
    	  1. set up the parallel running via msf.sh:
 
    	  2. use "chmod +rwx msf.sh" to change msf.sh permission
 
    	  3. set up tasklist.txt with commands like this (repeat as needed):
-
 	     ```
    	     cd ~/workDirec; ./msf.sh 1 5000 1000
    		 cd ~/workDirec; ./msf.sh 2 5000 1000
@@ -183,30 +178,25 @@ There are two ways of running the model:
           optional. TAO, CLARIFY THE ANTECEDENT FOR 'above'.
 
       4. run the results via SimpleQueue
-
 	     ```
    	     module load Tools/SimpleQueue
     	 sqCreateScript -n 4 -W 24:00 tasklist.txt > job.sh
     	 bsub < job.sh
 		 ```
-
     	 As shown, this example recruits 4 nodes (8 cpus each) to run
          for 24 hours. Note that the total number of runs has to be a
          multipler of 32.
 
    	  5. You can check job status thus: 
-	  ```
-	  bjobs; To kill a job: $ bkill job_ID
-	  ```
+		 ```
+		 bjobs; To kill a job: $ bkill job_ID
+		 ```
 
 ### Using Omega
 
 #### Compilation
-
 	Note that MikeNet has to be installed on Omega before it can be
 	linked into an executable.
-
-
        1. same as for Grace.
 
 	   2. load the module for GCC: `module load Langs/GCC/4.5.3`
@@ -215,7 +205,6 @@ There are two ways of running the model:
 	   4. same as for Grace.
 
 #### Running a Simulation
-
 	   1. same as for Grace.
 	   2. same as for Grace.
 
