@@ -5,21 +5,34 @@ Affiliation: Haskins Laboratories
 output: pdf_document
 ---
 
-This repository contains a Mikenet implementation of a neural network
-that learns Orthography to Phonology mappings.
+This repository contains code for a neural network (implemented in
+[Mikenet](http://www.cnbc.cmu.edu/~mharm/research/tools/mikenet/)) that learns Orthography to Phonology mappings.
 
-## Compilation
+The rest of this email sketches how to compile and run the simulation
+in three contexts: on a local workstation; on the Yale HPC's Grace
+cluster; on the Yale HPC's Omega cluster.
 
-To compile it, type: make -f Makefile. It will generate the exe file
-called `benchmark`.
 
+## Local Workstation
+
+#### Compilation
+
+TAO, PLEASE SUMMARIZE THE OS AND TOOL CHAIN THAT IS ASSUMED HERE:
+LINUX DISTRIBUTION, COMPILER, AND SO FORTH.
+
+To compile an executable file, type: `make -f Makefile`. This will generate the exe file
+called *benchmark*.
+TAO, SEVERAL PLACES BELOW YOU SEEM TO ASSUME THAT
+THE EXE FILE IS CALLED OtoP. PLEASE RECONCILE.
+
+TAO, PLEASE SAY SOMETHING ABOUT WHY *make clean* MIGHT BE NECESSARY.
 To clean it, type: `make -f Makefile clean`. It will clear the exe file.
 
-## Run
+#### Running the Simulation
 
-To run it, put the exe file (OtoP), parameter file (para.txt), phoneme
-dictionary (phon.txt), and training examples (trainexp_full.txt) into
-the same directory.
+In order to run a simulation, put the exe file (OtoP), parameter file
+(para.txt), phoneme dictionary (phon.txt), and training examples
+(trainexp_full.txt) into the same directory.
 
 para.txt has the following format:
 
@@ -39,10 +52,12 @@ The first line is a comment line; in each of the following lines, the
 format is: value + \t + // type and name of the parameter.  One can
 easily change the value of each parameter to fit in new condition.
 
-There are sevearl ways of running the model:
+There are several ways of running the model:
+TAO, BY 'SEVERAL' DO YOU REFER TO THE TWO WAYS DETAILED BELOW? IF SO
+THEN SAY 'two ways'
 
-1. Using exe file, type: ./OtoP. It will ask user to input an integer folder name, and the results are stored there.
-    Results include:
+1. Using exe file, type: ./OtoP. It will ask user to input an integer
+    folder name, and the results are stored there.  Results include:
 
 	* seed.txt: store random seed in that run;
 
@@ -59,8 +74,15 @@ There are sevearl ways of running the model:
       (so far same as the training data) at each sampling point;
 
 
-   One can specify some running parameters, like:
+   One can specify some running parameters as command line arguments
+   when calling the executable (OtoP):
    `./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES`
+
+   There are default values for each parameter, so one can
+   specify all or only some of them.
+
+	TAO, PLEASE INCLUDE THE DEFAULT VALUES FOR EACH PARAMETER IN THE
+    LIST BELOW.
 
  	  * SEED: random seed to be used in that run;
 
@@ -77,24 +99,34 @@ There are sevearl ways of running the model:
  	  * VTHRES: if MET is 1, the bit difference threshold for
          determining which phoneme matches the activation;
 
-   There are default values for these running parameters, and one can
-   specify all or only some of them using the key words "-*"
-
-2. Using shell command, put SerRunLoc.sh into the same folder with the
+2. Using shell script, put SerRunLoc.sh into the same folder with the
    exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
    outputs will be stored in *.log files.
+
+   TAO, PLEASE SAY WHY ONE MIGHT PREFER TO USE A SHELL SCRIPT
+   (SerRunLoc.sh) TO START A SIMULATION, RATHER THAN RUNNING THE
+   EXECUTABLE DIRECTLY.
 
    type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES`
 
 	* NUM: number of runs to be conducted, each using a random seed;
 
-   The other parameters are the same as above and optional.
+	  TAO, DO YOU MEAN TO SAY 'each using a *different* random seed'?
+	  PLEASE CLARIFY.
 
-3. Using Yale HPC:
+    * The other parameters are the same as above and optional.
+
+## Yale HPC
 
     On-screen outputs will be stored in *.log files.
+	TAO, WHAT IS MEANT BY 'ON-SCREEN' HERE?
 
-	1. Using Grace: MikeNet has to be installed there first;
+### Using Grace
+
+#### Compilation
+
+	Note that MikeNet has to be installed on Grace before it can be
+	linked into an executable.
 
       1. copy *.c, *.h, Makefile, para.txt, phon.txt,
          trainexp_full.txt, msf.sh into the working directory;
@@ -108,11 +140,13 @@ There are sevearl ways of running the model:
          use the same exe file with different para.txt in different
          conditions, no need recompilation.
 
-   	  5. set up the parallel running via msf.sh:
+#### Running the Simulation
 
-   	  6. use "chmod +rwx msf.sh" to change msf.sh permission
+   	  1. set up the parallel running via msf.sh:
 
-   	  7. set up tasklist.txt with commands like this (repeat as needed):
+   	  2. use "chmod +rwx msf.sh" to change msf.sh permission
+
+   	  3. set up tasklist.txt with commands like this (repeat as needed):
 
 	     ```
    	     cd ~/workDirec; ./msf.sh 1 5000 1000
@@ -126,17 +160,19 @@ There are sevearl ways of running the model:
    		As shown, this example would run 4 simulations, each having
         5000 iterations and sampling results every 1000 iterations.
 
-      	You can use:
+      	You can use the a command like the following to automatically
+          generate tasklist.txt:
 
-		`sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES to automatically generate tasklist.txt`
+		`sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES`
 
 		* NUMRUN: total number of runs;
 
 		* WORKDIREC: working directory of the code;
 
-		The other parameters are the same as above and optional.
+		* The other parameters are the same as above and
+          optional. TAO, CLARIFY THE ANTECEDENT FOR 'above'.
 
-      8. run the results via SimpleQueue
+      4. run the results via SimpleQueue
 
 	     ```
    	     module load Tools/SimpleQueue
@@ -148,24 +184,32 @@ There are sevearl ways of running the model:
          for 24 hours. Note that the total number of runs has to be a
          multipler of 32.
 
-   	  9. You can check job status thus: `bjobs; To kill a job: $ bkill job_ID`
+   	  5. You can check job status thus: `bjobs; To kill a job: $ bkill job_ID`
+
+### Using Omega
+
+#### Compilation
+
+	Note that MikeNet has to be installed on Omega before it can be
+	linked into an executable.
 
 
-    2. Using Omega: MikeNet has to be installed there first;
+       1. same as for Grace.
 
-       1. same as above.
+	   2. load the module for GCC: `module load Langs/GCC/4.5.3`
 
-	   2. load a module for GCC: `module load Langs/GCC/4.5.3`
+	   3. same as for Grace.
+	   4. same as for Grace.
 
-	   3. same as above.
-	   4. same as above.
-	   5. same as above.
-	   6. same as above.
+#### Running a Simulation
 
-       7. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in
+	   1. same as for Grace.
+	   2. same as for Grace.
+
+       3. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in
           front of each line in tasklist.txt
 
-        You can use a command like this to automatically generate
+        You can use a command like the following to automatically generate
         tasklist.txt:
 
 		```
@@ -175,10 +219,10 @@ There are sevearl ways of running the model:
         * NUMRUN: total number of runs;
         * WORKDIREC: working directory of the code;
 
-        The other parameters are the same as above and optional
+        The other parameters are the same as for Grace, and are optional.
 
 
-      8. run the results via SimpleQueue
+      4. run the results via SimpleQueue
 	     ```
          module load Tools/SimpleQueue
     	 sqCreateScript -n 3 -w 24:00:00 tasklist.txt > job.sh
@@ -189,7 +233,8 @@ There are sevearl ways of running the model:
          for 24 hours. Note that the total number of runs has to be a
          multipler of 24.
 
-      9. check status of a job this:
+      5. check status of a job this:
+
 	  ```
 	  qstat -u USER; to kill a job: $ qdel job_ID
 	  ```
