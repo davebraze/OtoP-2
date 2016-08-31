@@ -14,11 +14,8 @@ contexts: on a local workstation; on the Yale HPC's Grace cluster; on
 the Yale HPC's Omega cluster.
 
 In each case, we assume that the Mikenet library itself has already
-been downloaded and compiled on the target platform. 
-
-TAO, DON'T WE HAVE A SEPARATE FILE WITH NOTES ON HOW TO COMPILE
-MIKENET UNDER LINUX MINT? IF SO, WE SHOULD ADD A COPY OF IT TO THIS
-REPOSITORY AND POINT TO IT FROM HERE. 
+been downloaded and compiled on the target platform. See MikeNet_notes.txt
+for installation issues of Mikenet. 
 
 ## Local Workstation
 
@@ -110,9 +107,10 @@ There are two ways of running the model:
 
    While the model runs, it will also print to the screen overall
    error and average training/testing accuracies at each sampling
-   point. 
-
-   TAO, WHAT ARE THE SAMPLING POINTS? HOW ARE THEY DETERMINED?
+   point. Sampling points are places where the performances of 
+   network are evaluated. They are evenly (linear) or nonevenly 
+   (log-like, see below for running the model) distributed among
+   the total number of training.
 
 2. Using shell script, put SerRunLoc.sh into the same folder with the
    exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
@@ -183,16 +181,11 @@ into an executable.
 
    * NUMRUN: total number of runs;
 
-   * WORKDIREC: working directory of the code;
-   
-     TAO, IS THIS THE DIRECTORY WHERE SIMULATION OUTPUT FILES ARE
-     STORED? PLEASE CLARIFY.
+   * WORKDIREC: working directory of the code. Once the code is running, 
+     subfolders will be created here for storing results;
 
-   * The other parameters are the same as above and
-     optional. 
+   * The other parameters are the same as in running the model using exe or script file. 
 	 
-	 TAO, CLARIFY THE ANTECEDENT FOR 'above'.
-
 4. run the results via SimpleQueue
 
    ```
