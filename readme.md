@@ -6,12 +6,12 @@ output: pdf_document
 ---
 
 This repository contains code for a neural network (implemented in
-[Mikenet](http://www.cnbc.cmu.edu/~mharm/research/tools/mikenet/)) that learns Orthography to Phonology mappings.
+[Mikenet](http://www.cnbc.cmu.edu/~mharm/research/tools/mikenet/))
+that learns Orthography to Phonology mappings.
 
 The rest of this email sketches how to compile and run the simulation
 in three contexts: on a local workstation; on the Yale HPC's Grace
 cluster; on the Yale HPC's Omega cluster.
-
 
 ## Local Workstation
 
