@@ -9,18 +9,30 @@ This repository contains code for a neural network (implemented in
 [Mikenet](http://www.cnbc.cmu.edu/~mharm/research/tools/mikenet/))
 that learns Orthography to Phonology mappings.
 
-The rest sketches how to compile and run the simulation in three contexts: on a local workstation; on the Yale HPC's Grace cluster; on the Yale HPC's Omega cluster.
+The rest sketches how to compile and run the simulation in three
+contexts: on a local workstation; on the Yale HPC's Grace cluster; on
+the Yale HPC's Omega cluster.
+
+In each case, we assume that the Mikenet library itself has already
+been downloaded and compiled on the target platform. 
+
+TAO, DON'T WE HAVE A SEPARATE FILE WITH NOTES ON HOW TO COMPILE
+MIKENET UNDER LINUX MINT? IF SO, WE SHOULD ADD A COPY OF IT TO THIS
+REPOSITORY AND POINT TO IT FROM HERE. 
 
 ## Local Workstation
 
 #### Compilation
 
-The model is compiled and run under Linux (Mint 17), with Mikenet package is installed. The source codes include: model.h, model.c, and OtoP.c.
+The model is compiled and run under Linux (Mint 17), with Mikenet
+package is installed. The source codes include: model.h, model.c, and
+OtoP.c.
 
-To compile an executable file, type: `make -f Makefile` in command line. This will generate the exe file
-called *OtoP*.
+To compile an executable file, type: `make -f Makefile` in command
+line. This will generate the exe file called *OtoP*.
 
-To clean previous exe file, type: `make -f Makefile clean`. This step is optional.
+To clean previous exe file, type: `make -f Makefile clean`. This step
+is optional.
 
 #### Running the Simulation
 
@@ -49,7 +61,10 @@ easily change the value of each parameter to fit in new condition.
 There are two ways of running the model:
 
 1. Using exe file, type: ./OtoP. It will ask user to input an integer
-    folder name, and the simulation results are stored there. While running the model, there are on-screen outputs showing the error and training/testing accuracies at each sampling points.  Results include:
+    folder name, and the simulation results are stored there. While
+    running the model, there are on-screen outputs showing the error
+    and training/testing accuracies at each sampling points.  Results
+    include:
 
 	* seed.txt: store random seed in that run;
 
@@ -77,32 +92,42 @@ There are two ways of running the model:
 
  	  * ITER: number of total iterations. Default value is 50000
 
- 	  * REP: iterations for recording the results; default value is 1000
+ 	  * REP: iterations for recording the results; default value is
+         1000
 
  	  * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP
          is set to 1, REP is no longer useful. Default value is 0
 
  	  * MET: method for determining which phonemen matches the
-         activation: 0: based on the smallest vector-based Euclidean distance between the output and the phoneme; 1, based on whether the bit differences between the output and the phonemen are all within certain threshold (VTHRES). Default value is 0
+         activation: 0: use the smallest vector-based Euclidean
+         distance between the output and the phoneme; 1, determines
+         whether the bit differences between the output and the
+         phonemen are all within certain threshold (VTHRES). Default
+         value is 0
 
  	  * VTHRES: if MET is 1, the bit difference threshold for
-         determining which phoneme matches the activation. Default value is 0.5
+         determining which phoneme matches the activation. Default
+         value is 0.5
 
 2. Using shell script, put SerRunLoc.sh into the same folder with the
    exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
    outputs will be stored in *.log files.
 
-   This way of running allows user to set up a number of runs each having a different random seed. The computer will start each run serially, and store the results in the corresponding subfolders (1 to N, N is the number of runs preset).
+   This way of running allows user to set up a number of runs each
+   having a different random seed. The computer will start each run
+   serially, and store the results in the corresponding subfolders (1
+   to N, N is the number of runs preset).
 
    type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES`
 
 	* NUM: number of runs to be conducted, each using a different random seed;
 
-	  * The other parameters are the same as above and optional.
+	* The other parameters are the same as above and optional.
 
 ## Yale HPC
 
-    On-screen outputs as in the first way of running will be stored in *.log files.
+    On-screen outputs as in the first way of running will be stored in
+    *.log files.
 
 ### Using Grace
 
@@ -146,7 +171,9 @@ There are two ways of running the model:
       	You can use the a command like the following to automatically
           generate tasklist.txt:
 
-		`sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES`
+		```
+		sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
+		```
 
 		* NUMRUN: total number of runs;
 
@@ -167,7 +194,10 @@ There are two ways of running the model:
          for 24 hours. Note that the total number of runs has to be a
          multipler of 32.
 
-   	  5. You can check job status thus: `bjobs; To kill a job: $ bkill job_ID`
+   	  5. You can check job status thus: 
+	  ```
+	  bjobs; To kill a job: $ bkill job_ID
+	  ```
 
 ### Using Omega
 
@@ -189,8 +219,9 @@ There are two ways of running the model:
 	   1. same as for Grace.
 	   2. same as for Grace.
 
-       3. set up tasklist.txt: add "module load Langs/GCC/4.5.3;" in
-          front of each line in tasklist.txt
+       3. To set up tasklist.txt for use on Omega, add `module load
+          Langs/GCC/4.5.3;` to the front of each line in tasklist.txt
+          from Grace
 
         You can use a command like the following to automatically generate
         tasklist.txt:
