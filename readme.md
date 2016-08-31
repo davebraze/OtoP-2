@@ -60,29 +60,14 @@ easily change the value of each parameter to fit in new condition.
 
 There are two ways of running the model:
 
-1. Using exe file, type: ./OtoP. It will ask user to input an integer
-   folder name, and the simulation results are stored there. While
-   running the model, there are on-screen outputs showing the error
-   and training/testing accuracies at each sampling points.  Results
-   include:
+1. Using exe file, type: ./OtoP. 
 
-   * seed.txt: store random seed in that run;
+   One can specify some model parameters as command line arguments
+   when calling the executable (OtoP): 
 
-   * weights.txt.gz: zipped connection weights of the trained
-     network;
-
-   * output.txt: network parameters and training and testing errors at
-     each sampling point of the training;
-
-   * itemacu\_tr.txt: item-based accuracy based on the training data
-     (training\_examples.txt) at each sampling point;
-
-   * itemacu\_te.txt: item-based accuracy based on the testing data
-     (so far same as the training data) at each sampling point;
-
-   One can specify some running parameters as command line arguments
-   when calling the executable (OtoP):
-   `./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES`
+   ```
+   ./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES
+   ```
 
    There are default values for each parameter, so one can
    specify all or only some of them.
@@ -104,6 +89,30 @@ There are two ways of running the model:
 
    * VTHRES: if MET is 1, the bit difference threshold for determining
      which phoneme matches the activation. Default value is 0.5
+
+   The executable will prompt the user to input an integer, which will
+   be used as a folder name. Files containing information about the simulation results
+   are stored there.
+   
+   * seed.txt: store random seed in that run;
+
+   * weights.txt.gz: zipped connection weights of the trained
+     network;
+
+   * output.txt: network parameters and training and testing errors at
+     each sampling point of the training;
+
+   * itemacu\_tr.txt: item-based accuracy based on the training data
+     (training\_examples.txt) at each sampling point;
+
+   * itemacu\_te.txt: item-based accuracy based on the testing data
+     (so far same as the training data) at each sampling point;
+
+   While the model runs, it will also print to the screen overall
+   error and average training/testing accuracies at each sampling
+   point. 
+
+   TAO, WHAT ARE THE SAMPLING POINTS? HOW ARE THEY DETERMINED?
 
 2. Using shell script, put SerRunLoc.sh into the same folder with the
    exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
@@ -175,9 +184,14 @@ into an executable.
    * NUMRUN: total number of runs;
 
    * WORKDIREC: working directory of the code;
+   
+     TAO, IS THIS THE DIRECTORY WHERE SIMULATION OUTPUT FILES ARE
+     STORED? PLEASE CLARIFY.
 
    * The other parameters are the same as above and
-     optional. TAO, CLARIFY THE ANTECEDENT FOR 'above'.
+     optional. 
+	 
+	 TAO, CLARIFY THE ANTECEDENT FOR 'above'.
 
 4. run the results via SimpleQueue
 
