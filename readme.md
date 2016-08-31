@@ -61,25 +61,24 @@ easily change the value of each parameter to fit in new condition.
 There are two ways of running the model:
 
 1. Using exe file, type: ./OtoP. It will ask user to input an integer
-    folder name, and the simulation results are stored there. While
-    running the model, there are on-screen outputs showing the error
-    and training/testing accuracies at each sampling points.  Results
-    include:
+   folder name, and the simulation results are stored there. While
+   running the model, there are on-screen outputs showing the error
+   and training/testing accuracies at each sampling points.  Results
+   include:
 
-	* seed.txt: store random seed in that run;
+   * seed.txt: store random seed in that run;
 
-    * weights.txt.gz: zipped connection weights of the trained
-      network;
+   * weights.txt.gz: zipped connection weights of the trained
+     network;
 
-    * output.txt: network parameters and training and testing errors
-      at each sampling point of the training;
+   * output.txt: network parameters and training and testing errors at
+     each sampling point of the training;
 
-    * itemacu\_tr.txt: item-based accuracy based on the training data
-      (training\_examples.txt) at each sampling point;
+   * itemacu\_tr.txt: item-based accuracy based on the training data
+     (training\_examples.txt) at each sampling point;
 
-    * itemacu\_te.txt: item-based accuracy based on the testing data
-      (so far same as the training data) at each sampling point;
-
+   * itemacu\_te.txt: item-based accuracy based on the testing data
+     (so far same as the training data) at each sampling point;
 
    One can specify some running parameters as command line arguments
    when calling the executable (OtoP):
@@ -88,26 +87,23 @@ There are two ways of running the model:
    There are default values for each parameter, so one can
    specify all or only some of them.
 
-	  * SEED: random seed to be used in that run. Default value is 0
+   * SEED: random seed to be used in that run. Default value is 0
 
- 	  * ITER: number of total iterations. Default value is 50000
+   * ITER: number of total iterations. Default value is 50000
 
- 	  * REP: iterations for recording the results; default value is
-         1000
+   * REP: iterations for recording the results; default value is 1000
 
- 	  * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP
-         is set to 1, REP is no longer useful. Default value is 0
+   * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP is
+     set to 1, REP is no longer useful. Default value is 0
 
- 	  * MET: method for determining which phonemen matches the
-         activation: 0: use the smallest vector-based Euclidean
-         distance between the output and the phoneme; 1, determines
-         whether the bit differences between the output and the
-         phonemen are all within certain threshold (VTHRES). Default
-         value is 0
+   * MET: method for determining which phonemen matches the
+     activation: 0: use the smallest vector-based Euclidean distance
+     between the output and the phoneme; 1, determines whether the bit
+     differences between the output and the phonemen are all within
+     certain threshold (VTHRES). Default value is 0
 
- 	  * VTHRES: if MET is 1, the bit difference threshold for
-         determining which phoneme matches the activation. Default
-         value is 0.5
+   * VTHRES: if MET is 1, the bit difference threshold for determining
+     which phoneme matches the activation. Default value is 0.5
 
 2. Using shell script, put SerRunLoc.sh into the same folder with the
    exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
@@ -120,124 +116,136 @@ There are two ways of running the model:
 
    type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES`
 
-	* NUM: number of runs to be conducted, each using a different random seed;
+   * NUM: number of runs to be conducted, each using a different
+     random seed;
 
-	* The other parameters are the same as above and optional.
+   * The other parameters are the same as above and optional.
 
 ## Yale HPC
-    On-screen outputs as in the first way of running will be stored in
-    *.log files.
+
+On-screen outputs as in the first way of running will be stored in
+*.log files.
 
 ### Using Grace
 
 #### Compilation
-	Note that MikeNet has to be installed on Grace before it can be
-	linked into an executable.
-      1. copy *.c, *.h, Makefile, para.txt, phon.txt,
-         trainexp_full.txt, msf.sh into the working directory;
 
-      2. load a module for GCC: $ module load Langs/GCC
+Note that MikeNet has to be installed on Grace before it can be linked
+into an executable.
+	
+1. copy *.c, *.h, Makefile, para.txt, phon.txt, trainexp_full.txt,
+   msf.sh into the working directory;
 
-      3. load a module for MikeNet: $ module load Libs/MikeNet
+2. load a module for GCC: $ module load Langs/GCC
 
-      4. compile the source code to exe file: $ make -f Makefile (to
-         clean: make -f Makefile clean). Once the code is compiled,
-         use the same exe file with different para.txt in different
-         conditions, no need recompilation.
+3. load a module for MikeNet: $ module load Libs/MikeNet
+
+4. compile the source code to exe file: $ make -f Makefile (to clean:
+   make -f Makefile clean). Once the code is compiled, use the same
+   exe file with different para.txt in different conditions, no need
+   recompilation.
 
 #### Running the Simulation
-   	  1. set up the parallel running via msf.sh:
 
-   	  2. use "chmod +rwx msf.sh" to change msf.sh permission
+1. set up the parallel running via msf.sh:
 
-   	  3. set up tasklist.txt with commands like this (repeat as needed):
-	     ```
-   	     cd ~/workDirec; ./msf.sh 1 5000 1000
-   		 cd ~/workDirec; ./msf.sh 2 5000 1000
-   		 cd ~/workDirec; ./msf.sh 3 5000 1000
-   		 cd ~/workDirec; ./msf.sh 4 5000 1000
-   		 ```
+2. use "chmod +rwx msf.sh" to change msf.sh permission
 
-   		And so on.
+3. set up tasklist.txt with commands like this (repeat as needed):
+   
+   ```
+   cd ~/workDirec; ./msf.sh 1 5000 1000
+   cd ~/workDirec; ./msf.sh 2 5000 1000
+   cd ~/workDirec; ./msf.sh 3 5000 1000
+   cd ~/workDirec; ./msf.sh 4 5000 1000
+   ```
 
-   		As shown, this example would run 4 simulations, each having
-        5000 iterations and sampling results every 1000 iterations.
+   And so on.
 
-      	You can use the a command like the following to automatically
-          generate tasklist.txt:
+   As shown, this example would run 4 simulations, each having 5000
+   iterations and sampling results every 1000 iterations.
 
-		```
-		sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
-		```
+   You can use a command like the following to automatically generate
+   tasklist.txt:
 
-		* NUMRUN: total number of runs;
+   ```
+   sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
+   ```
 
-		* WORKDIREC: working directory of the code;
+   * NUMRUN: total number of runs;
 
-		* The other parameters are the same as above and
-          optional. TAO, CLARIFY THE ANTECEDENT FOR 'above'.
+   * WORKDIREC: working directory of the code;
 
-      4. run the results via SimpleQueue
-	     ```
-   	     module load Tools/SimpleQueue
-    	 sqCreateScript -n 4 -W 24:00 tasklist.txt > job.sh
-    	 bsub < job.sh
-		 ```
-    	 As shown, this example recruits 4 nodes (8 cpus each) to run
-         for 24 hours. Note that the total number of runs has to be a
-         multipler of 32.
+   * The other parameters are the same as above and
+     optional. TAO, CLARIFY THE ANTECEDENT FOR 'above'.
 
-   	  5. You can check job status thus: 
-		 ```
-		 bjobs; To kill a job: $ bkill job_ID
-		 ```
+4. run the results via SimpleQueue
+
+   ```
+   module load Tools/SimpleQueue
+   sqCreateScript -n 4 -W 24:00 tasklist.txt > job.sh
+   bsub < job.sh
+   ```
+
+   As shown, this example recruits 4 nodes (8 cpus each) to run for 24
+   hours. Note that the total number of runs has to be a multipler of
+   32.
+
+5. You can check job status thus: 
+   ```
+   bjobs; To kill a job: $ bkill job_ID
+    ```
 
 ### Using Omega
 
 #### Compilation
-	Note that MikeNet has to be installed on Omega before it can be
-	linked into an executable.
-       1. same as for Grace.
 
-	   2. load the module for GCC: `module load Langs/GCC/4.5.3`
+Note that MikeNet has to be installed on Omega before it can be linked
+into an executable.
 
-	   3. same as for Grace.
-	   4. same as for Grace.
+1. same as for Grace.
+
+2. load the module for GCC: `module load Langs/GCC/4.5.3`
+
+3. same as for Grace.
+
+4. same as for Grace.
 
 #### Running a Simulation
-	   1. same as for Grace.
-	   2. same as for Grace.
 
-       3. To set up tasklist.txt for use on Omega, add `module load
-          Langs/GCC/4.5.3;` to the front of each line in tasklist.txt
-          from Grace
+1. same as for Grace.
 
-        You can use a command like the following to automatically generate
-        tasklist.txt:
+2. same as for Grace.
 
-		```
-		sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
-		```
+3. To set up tasklist.txt for use on Omega, add `module load
+   Langs/GCC/4.5.3;` to the front of each line in tasklist.txt
+   from Grace
 
-        * NUMRUN: total number of runs;
-        * WORKDIREC: working directory of the code;
+   You can use a command like the following to automatically generate
+   tasklist.txt:
 
-        The other parameters are the same as for Grace, and are optional.
+   ```
+   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
+   ```
 
+   * NUMRUN: total number of runs;
+   * WORKDIREC: working directory of the code;
 
-      4. run the results via SimpleQueue
-	     ```
-         module load Tools/SimpleQueue
-    	 sqCreateScript -n 3 -w 24:00:00 tasklist.txt > job.sh
-    	 qsub < job.sh
-         ```
+   The other parameters are the same as for Grace, and are optional.
+      
+4. run the results via SimpleQueue
+   ```
+   module load Tools/SimpleQueue
+   sqCreateScript -n 3 -w 24:00:00 tasklist.txt > job.sh
+   qsub < job.sh
+   ```
 
-    	 As shown, this example recruits 3 nodes (8 cpus each) to run
-         for 24 hours. Note that the total number of runs has to be a
-         multipler of 24.
+   As shown, this example recruits 3 nodes (8 cpus each) to run for 24
+   hours. Note that the total number of runs has to be a multipler of
+   24.
 
-      5. check status of a job this:
+5. check status of a job this:
 
-	  ```
-	  qstat -u USER; to kill a job: $ qdel job_ID
-	  ```
+   ```
+   qstat -u USER; to kill a job: $ qdel job_ID
+   ```
