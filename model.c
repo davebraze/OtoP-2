@@ -70,7 +70,7 @@ void readPara(void)
 	GetIntPara(f, &_tick);	// read _tick;
 	GetDoublePara(f, &_intconst);	// read _intconst;
 	GetDoublePara(f, &_epsi);	// read _epsi;
-	GetIntPara(f, &_acttype);	// read _acttype; // TANH_ACTIVATION
+	GetIntPara(f, &_acttype);	// read _acttype; // LOGISTIC_ACTIVATION (0) or TANH_ACTIVATION (1) 
 	GetDoublePara(f, &_errrad);	// read _errrad;
 	GetDoublePara(f, &_range);	// read _range;
 	GetIntPara(f, &_OrthoS);	// read _OrthoS;

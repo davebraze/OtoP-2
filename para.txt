@@ -3,7 +3,7 @@
 7	// int _tick;
 0.25	// double _intconst;
 1e-2	// double _epsi;
-1	// int _acttype; // TANH_ACTIVATION
+1	// int _acttype; // LOGISTIC_ACTIVATION (0) or TANH_ACTIVATION (1) 
 0.1	// double _errrad;
 0.1	// double _range;
 208	// int _OrthoS;

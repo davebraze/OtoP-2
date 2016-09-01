@@ -132,7 +132,8 @@ Real calaccu(Real *out, Real *target)
 			}
 		  if(same==1) NoAccu++;
 		}
-	return NoAccu/(float)(_PhonoS/(float)(_pho_features));	
+	if(NoAccu/(float)(_PhonoS/(float)(_pho_features))<1.0) return 0.0;
+	else return 1.0;
 }
 
 Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName)
