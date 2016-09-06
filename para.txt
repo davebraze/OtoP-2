@@ -12,7 +12,7 @@
 20	// int _PhoHidS;
 // Phoneme library and example file
 11	// int _pho_features; For Harm & Seidenberg 1999, 11; For Harm 1998, 25
-36	// int _pho_number; For Harm & Seidenberg 1999, 36 (24+11+1); For Harm 1998, 35 (24+10+1)
+36	// int _pho_number; For Harm & Seidenberg 1999, 36 (24+11+1); For Harm 1998, 39 (24+10+4+1)
 ./phon.txt	// char *_phoF; phon_HarmSeidenberg1999.txt or phon_Harm1998.txt
 ./trainexp_full3.txt	// char *_exTrF; TrEM_HarmSeidenberg1999.txt or TrEM_Harm1998.txt
 ./trainexp_full3.txt	// char *_exTeF; TeEM_HarmSeidenberg1999.txt or TeEM_Harm1998.txt
