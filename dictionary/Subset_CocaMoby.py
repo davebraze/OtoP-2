@@ -234,7 +234,7 @@ def sumfreq(lemitem):
         freq += np.float64(lemitem[i+1])
     return(freq)                   
 
-def writeExp(wordDF, expFileName, epoch):
+def writeExp(wordDF, expFileName, epoch, PhonDic, LettDic):
     with open(expFileName, "w+") as exp_file:
         cur = 0    
         for i in range(len(wordDF)):
@@ -377,6 +377,7 @@ saveDict("./subCoca_dict2.csv", resDic)
 
 
 # Step 4: replace pron
+# Based on Benchmark (Harm & Seidenberg 1999)
 repDict = {'/tS/': 'C', '/dZ/': 'J', '/S/': 'S', '/T/': 'T', '/D/': 'D', '/Z/': 'B', '/N/': 'G', # for consonants
            '/i/': 'i', '/I/': 'I', '/E/': 'E', '/&/': '@', '/A/': 'a', '/O/': 'a', '/(@)/': 'E', '/oU/': 'o', '/U/': 'U', '/u/': 'u', '/@/': '^'} # for vowels
 # note that for '/@/', if it is followed by a 'r', it will be replaced by 'a'
@@ -423,7 +424,7 @@ resDF['norm_freq'] = resDF['sum_freq']/450.0 # frequency per million
 resDF['log_freq'] = np.log(resDF['norm_freq']+1)/np.log(max(resDF['norm_freq']))
 resDF.loc[(resDF['log_freq'] < 0.05), 'log_freq'] = 0.05
 resDF = resDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
-resDF.to_csv('./extwords1.csv', index=False)
+resDF.to_csv('./extwords1_HarmSeidenberg1999.csv', index=False)
 
 # ver 2: using subCoca_dict2.csv
 # get Moby and subCoca for further checking the pronunciation
@@ -488,7 +489,7 @@ newresDF['norm_freq'] = newresDF['sum_freq']/450.0 # frequency per million
 newresDF['log_freq'] = np.log(newresDF['norm_freq']+1)/np.log(max(newresDF['norm_freq']))
 newresDF.loc[(newresDF['log_freq'] < 0.05), 'log_freq'] = 0.05
 newresDF = newresDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
-newresDF.to_csv('./extwords2.csv', index=False)
+newresDF.to_csv('./extwords2_HarmSeidenberg1999.csv', index=False)
 
 newresDF2 = pd.DataFrame()
 findNo = 0
@@ -512,51 +513,200 @@ newresDF2['norm_freq'] = newresDF2['sum_freq']/450.0 # frequency per million
 newresDF2['log_freq'] = np.log(newresDF2['norm_freq']+1)/np.log(max(newresDF2['norm_freq']))
 newresDF2.loc[(newresDF2['log_freq'] < 0.05), 'log_freq'] = 0.05
 newresDF2 = newresDF2[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
-newresDF2.to_csv('./extwords3.csv', index=False)
+newresDF2.to_csv('./extwords3_HarmSeidenberg1999.csv', index=False)
+
+
+# Based on Harm (1998)
+# get Moby and subCoca for further checking the pronunciation
+repDict = {'/tS/': 'C', '/dZ/': 'J', '/S/': 'S', '/T/': 'T', '/D/': 'D', '/Z/': 'B', '/N/': 'G', # for consonants
+           '/i/': 'i', '/I/': 'I', '/E/': 'E', '/&/': '@', '/A/': 'a', '/O/': 'a', '/(@)/': 'E', '/oU/': 'o', '/U/': 'U', '/u/': 'u', '/@/': '^', # for vowles
+           '/eI/': 'e', '/aI/': 'M', '/Oi/': 'Q', '/AU/': 'P'} # for vowels
+# note that for '/@/', if it is followed by a 'r', it will be replaced by 'a'
+splitDict = {} 
+newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
+           'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
+newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'M', 'P', 'Q'] # 14
+vowlett = ['a', 'e', 'i', 'o', 'u', 'y']
+
+phonMax = 7 # maximum number of phonemes in a word;
+lettMax = 8 # maximum number of letters in a word;
+
+# ver 1: use subCoca_dict1.csv
+# get Moby and subCoca for further checking the pronunciation
+mobyDic = readDict('./submobypron_dict.csv') # get Moby database
+cocaDic = readDict('./subCoca_dict1.csv') # get Coca database
+# replace pron of extracted words
+
+resDF = pd.DataFrame()
+cur, findNo = 0, 0 # current word in cocaDic
+# check whether there is pronunciation for this word in Moby
+for word in cocaDic.keys():
+    cur += 1; print "Cur: ", cur
+    for pron in mobyDic.keys():
+        (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+        if lenList <= phonMax:
+            (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
+            if succpron:
+                wordList = mobyDic[pron][0]
+                # remove words with '/' in it                    
+                newwordList = list()
+                for candword in wordList:
+                    newwordList.append(candword.split("/")[0])
+                if word in newwordList: # add to extrated word list
+                    (newform, succform) = getNewWord(word, vowlett, lettMax)
+                    if succform:
+                        SumFreq = sumfreq(cocaDic[word][0]) # get summed frequency
+                        resDF = resDF.append({'sum_freq': SumFreq, 'wordform': word, 'Moby_pron': pron, 
+                                              'Rep_P': newpron, 'Rep_O': newform}, ignore_index=True)
+                        findNo += 1; print "No. found: ", findNo                
+                        break
+
+resDF['norm_freq'] = resDF['sum_freq']/450.0 # frequency per million
+resDF['log_freq'] = np.log(resDF['norm_freq']+1)/np.log(max(resDF['norm_freq']))
+resDF.loc[(resDF['log_freq'] < 0.05), 'log_freq'] = 0.05
+resDF = resDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+resDF.to_csv('./extwords1_Harm1998.csv', index=False)
+
+# ver 2: use subCoca_dict2.csv
+# get Moby and subCoca for further checking the pronunciation
+mobyDic = readDict('./submobypron_dict.csv') # get Moby database
+cocaDic = readDict('./subCoca_dict2.csv') # get Coca database
+
+resDF = pd.DataFrame()
+cur, findNo = 0, 0 # current word in cocaDic
+# check whether there is pronunciation for this word in Moby
+for rootword in cocaDic.keys():
+    cur += 1; print "Cur: ", cur
+    curvalue = cocaDic[rootword][0]
+    for i in range(0, len(curvalue), 3):
+        word = curvalue[i]
+        for pron in mobyDic.keys():
+            (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+            if lenList <= phonMax:
+                (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
+                if succpron:
+                    wordList = mobyDic[pron][0]
+                    # remove words with '/' in it                    
+                    newwordList = list()
+                    for candword in wordList:
+                        newwordList.append(candword.split("/")[0])
+                    if word in newwordList: # add to extrated word list
+                        (newform, succform) = getNewWord(word, vowlett, lettMax)
+                        if succform:
+                            resDF = resDF.append({'word_class': curvalue[i+1], 'sum_freq': np.float64(curvalue[i+2]), 
+                                                  'wordform': word, 'Moby_pron': pron, 
+                                                  'Rep_P': newpron, 'Rep_O': newform}, ignore_index=True)
+                            findNo += 1; print "No. found: ", findNo                
+                            break
+
+# merge resDF having the same Moby_pron, Rep_O and Rep_P by adding frequency values
+# 'ap' : appge; 'at': at, at1; 'jj': jj, jjr, jjt; 'nn': nn1, nn2; 'rr': rr, rrr, rrt; 
+# 'vb': vb0, vbdr, vbdz, vbg, vbm, vbn, vbr, vbz; 'vd': vd0, vdd, vdg, vdn, vdz;
+# 'vh': vh0, vhd, vhg, vhn, vhz; 'vm': vm, vmk; 'vv': vv, vv0, vvd, vvg, vvgk, vvn, vvz
+classlist = ['ap','at','cc','cs','da','db','dd','ex','ge','ii','jj','mc','md',
+             'mf','nn','pn','pp','rr','to','uh','vb','vd','vh','vm','vv','xx']
+# classlist will not be used, but we only use the first two characters of a word class marker to distinguish and merge similar classes!
+
+newresDF = pd.DataFrame()
+findNo = 0 # number of merged wordforms
+for i in range(len(resDF)):
+    if resDF.wordform[i] != '_': # not masked, it means this is a new item
+        print "Cur: ", i+1
+        curwordform = resDF.wordform[i]; curpron = resDF.Moby_pron[i]
+        curclassID = resDF.word_class[i][0:2]
+        curP = resDF.Rep_P[i]; curO = resDF.Rep_O[i]
+        sumFreq = resDF.sum_freq[i]
+        for j in range(len(resDF)):
+            if j != i and curwordform == resDF.wordform[j] and curpron == resDF.Moby_pron[j] and curclassID == resDF.word_class[j][0:2]:
+                sumFreq += resDF.sum_freq[j] # sum up the frequency
+                resDF.loc[j,'wordform'] = '_' # mask the item in case it is chosen again!
+        # after searching all data frame for items in the similar classes, add it
+        newresDF = newresDF.append({'word_class': curclassID, 'sum_freq': np.float64(sumFreq), 
+                                    'wordform': curwordform, 'Moby_pron': curpron, 
+                                    'Rep_P': curP, 'Rep_O': curO}, ignore_index=True)
+        findNo += 1; print "No. found: ", findNo  
+
+newresDF['norm_freq'] = newresDF['sum_freq']/450.0 # frequency per million
+newresDF['log_freq'] = np.log(newresDF['norm_freq']+1)/np.log(max(newresDF['norm_freq']))
+newresDF.loc[(newresDF['log_freq'] < 0.05), 'log_freq'] = 0.05
+newresDF = newresDF[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+newresDF.to_csv('./extwords2_Harm1998.csv', index=False)
+
+newresDF2 = pd.DataFrame()
+findNo = 0
+for i in range(len(newresDF)):
+    if newresDF.wordform[i] != '_': # not masked, it means this is a new item
+        print "Cur: ", i+1
+        curwordform = newresDF.wordform[i]; curpron = newresDF.Moby_pron[i]
+        curP = newresDF.Rep_P[i]; curO = newresDF.Rep_O[i]
+        sumFreq = newresDF.sum_freq[i]
+        for j in range(len(newresDF)):
+            if j != i and curwordform == newresDF.wordform[j] and curpron == newresDF.Moby_pron[j]:
+                sumFreq += newresDF.sum_freq[j] # sum up the frequency
+                newresDF.loc[j,'wordform'] = '_' # mask the item in case it is chosen again!
+        # after searching all data frame for items in the similar classes, add it
+        newresDF2 = newresDF2.append({'sum_freq': np.float64(sumFreq), 
+                                    'wordform': curwordform, 'Moby_pron': curpron, 
+                                    'Rep_P': curP, 'Rep_O': curO}, ignore_index=True)
+        findNo += 1; print "No. found: ", findNo  
+
+newresDF2['norm_freq'] = newresDF2['sum_freq']/450.0 # frequency per million
+newresDF2['log_freq'] = np.log(newresDF2['norm_freq']+1)/np.log(max(newresDF2['norm_freq']))
+newresDF2.loc[(newresDF2['log_freq'] < 0.05), 'log_freq'] = 0.05
+newresDF2 = newresDF2[['wordform', 'sum_freq', 'norm_freq', 'log_freq', 'Moby_pron', 'Rep_P', 'Rep_O']]
+newresDF2.to_csv('./extwords3_Harm1998.csv', index=False)
+
 
 
 # Step 5: create benchmark training examples using extracted words
+# Based on Harm & Seidenberg (1999)
 # encoding of phonemes:
-PhonDic = {
-'p': [-1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0],  # as p in pat
-'b': [-1.0, 1.0, 0.0, -1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0],	# as b in bat 
-'t': [-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as t in top
-'d': [-1.0, 1.0, 0.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as d in dog
-'k': [-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as k in kite
-'g': [-1.0, 1.0, 0.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as g in give
-'f': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, 1.0, 0.0, 0.0],  # as f in fit
-'v': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, 1.0, 0.0, 0.0],   #	as v in vine
-'T': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 0.0, 0.0], # as th in with
-'D': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 0.0, 0.0],	# as th in the
-'s': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], #	as s in sit
-'z': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as z in jazz
-'h': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0], # as h in hat
-'S': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], #	as sh in shoe
-'B': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], #	as ge in beige
-'C': [-0.8, 1.0, -1.0, -1.0, 1.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], # as tch in catch
-'J': [-0.8, 1.0, 0.0, -1.0, 1.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], # as g in gin
-'m': [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0], # as m in mop
-'n': [0.0, 0.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], # as n in nice
-'G': [0.0, 0.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as ing in sing
-'r': [0.5, 0.0, 1.0, 0.0, -1.0, -1.0, -1.0, 1.0, 1.0, -1.0, -1.0],	# as r in rat
-'l': [0.5, 0.0, 1.0, 0.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], # as l in loop
-'w': [0.8, 0.0, 1.0, 0.0, 0.0, 1.0, -1.0, -1.0, 1.0, -1.0, 0.0], #	as w in win
-'j': [0.8, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 1.0], #	as y in yes
+phonDF = pd.read_csv('./phon.txt', sep=' ', header=None)
+phonDF.columns = ['Symbol', 'Sonorant', 'Consonantal', 'Voice', 'Nasal', 'Degree', 'Labial', 'Palatal', 'Pharyngeal', 'Round', 'Tongue','Radical']
+PhonDic = dict()
+for i in range(len(phonDF)):
+    PhonDic[phonDF.loc[i, 'Symbol']] = list(phonDF.loc[i,phonDF.columns[1:]])
+#PhonDic = {
+#'p': [-1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0],  # as p in pat
+#'b': [-1.0, 1.0, 0.0, -1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0],	# as b in bat 
+#'t': [-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as t in top
+#'d': [-1.0, 1.0, 0.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as d in dog
+#'k': [-1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as k in kite
+#'g': [-1.0, 1.0, 0.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as g in give
+#'f': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, 1.0, 0.0, 0.0],  # as f in fit
+#'v': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, 1.0, 0.0, 0.0],   #	as v in vine
+#'T': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 0.0, 0.0], # as th in with
+#'D': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 0.0, 0.0],	# as th in the
+#'s': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], #	as s in sit
+#'z': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0],	# as z in jazz
+#'h': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0], # as h in hat
+#'S': [-0.5, 1.0, -1.0, -1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], #	as sh in shoe
+#'B': [-0.5, 1.0, 0.0, -1.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], #	as ge in beige
+#'C': [-0.8, 1.0, -1.0, -1.0, 1.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], # as tch in catch
+#'J': [-0.8, 1.0, 0.0, -1.0, 1.0, -1.0, 0.0, -1.0, -1.0, 0.0, 0.0], # as g in gin
+#'m': [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0, 1.0, 0.0, 0.0], # as m in mop
+#'n': [0.0, 0.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], # as n in nice
+#'G': [0.0, 0.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0], # as ing in sing
+#'r': [0.5, 0.0, 1.0, 0.0, -1.0, -1.0, -1.0, 1.0, 1.0, -1.0, -1.0],	# as r in rat
+#'l': [0.5, 0.0, 1.0, 0.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 0.0], # as l in loop
+#'w': [0.8, 0.0, 1.0, 0.0, 0.0, 1.0, -1.0, -1.0, 1.0, -1.0, 0.0], #	as w in win
+#'j': [0.8, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 1.0], #	as y in yes
+#
+#'i': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 1.0], # as ee in heed
+#'I': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, -1.0], # as i in hid
+#'E': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, 1.0], # as ai in paid
+#'e': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0], # as ea in head
+#'@': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0, -1.0, -1.0, 1.0], # as a in hat
+#'a': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0], # as o in hot
+#'x': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0], # as a in paw (this one is not used!)
+#'o': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0], # as oa in toad
+#'U': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, -1.0, -1.0, 1.0, 0.0, -1.0], # as oo in took
+#'u': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, -1.0, -1.0, 1.0, 0.0, 1.0], # as oo in boot
+#'^': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0], # as u in hut
+#
+#'_': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]    # filler
+#}
 
-'i': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, 1.0], # as ee in heed
-'I': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, -1.0, -1.0, 0.0, -1.0], # as i in hid
-'E': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, 1.0], # as ai in paid
-'e': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0], # as ea in head
-'@': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0, -1.0, -1.0, 1.0], # as a in hat
-'a': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0], # as o in hot
-'x': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0], # as a in paw (this one is not used!)
-'o': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0], # as oa in toad
-'U': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, -1.0, -1.0, 1.0, 0.0, -1.0], # as oo in took
-'u': [1.0, -1.0, 1.0, 0.0, 0.0, -1.0, -1.0, -1.0, 1.0, 0.0, 1.0], # as oo in boot
-'^': [1.0, -1.0, 1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0], # as u in hut
-
-'_': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]    # filler
-}
 # create LettDic
 import string
 cand = string.ascii_lowercase
@@ -569,23 +719,105 @@ for i in range(len(cand)):
 LettDic['_'] = lettList # filler
 
 # write to example file
-# ver 1: using extwords1.csv
-wordDF = pd.read_csv('./extwords1.csv')
-expFileName = './trainexp_full1.txt'
+# ver 1: using extwords1_HarmSeidenberg1999.csv
+wordDF = pd.read_csv('./extwords1_HarmSeidenberg1999.csv')
+expFileName = './TrEm1_HarmSeidenberg1999.txt'
 epoch = 6
-writeExp(wordDF, expFileName, epoch)
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
 
-# ver 2: using extwords2.csv
-wordDF = pd.read_csv('./extwords2.csv')
-expFileName = './trainexp_full2.txt'
+# ver 2: using extwords2_HarmSeidenberg1999.csv
+wordDF = pd.read_csv('./extwords2_HarmSeidenberg1999.csv')
+expFileName = './TrEm2_HarmSeidenberg1999.txt'
 epoch = 6
-writeExp(wordDF, expFileName, epoch)
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
 
-# ver 3: using extwords3.csv
-wordDF = pd.read_csv('./extwords3.csv')
-expFileName = './trainexp_full3.txt'
+# ver 3: using extwords3_HarmSeidenberg1999.csv
+wordDF = pd.read_csv('./extwords3_HarmSeidenberg1999.csv')
+expFileName = './TrEm3_HarmSeidenberg1999.txt'
 epoch = 6
-writeExp(wordDF, expFileName, epoch)
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
 
     
-    
+# Based on Harm (1998)
+# encoding of phonemes:
+phonDF = pd.read_csv('./phon_new.txt', sep=' ', header=None)
+phonDF.columns = ['Symbol', 'Labial', 'Dental', 'Alveolar', 'Palatal', 'Velar', 
+                  'Glottal' ,'Stop', 'Fricative', 'Affricate', 'Nasal', 'Liquid', 
+                  'Glide', 'Voice', 'Front', 'Center', 'Back', 'High', 'Mid', 'Low', 
+                  'Tense', 'Retroflex', 'Round', 'Pre y', 'Post y', 'Post w']
+PhonDic = dict()
+for i in range(len(phonDF)):
+    PhonDic[phonDF.loc[i, 'Symbol']] = list(phonDF.loc[i,phonDF.columns[1:]])
+#PhonDic = {
+#'p': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  # as p in pat
+#'b': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],	# as b in bat 
+#'t': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],	# as t in top
+#'d': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],	# as d in dog
+#'k': [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as k in kite
+#'g': [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as g in give
+#'f': [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  # as f in fit
+#'v': [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],   #	as v in vine
+#'T': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as th in with
+#'D': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],	# as th in the
+#'s': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #	as s in sit
+#'z': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],	# as z in jazz
+#'h': [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as h in hat
+#'S': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #	as sh in shoe
+#'B': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #	as ge in beige
+#'C': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as tch in catch
+#'J': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as g in gin
+#'m': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as m in mop
+#'n': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as n in nice
+#'G': [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as ing in sing
+#'r': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],	# as r in rat
+#'l': [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as l in loop
+#'w': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #	as w in win
+#'j': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #	as y in yes
+#
+#'i': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as ee in heed
+#'I': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as i in hid
+#'E': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as ai in paid
+#'e': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as ea in head
+#'@': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as a in hat
+#'a': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as o in hot
+#'o': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0], # as oa in toad
+#'U': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0], # as oo in took
+#'u': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0], # as oo in boot
+#'^': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # as u in hut
+#
+#'W': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0], # as ew in hew
+#'M': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0], # as ie in die
+#'P': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0], # as ow in how
+#'Q': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0], # as oy in boy
+#
+#'_': [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]    # filler
+#}
+# create LettDic
+import string
+cand = string.ascii_lowercase
+lettList = len(cand)*[0]
+LettDic = dict()
+for i in range(len(cand)):
+    lettListCopy = lettList[:]
+    lettListCopy[i] = 1     
+    LettDic[cand[i]] = lettListCopy
+LettDic['_'] = lettList # filler
+
+# write to example file
+# ver 1: using extwords1_Harm1998.csv
+wordDF = pd.read_csv('./extwords1_Harm1998.csv')
+expFileName = './TrEm1_Harm1998.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
+
+# ver 2: using extwords2_Harm1998.csv
+wordDF = pd.read_csv('./extwords2_Harm1998.csv')
+expFileName = './TrEm2_Harm1998.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
+
+# ver 3: using extwords3_Harm1998.csv
+wordDF = pd.read_csv('./extwords3_Harm1998.csv')
+expFileName = './TrEm3_Harm1998.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)

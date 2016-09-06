@@ -14,8 +14,8 @@ contexts: on a local workstation; on the Yale HPC's Grace cluster; on
 the Yale HPC's Omega cluster.
 
 In each case, we assume that the Mikenet library itself has already
-been downloaded and compiled on the target platform. See MikeNet_notes.txt
-for installation issues of Mikenet. 
+been downloaded and compiled on the target platform. See ./Mikenet/MikeNet_notes.txt
+and installation packages there for installation issues of Mikenet. 
 
 ## Local Workstation
 
@@ -34,8 +34,11 @@ is optional.
 #### Running the Simulation
 
 In order to run a simulation, put the exe file (OtoP), parameter file
-(para.txt), phoneme dictionary (phon.txt), and training examples
-(trainexp_full.txt) into the same directory.
+(para.txt), phoneme dictionary (phon.txt, see ./dictionary for definition
+of phonological representations of phonemes following two types of feature
+vectors), and training examples (trainexp_full.txt, see ./dictionary for 
+the training examples following the two types of phonological representations
+) into the same directory.
 
 para.txt has the following format:
 

@@ -3,17 +3,17 @@
 7	// int _tick;
 0.25	// double _intconst;
 1e-2	// double _epsi;
-1	// int _acttype; // LOGISTIC_ACTIVATION (0) or TANH_ACTIVATION (1) 
+1	// int _acttype; // For Harm & Seidenberg 1999, TANH_ACTIVATION (1); For Harm 1998, LOGISTIC_ACTIVATION (0) 
 0.1	// double _errrad;
 0.1	// double _range;
 208	// int _OrthoS;
 100	// int _HidS;
-77	// int _PhonoS;
+77	// int _PhonoS; For Harm & Seidenberg 1999, 77 (7*11); For Harm 1998, 175 (7*25)
 20	// int _PhoHidS;
 // Phoneme library and example file
-11	// int _pho_features;
-36	// int _pho_number; 35 phonemes + 1 none
-./phon.txt	// char *_phoF;
-./trainexp_full3.txt	// char *_exTrF;
-./trainexp_full3.txt	// char *_exTeF;
+11	// int _pho_features; For Harm & Seidenberg 1999, 11; For Harm 1998, 25
+36	// int _pho_number; For Harm & Seidenberg 1999, 36 (24+11+1); For Harm 1998, 35 (24+10+1)
+./phon.txt	// char *_phoF; phon_HarmSeidenberg1999.txt or phon_Harm1998.txt
+./trainexp_full3.txt	// char *_exTrF; TrEM_HarmSeidenberg1999.txt or TrEM_Harm1998.txt
+./trainexp_full3.txt	// char *_exTeF; TeEM_HarmSeidenberg1999.txt or TeEM_Harm1998.txt
 

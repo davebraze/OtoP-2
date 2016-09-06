@@ -15,6 +15,16 @@ We incorporate some simple transformations to the Moby pronunciations
 in order to facilitate use in a Mikenet framework.
 
 ## Details of steps from Moby/CoCa to MikeNet OtoP Dictionary
+There are two types of phonological representations following respectively 
+Harm & Seidenberg (!999) and Harm (1998). The two papers and other relevant
+ones are stored respectively in the folders ./HarmSeidenberg1999 and ./Harm1998.
+In those folders, phon\_HarmSeidenberg1999.txt and phon\_Harm1998.txt are the dictionary
+of phonemes to be used by the code. The explanantions of those phonemes can be found 
+in phon\_HarmSeidenberg1999_key.txt and phon\_Harm1998_key.txt.
+
+Below are the details of steps from Moby/Coca to MikeNet OtoP Dictionary following
+Harm & Seidenber (1999)'s way of phonological representations.
+
 1. Read from Moby pronunciator and make some replacements in the phones.
    These replacements include:
    1. Delete the glide '/-/' after the vowel '/aI/'. This mostly
@@ -71,21 +81,34 @@ in order to facilitate use in a Mikenet framework.
 	  * '/Oi/'->'o/j'
 	  * '/AU/'->'a/w'
 
-   Results are stored respectively in extwords1.csv (based on subCoca\_dict1.csv)
-   and extwords2.csv (based on subCoca\_dict2.csv)
+   Results are stored respectively in extwords1\_HarmSeidenberg1999.csv 
+   (based on subCoca\_dict1.csv) and extwords2\_HarmSeidenberg1999.csv 
+   (based on subCoca\_dict2.csv)
 
-   In extword1.csv and extword2.csv, column 'wordform' is word form,
-   column 'sum\_freq' is word frequency in Coca, column 'norm\_freq'
-   is normalized frequency per million (dividing 'sum\_freq' by 450),
-   column 'Moby\_pron' is Moby pronunciation of the word, column
-   'Rep\_P' is phonological representation of the word, column
-   'Rep\_O' is orthographical representation of the word, '/'
-   separates phonemes or letters.  In extword2.csv, column
-   'word\_class' is class type of each word.
+   In extword1\_HarmSeidenberg1999.csv and extword2\_HarmSeidenberg1999.csv, 
+   column 'wordform' is word form, column 'sum\_freq' is word frequency in Coca, 
+   column 'norm\_freq' is normalized frequency per million (dividing 'sum\_freq' by 450),
+   column 'Moby\_pron' is Moby pronunciation of the word, column 'Rep\_P' is 
+   phonological representation of the word, column 'Rep\_O' is orthographical 
+   representation of the word, '/' separates phonemes or letters.
+   In extword2.csv, column 'word\_class' is class type of each word.
 
-5. Create extword3.csv based on extword2.csv, by summing up the same
-   word form's frequencies across all word types.
+5. Create extword3\_HarmSeidenberg1999.csv based on extword2\_HarmSeidenberg1999.csv, 
+  by summing up the same word form's frequencies across all word types.
 
-6. Generate training example files based on extword1.csv, extword2.csv
-   and extword3.csv, the results are: trainexp\_full1.txt,
-   trainexp\_full2.txt, and trainexp\_full3.txt
+6. Generate training example files based on extword1\_HarmSeidenberg1999.csv, 
+   extword2\_HarmSeidenberg1999.csv and extword3.csv, the results are: TrEM1\_HarmSeidenberg1999.txt,
+   TrEM2\_HarmSeidenberg1999.txt, and TrEM3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
+   ./HarmSeidenberg1999.
+
+Following Harm (1998)'s way of phonological representation, the above Steps 1-3 are the same.
+In Step 4, for the replacements, consonants and simple vowels are the same, but the diphthongs become:
+	* '/eI/'->'e'
+	* '/aI/'->'M'
+	* '/Oi/'->'Q'
+	* '/AU/'->'P'
+
+In Steps 5 and 6, the created csv files become: extword1\_Harm1998.csv, extword2\_Harm1998.csv, 
+and extword1\_Harm1998.csv. The created training example files become: TrEM1\_HarmSeidenberg1999.txt,
+TrEM2\_HarmSeidenberg1999.txt, and TrEM3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
+./Harm1998.
