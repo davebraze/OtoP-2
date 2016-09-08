@@ -104,9 +104,9 @@ Harm & Seidenber (1999)'s way of phonological representations.
 Following Harm (1998)'s way of phonological representation, the above Steps 1-3 are the same.
 In Step 4, for the replacements, consonants and simple vowels are the same, but the diphthongs become:
 	* '/eI/'->'e'
-	* '/aI/'->'M'
-	* '/Oi/'->'Q'
-	* '/AU/'->'P'
+	* '/aI/'->'Y'
+	* '/Oi/'->'A'
+	* '/AU/'->'O'
 
 In Steps 5 and 6, the created csv files become: extword1\_Harm1998.csv, extword2\_Harm1998.csv, 
 and extword1\_Harm1998.csv. The created training example files become: TrEM1\_HarmSeidenberg1999.txt,

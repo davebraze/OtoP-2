@@ -177,7 +177,9 @@ def getVowLoc(word_pron, vowlett_vowphon):
     # find the smallest position in word_pron where there is a vowel letter or vowel phoneme    
     posList = list()    
     for vow in vowlett_vowphon:    
-        if word_pron.find(vow) != -1: # find the first occurrence of vowel letter or vowel phoneme
+        if vow != 'y' and word_pron.find(vow) != -1: # find the first occurrence of vowel letter or vowel phoneme
+            posList.append(word_pron.find(vow))
+        if vow == 'y' and word_pron.find(vow) != -1 and word_pron.find(vow) != 0:
             posList.append(word_pron.find(vow))
     if len(posList) != 0: 
         posList.sort()
@@ -520,12 +522,12 @@ newresDF2.to_csv('./extwords3_HarmSeidenberg1999.csv', index=False)
 # get Moby and subCoca for further checking the pronunciation
 repDict = {'/tS/': 'C', '/dZ/': 'J', '/S/': 'S', '/T/': 'T', '/D/': 'D', '/Z/': 'B', '/N/': 'G', # for consonants
            '/i/': 'i', '/I/': 'I', '/E/': 'E', '/&/': '@', '/A/': 'a', '/O/': 'a', '/(@)/': 'E', '/oU/': 'o', '/U/': 'U', '/u/': 'u', '/@/': '^', # for vowles
-           '/eI/': 'e', '/aI/': 'M', '/Oi/': 'Q', '/AU/': 'P'} # for vowels
+           '/eI/': 'e', '/aI/': 'Y', '/Oi/': 'A', '/AU/': 'O'} # for vowels
 # note that for '/@/', if it is followed by a 'r', it will be replaced by 'a'
 splitDict = {} 
 newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
            'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
-newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'M', 'P', 'Q'] # 14
+newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'Y', 'A', 'O'] # 14
 vowlett = ['a', 'e', 'i', 'o', 'u', 'y']
 
 phonMax = 7 # maximum number of phonemes in a word;
@@ -661,7 +663,7 @@ newresDF2.to_csv('./extwords3_Harm1998.csv', index=False)
 # Step 5: create benchmark training examples using extracted words
 # Based on Harm & Seidenberg (1999)
 # encoding of phonemes:
-phonDF = pd.read_csv('./phon.txt', sep=' ', header=None)
+phonDF = pd.read_csv('./phon_HarmSeidenberg1999.txt', sep=' ', header=None)
 phonDF.columns = ['Symbol', 'Sonorant', 'Consonantal', 'Voice', 'Nasal', 'Degree', 'Labial', 'Palatal', 'Pharyngeal', 'Round', 'Tongue','Radical']
 PhonDic = dict()
 for i in range(len(phonDF)):
@@ -740,7 +742,7 @@ writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
     
 # Based on Harm (1998)
 # encoding of phonemes:
-phonDF = pd.read_csv('./phon_new.txt', sep=' ', header=None)
+phonDF = pd.read_csv('./phon_Harm1998.txt', sep=' ', header=None)
 phonDF.columns = ['Symbol', 'Labial', 'Dental', 'Alveolar', 'Palatal', 'Velar', 
                   'Glottal' ,'Stop', 'Fricative', 'Affricate', 'Nasal', 'Liquid', 
                   'Glide', 'Voice', 'Front', 'Center', 'Back', 'High', 'Mid', 'Low', 

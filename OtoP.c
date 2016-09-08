@@ -60,7 +60,7 @@ void FindPhoneme(Real *vect, Real *trans)
 		
 		  case 1: // using phoneme with 0.5 threshold to set trans;
 		  		numInThres=0;
-		  		for(i=0;i<_pho_number-1;i++)
+		  		for(i=0;i<_pho_number;i++)
 					{ if(vect_check(vect,_phon[i].vec)) numInThres++;
 					}
 		  		if(numInThres==0)
@@ -70,7 +70,7 @@ void FindPhoneme(Real *vect, Real *trans)
 					}
 		  		else if(numInThres==1)
 					{ // there is only one phoneme that matches this requirement;
-			  		  for(i=0;i<_pho_number-1;i++)
+			  		  for(i=0;i<_pho_number;i++)
 						{ if(vect_check(vect,_phon[i].vec))
 							{ for(j=0;j<_pho_features;j++)
 								trans[j]=_phon[i].vec[j];
@@ -82,7 +82,7 @@ void FindPhoneme(Real *vect, Real *trans)
 					{ // there are more than one phoneme that match this requirement, randomly select one!
 			  		  InThresSet=malloc(numInThres*sizeof(int)); assert(InThresSet!=NULL);
 			  		  curind=0;
-			  		  for(i=0;i<_pho_number-1;i++)
+			  		  for(i=0;i<_pho_number;i++)
 						{ if(vect_check(vect,_phon[i].vec)) { InThresSet[curind]=i; curind++; }
 						}
 			  		  ind=(int)(_Rand0_1*numInThres);
