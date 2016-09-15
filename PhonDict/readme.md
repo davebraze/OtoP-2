@@ -97,8 +97,8 @@ Harm & Seidenber (1999)'s way of phonological representations.
   by summing up the same word form's frequencies across all word types.
 
 6. Generate training example files based on extword1\_HarmSeidenberg1999.csv, 
-   extword2\_HarmSeidenberg1999.csv and extword3.csv, the results are: TrEM1\_HarmSeidenberg1999.txt,
-   TrEM2\_HarmSeidenberg1999.txt, and TrEM3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
+   extword2\_HarmSeidenberg1999.csv and extword3.csv, the results are: TrEm1\_HarmSeidenberg1999.txt,
+   TrEm2\_HarmSeidenberg1999.txt, and TrEm3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
    ./HarmSeidenberg1999.
 
 Following Harm (1998)'s way of phonological representation, the above Steps 1-3 are the same.
@@ -109,6 +109,6 @@ In Step 4, for the replacements, consonants and simple vowels are the same, but 
 	* '/AU/'->'O'
 
 In Steps 5 and 6, the created csv files become: extword1\_Harm1998.csv, extword2\_Harm1998.csv, 
-and extword1\_Harm1998.csv. The created training example files become: TrEM1\_HarmSeidenberg1999.txt,
-TrEM2\_HarmSeidenberg1999.txt, and TrEM3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
+and extword1\_Harm1998.csv. The created training example files become: TrEm1\_HarmSeidenberg1999.txt,
+TrEm2\_HarmSeidenberg1999.txt, and TrEm3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
 ./Harm1998.

@@ -21,7 +21,6 @@ for (ll in rev(probloc)) {
   print(ll)
   probList <- c(probList, prob[ll])
 }
-names(probDF) <- c("Prob")
 
 DF <- data.frame(word=wordList, prob=as.numeric(probList))
 DF <- DF[sort(DF$word, decreasing=TRUE),]

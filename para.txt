@@ -14,6 +14,6 @@
 11	// int _pho_features; For Harm & Seidenberg 1999, 11; For Harm 1998, 25
 36	// int _pho_number; For Harm & Seidenberg 1999, 36 (24+11+1); For Harm 1998, 39 (24+10+4+1)
 ./phon.txt	// char *_phoF; phon_HarmSeidenberg1999.txt or phon_Harm1998.txt
-./trainexp_full3.txt	// char *_exTrF; TrEM_HarmSeidenberg1999.txt or TrEM_Harm1998.txt
-./trainexp_full3.txt	// char *_exTeF; TeEM_HarmSeidenberg1999.txt or TeEM_Harm1998.txt
+./TrEm3_Harm1998.txt	// char *_exTrF; TrEm_HarmSeidenberg1999.txt or TrEm_Harm1998.txt
+./TeEm3_Harm1998.txt	// char *_exTeF; TeEm_HarmSeidenberg1999.txt or TeEm_Harm1998.txt
 

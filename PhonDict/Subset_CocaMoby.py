@@ -136,8 +136,10 @@ def repKey(cond, Dict, ori, rep, phonList, keepList):
     return(newDict)
 
 # replace and split phonemes
-def repsplitPhon(pron, phonList, repDict, splitDict):
-    # replace phonemes in pron according to repDict, split vowels according to splitDict
+def rep_split_merge_Phon(pron, phonList, repDict, splitDict, mergeDict):
+    # replace phonemes in pron according to repDict
+    # split vowels according to splitDict
+    # merge vowels according to mergeDict
     # return the list of phonemes and its length
     # get original phonemes    
     proncopy = pron[:]
@@ -164,14 +166,30 @@ def repsplitPhon(pron, phonList, repDict, splitDict):
         if con in repDict.keys(): repList.append(repDict[con])
         else: repList.append(con)
     # split compound vowels
-    newList = list()
-    for con in repList:
-        if con in splitDict.keys():
-            newList.append(splitDict[con].split("/")[0])
-            newList.append(splitDict[con].split("/")[1])
-        else: newList.append(con)    
-    lennewList = len(newList)
-    return(newList, lennewList)
+    if len(splitDict) != 0:
+        splitList = list()
+        for con in repList:
+            if con in splitDict.keys():
+                splitList.append(splitDict[con].split("/")[0])
+                splitList.append(splitDict[con].split("/")[1])
+            else: splitList.append(con)
+    else: splitList = repList        
+    # merge phonemes
+    if len(mergeDict) != 0:
+        mergeList = list()
+        cur = 0
+        while(cur < len(splitList)):
+            if cur <= len(splitList)-2:
+                curcon = splitList[cur] + splitList[cur+1]
+                if curcon in mergeDict:
+                    mergeList.append(mergeDict[curcon])
+                    cur = cur+1
+                else: mergeList.append(splitList[cur])
+            else: mergeList.append(splitList[cur])
+            cur = cur+1
+    else: mergeList = splitList
+    
+    return(mergeList, len(mergeList))
 
 def getVowLoc(word_pron, vowlett_vowphon):
     # find the smallest position in word_pron where there is a vowel letter or vowel phoneme    
@@ -384,6 +402,7 @@ repDict = {'/tS/': 'C', '/dZ/': 'J', '/S/': 'S', '/T/': 'T', '/D/': 'D', '/Z/': 
            '/i/': 'i', '/I/': 'I', '/E/': 'E', '/&/': '@', '/A/': 'a', '/O/': 'a', '/(@)/': 'E', '/oU/': 'o', '/U/': 'U', '/u/': 'u', '/@/': '^'} # for vowels
 # note that for '/@/', if it is followed by a 'r', it will be replaced by 'a'
 splitDict = { '/eI/': 'e/j', '/aI/': 'a/j', '/Oi/': 'o/j', '/AU/': 'a/w'} 
+mergeDict = {}
 newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
            'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
 newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a'] # 10
@@ -404,7 +423,7 @@ cur, findNo = 0, 0 # current word in cocaDic
 for word in cocaDic.keys():
     cur += 1; print "Cur: ", cur
     for pron in mobyDic.keys():
-        (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+        (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, repDict, splitDict, mergeDict)
         if lenList <= phonMax:
             (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
             if succpron:
@@ -442,7 +461,7 @@ for rootword in cocaDic.keys():
     for i in range(0, len(curvalue), 3):
         word = curvalue[i]
         for pron in mobyDic.keys():
-            (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+            (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, repDict, splitDict, mergeDict)
             if lenList <= phonMax:
                 (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
                 if succpron:
@@ -522,9 +541,10 @@ newresDF2.to_csv('./extwords3_HarmSeidenberg1999.csv', index=False)
 # get Moby and subCoca for further checking the pronunciation
 repDict = {'/tS/': 'C', '/dZ/': 'J', '/S/': 'S', '/T/': 'T', '/D/': 'D', '/Z/': 'B', '/N/': 'G', # for consonants
            '/i/': 'i', '/I/': 'I', '/E/': 'E', '/&/': '@', '/A/': 'a', '/O/': 'a', '/(@)/': 'E', '/oU/': 'o', '/U/': 'U', '/u/': 'u', '/@/': '^', # for vowles
-           '/eI/': 'e', '/aI/': 'Y', '/Oi/': 'A', '/AU/': 'O'} # for vowels
+           '/eI/': 'e', '/aI/': 'Y', '/AU/': 'A', '/Oi/': 'O'} # for vowels
 # note that for '/@/', if it is followed by a 'r', it will be replaced by 'a'
-splitDict = {} 
+splitDict = {}
+mergeDict = {'ju': 'W'} 
 newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
            'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
 newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'Y', 'A', 'O'] # 14
@@ -545,7 +565,7 @@ cur, findNo = 0, 0 # current word in cocaDic
 for word in cocaDic.keys():
     cur += 1; print "Cur: ", cur
     for pron in mobyDic.keys():
-        (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+        (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, repDict, splitDict, mergeDict)
         if lenList <= phonMax:
             (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
             if succpron:
@@ -583,7 +603,7 @@ for rootword in cocaDic.keys():
     for i in range(0, len(curvalue), 3):
         word = curvalue[i]
         for pron in mobyDic.keys():
-            (phonList, lenList) = repsplitPhon(pron, comb_convow, repDict, splitDict)
+            (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, repDict, splitDict, mergeDict)
             if lenList <= phonMax:
                 (newpron, succpron) = getNewPron(phonList, lenList, newvows, phonMax)            
                 if succpron:
