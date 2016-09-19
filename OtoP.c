@@ -143,10 +143,9 @@ Real calaccu(Real *out, Real *target, char *transPhon)
 	else return 1.0;
 }
 
-Real getAccu(int type, Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName, FILE *f2, char *fileName2)
+Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName, FILE *f2, char *fileName2)
 { // calculate accuracy of the network;
-	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL); assert(fileName!=NULL);
-	assert((type==0)||(type==1)); if(type==1) { assert(f2!=NULL); assert(fileName2!=NULL); }
+	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL); assert(fileName!=NULL); assert(f2!=NULL); assert(fileName2!=NULL);
 	int i, j;
 	Example *ex=NULL;
   	Real *target=NULL, *out=NULL, accu, itemaccu, avgaccu;
@@ -154,11 +153,9 @@ Real getAccu(int type, Net *net, ExampleSet *examples, int iter, FILE *f, char *
 	
 	if((f=fopen(fileName,"a+"))==NULL) { printf("Can't open %s\n", fileName); exit(1); }
 	fprintf(f,"%d\t%d", iter, examples->numExamples);
-	if(type==1)
-		{ if((f2=fopen(fileName2,"a+"))==NULL) { printf("Can't open %s\n", fileName2); exit(1); }
-		  fprintf(f2,"%d\t%d", iter, examples->numExamples);
-		}
-	
+	if((f2=fopen(fileName2,"a+"))==NULL) { printf("Can't open %s\n", fileName2); exit(1); }
+	fprintf(f2,"%d\t%d", iter, examples->numExamples);
+		
 	accu=0.0;
 	for(i=0;i<examples->numExamples;i++)
     	{ ex=&examples->examples[i];	// get each example;
@@ -180,12 +177,10 @@ Real getAccu(int type, Net *net, ExampleSet *examples, int iter, FILE *f, char *
 		  	
 		  fprintf(f,"\t%5.3f", itemaccu);	// record accuracy;		  
 		  // record transPhon; 
-		  if(type==1)
-		  	{ fprintf(f2,"\t");
-		  	  for(j=0;j<(int)(_PhonoS/(float)(_pho_features));j++)
-		  		fprintf(f2,"%c", transPhon[j]);
-		    }
-
+		  fprintf(f2,"\t");
+		  for(j=0;j<(int)(_PhonoS/(float)(_pho_features));j++)
+		  	fprintf(f2,"%c", transPhon[j]);
+		  
 		  accu+=itemaccu;	// calculate accuracy;
 
 		  free(out); out=NULL; free(target); target=NULL;	// release memory for out and target;
@@ -194,17 +189,17 @@ Real getAccu(int type, Net *net, ExampleSet *examples, int iter, FILE *f, char *
 	avgaccu=accu/(float)(examples->numExamples);
 
 	fprintf(f,"\t%5.3f\n", avgaccu); fclose(f);	
-	if(type==1) { fprintf(f2,"\n"); fclose(f2); }
+	fprintf(f2,"\n"); fclose(f2);
 
   	return avgaccu;
 }
 
-void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileName1, FILE *f2, char *fileName2, FILE *f3, char *fileName3, char *weightF, FILE *f4, char *fileName4, FILE *f5, char *fileName5)
+void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileName1, FILE *f2, char *fileName2, FILE *f3, char *fileName3, char *weightF, FILE *f4, char *fileName4, FILE *f5, char *fileName5, FILE *f6, char *fileName6)
 { // train the network and record the training error and accuracies;
   	assert(net!=NULL); assert(TrExm!=NULL); assert(TeExm!=NULL); 
-	assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(f4!=NULL); assert(f5!=NULL); 
+	assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(f4!=NULL); assert(f5!=NULL); assert(f6!=NULL); 
 	assert(weightF!=NULL); 
-	assert(fileName1!=NULL); assert(fileName2!=NULL); assert(fileName3!=NULL); assert(fileName4!=NULL); assert(fileName5!=NULL);
+	assert(fileName1!=NULL); assert(fileName2!=NULL); assert(fileName3!=NULL); assert(fileName4!=NULL); assert(fileName5!=NULL); assert(fileName6!=NULL);
 	int i, iter, count;
 	int ii, jj, loop, loop_out;
 	int *trainAct=NULL;
@@ -230,8 +225,8 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileN
 		  	{ if(count==_rep)
 				{ // record status;
 				  error=error/(float)count;
-			  	  accuTr=getAccu(0, net, TrExm, iter, f2, fileName2, NULL, NULL); 
-				  accuTe=getAccu(1, net, TeExm, iter, f3, fileName3, f5, fileName5);
+			  	  accuTr=getAccu(net, TrExm, iter, f2, fileName2, f5, fileName5); 
+				  accuTe=getAccu(net, TeExm, iter, f3, fileName3, f6, fileName6);
 
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
 	  			  if((f1=fopen(fileName1,"a+"))==NULL) { printf("Can't open %s\n", fileName1); exit(1); }
@@ -260,8 +255,8 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileN
 					}
 				  // record status;	
 				  error=error/(float)count;
-			  	  accuTr=getAccu(0, net, TrExm, iter, f2, fileName2, NULL, NULL); 
-				  accuTe=getAccu(1, net, TeExm, iter, f3, fileName3, f5, fileName5);
+			  	  accuTr=getAccu(net, TrExm, iter, f2, fileName2, f5, fileName5); 
+				  accuTe=getAccu(net, TeExm, iter, f3, fileName3, f6, fileName6);
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
 	  			  if((f1=fopen(fileName1,"a+"))==NULL) { printf("Can't open %s\n", fileName1); exit(1); }
 				  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
@@ -290,9 +285,9 @@ void main(int argc,char *argv[])
 { // main function: initialize network, and train, and calculate parameters;
   	int i, iseq;
 	unsigned int run;
-	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL, *f4=NULL, *f5=NULL;
+	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL, *f4=NULL, *f5=NULL, *f6=NULL;
 	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL, *root=NULL;
-	char *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL, *trainfreqF=NULL, *outPhonF=NULL;
+	char *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL, *trainfreqF=NULL, *outPhonTrF=NULL, *outPhonTeF=NULL;
 	
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
 	_seed=(long)(time(NULL))+100*iseq;
@@ -341,8 +336,10 @@ void main(int argc,char *argv[])
 	strcpy(weightF, root); strcat(weightF, "weights.txt");
 	trainfreqF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(trainfreqF);
 	strcpy(trainfreqF, root); strcat(trainfreqF, "trainfreq.txt");
-	outPhonF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outPhonF);
-	strcpy(outPhonF, root); strcat(outPhonF, "outphon.txt");
+	outPhonTrF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outPhonTrF);
+	strcpy(outPhonTrF, root); strcat(outPhonTrF, "outphonTr.txt");
+	outPhonTeF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outPhonTeF);
+	strcpy(outPhonTeF, root); strcat(outPhonTeF, "outphonTe.txt");
 
 	if((f1=fopen(outF,"w+"))==NULL) { printf("Can't open %s\n", outF); exit(1); }
 	fprintf(f1, "ITER\tErr\tAcuTr\tAcuTe\n");
@@ -369,20 +366,27 @@ void main(int argc,char *argv[])
 	fprintf(f4,"\n");
 	fclose(f4);
 
-	if((f5=fopen(outPhonF,"w+"))==NULL) { printf("Can't open %s\n", outPhonF); exit(1); }
+	if((f5=fopen(outPhonTrF,"w+"))==NULL) { printf("Can't open %s\n", outPhonTrF); exit(1); }
 	fprintf(f5,"ITER\tNoItem");
-	for(i=0;i<test_exm->numExamples;i++)
+	for(i=0;i<train_exm->numExamples;i++)
 		fprintf(f5,"\tPhon%d",i+1);
 	fprintf(f5,"\n");
 	fclose(f5);
 
+	if((f6=fopen(outPhonTeF,"w+"))==NULL) { printf("Can't open %s\n", outPhonTeF); exit(1); }
+		fprintf(f6,"ITER\tNoItem");
+		for(i=0;i<test_exm->numExamples;i++)
+			fprintf(f6,"\tPhon%d",i+1);
+		fprintf(f6,"\n");
+		fclose(f6);
+
 	printf("Start training!\n");
-	train(reading, train_exm, test_exm, f1, outF, f2, itemacuTrF, f3, itemacuTeF, weightF, f4, trainfreqF, f5, outPhonF);	// train network;
+	train(reading, train_exm, test_exm, f1, outF, f2, itemacuTrF, f3, itemacuTeF, weightF, f4, trainfreqF, f5, outPhonTrF, f6, outPhonTeF);	// train network;
 	printf("Done!\n");
 
 	free(outF); outF=NULL; free(weightF); weightF=NULL; 
 	free(itemacuTrF); itemacuTrF=NULL; free(itemacuTeF); itemacuTeF=NULL; 
-	free(trainfreqF); trainfreqF=NULL; free(outPhonF); outPhonF=NULL;
+	free(trainfreqF); trainfreqF=NULL; free(outPhonTrF); outPhonTrF=NULL; free(outPhonTeF); outPhonTeF=NULL;
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
 	free(train_exm); train_exm=NULL;	// free training_examples;

@@ -66,24 +66,24 @@ void readPara(void)
 	if((f=fopen("para.txt","r+"))==NULL) { printf("Can't open OverAllPara.txt\n"); exit(1); }
 
 	fgets(line, _LineLen, f);	  // read: // Network Parameters
-	GetIntPara(f, &_tai);	// read _tai;
-	GetIntPara(f, &_tick);	// read _tick;
-	GetDoublePara(f, &_intconst);	// read _intconst;
-	GetDoublePara(f, &_epsi);	// read _epsi;
-	GetIntPara(f, &_acttype);	// read _acttype; // LOGISTIC_ACTIVATION (0) or TANH_ACTIVATION (1) 
-	GetDoublePara(f, &_errrad);	// read _errrad;
-	GetDoublePara(f, &_range);	// read _range;
-	GetIntPara(f, &_OrthoS);	// read _OrthoS;
-	GetIntPara(f, &_HidS);	// read _HidS;
-	GetIntPara(f, &_PhonoS);	// read _PhonoS;
-	GetIntPara(f, &_PhoHidS);	// read _PhoHidS;
+	GetIntPara(f, &_tai);	// read _tai; default value is 1.
+	GetIntPara(f, &_tick);	// read _tick; number of ticks in one epoch (trial) of training; different types of training can happen in different tick;
+	GetDoublePara(f, &_intconst);	// read _intconst; default value is 0.25;
+	GetDoublePara(f, &_epsi);	// read _epsi; episilon value for the activation curve; default value is 0.001;
+	GetIntPara(f, &_acttype);	// read _acttype; // LOGISTIC_ACTIVATION (0) or TANH_ACTIVATION (1) two types of activation curve; 
+	GetDoublePara(f, &_errrad);	// read _errrad; error radius, default value is 0.1, meaning that errors less than 0.1 are counted as zero;
+	GetDoublePara(f, &_range);	// read _range; range of initial weights, the initially randomized weights are positive and negative _range;
+	GetIntPara(f, &_OrthoS);	// read _OrthoS; size (number of nodes) of the orthographical layer;
+	GetIntPara(f, &_HidS);	// read _HidS; size of the hidden layer between the orthographical and phonological layers;
+	GetIntPara(f, &_PhonoS);	// read _PhonoS; size of the phonological layer; For Harm & Seidenberg 1999, 77 (7*11); For Harm 1998, 175 (7*25)
+	GetIntPara(f, &_PhoHidS);	// read _PhoHidS; size of the hidden layers between phonological layers, this is the cleanup layer;
 
 	fgets(line, _LineLen, f);	// read: // Phoneme library and example file
-	GetIntPara(f, &_pho_features);	// read _pho_features;
-	GetIntPara(f, &_pho_number);	// read _pho_number;
-	GetStringPara(f, &_phoF);	// read _phoF;
-	GetStringPara(f, &_exTrF);	// read _exTrF;
-	GetStringPara(f, &_exTeF);	// read _exTeF;
+	GetIntPara(f, &_pho_features);	// read _pho_features; number of features in each phoneme; For Harm & Seidenberg 1999, 11; For Harm 1998, 25;
+	GetIntPara(f, &_pho_number);	// read _pho_number; number of phonemes in the dictionary; For Harm & Seidenberg 1999, 36 (24+11+1); For Harm 1998, 39 (24+10+4+1);
+	GetStringPara(f, &_phoF);	// read _phoF; file name of the phoneme dictionary, which is a list of phonemes and their feature values
+	GetStringPara(f, &_exTrF);	// read _exTrF; file name of the training examples;
+	GetStringPara(f, &_exTeF);	// read _exTeF; file name of the testing examples;
 
 	free(line); line=NULL;
 	fclose(f);
