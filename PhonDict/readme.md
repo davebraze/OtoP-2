@@ -107,6 +107,7 @@ In Step 4, for the replacements, consonants and simple vowels are the same, but 
 	* '/aI/'->'Y'
 	* '/Oi/'->'A'
 	* '/AU/'->'O'
+After replacements, one also needs to replace combined phomenes '/j/u/' to '/W/'.  
 
 In Steps 5 and 6, the created csv files become: extword1\_Harm1998.csv, extword2\_Harm1998.csv, 
 and extword1\_Harm1998.csv. The created training example files become: TrEm1\_HarmSeidenberg1999.txt,
