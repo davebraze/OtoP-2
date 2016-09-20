@@ -843,3 +843,31 @@ wordDF = pd.read_csv('./extwords3_Harm1998.csv')
 expFileName = './TrEm3_Harm1998.txt'
 epoch = 6
 writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
+
+
+# create test word examples, based on Harm (1998):
+comb_convow = ['/tS/', '/dZ/', '/hw/', 'b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', '/N/', 'n', 'p', 'R', 'r', '/S/', 's', '/T/', '/D/', 't', 'v', 'w', 'j', '/x/', '/Z/', 'z',
+               '/(@)/', '/[@]/', '/aI/', '/Oi/', '/AU/', '/A/', '/eI/', '/oU/', '/@/', '/&/', '/-/', '/E/', '/i/', '/I/', '/O/', '/u/', '/U/', '/y/', 'Y']
+newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
+           'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
+newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'Y', 'A', 'O'] # 14
+vowlett = ['a', 'e', 'i', 'o', 'u', 'y']
+phonMax = 7 # maximum number of phonemes in a word;
+lettMax = 8 # maximum number of letters in a word;
+
+wordDF = pd.read_csv('./testwords.csv')
+# first, create phonological and orthographical representations for words in wordDF
+wordDF['log_freq'] = 0.05; wordDF['Rep_P'] = ''; wordDF['Rep_O'] = ''
+for i in range(len(wordDF)):
+    word = wordDF.wordform[i]; pron = wordDF.pron[i]
+    (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, {}, {}, {})
+    (newpron, succ) = getNewPron(phonList, len(word), newvows, phonMax)
+    (newform, succform) = getNewWord(word, vowlett, lettMax)
+    if succ == True and succform == True: 
+        wordDF.Rep_P[i] = newpron; wordDF.Rep_O[i] = newform
+
+wordDF.to_csv('./testwords.csv', index=False)
+# second, write up example files
+expFileName = './Te.txt'
+epoch = 6
+writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
