@@ -66,29 +66,31 @@ There are two ways of running the model:
    when calling the executable (OtoP): 
 
    ```
-   ./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES
+   ./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES -recvec RECVEC
    ```
 
    There are default values for each parameter, so one can
    specify all or only some of them.
 
-   * SEED: random seed to be used in that run. Default value is 0
+   * SEED: random seed to be used in that run. Default value is 0;
 
-   * ITER: number of total iterations. Default value is 50000
+   * ITER: number of total iterations. Default value is 50000;
 
-   * REP: iterations for recording the results; default value is 1000
+   * REP: iterations for recording the results; default value is 1000;
 
    * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP is
-     set to 1, REP is no longer useful. Default value is 0
+     set to 1, REP is no longer useful. Default value is 0;
 
    * MET: method for determining which phonemen matches the
      activation: 0: use the smallest vector-based Euclidean distance
      between the output and the phoneme; 1, determines whether the bit
      differences between the output and the phonemen are all within
-     certain threshold (VTHRES). Default value is 0
+     certain threshold (VTHRES). Default value is 0;
 
    * VTHRES: if MET is 1, the bit difference threshold for determining
-     which phoneme matches the activation. Default value is 0.5
+     which phoneme matches the activation. Default value is 0.5;
+     
+   * RECVEC: whether (1) or not (0) record vector values of the output phonemes of training and testing examples. Defaluse value is 0;  
 
    The executable will prompt the user to input an integer, which will
    be used as a folder name. Files containing information about the simulation results
@@ -107,6 +109,16 @@ There are two ways of running the model:
 
    * itemacu\_te.txt: item-based accuracy based on the testing data
      (so far same as the training data) at each sampling point;
+     
+   * trainfreq.txt: the accumulated number of times each training example is chosen for training at each sampling point;
+   
+   * outphonTr.txt: phonemes activated for each training example at each sampling point;
+   
+   * outphonTe.txt: phonemes activated for each testing example at each sampling point;
+   
+   * outphonTrVec.txt: vector values of activation for each training example at each sampling point. This file is created when RECVEC is 1;
+   
+   * outphonTeVec.txt: vector values of activation for each testing example at each sampling point. This file is created when RECVEC is 1;
 
    While the model runs, it will also print to the screen overall
    error and average training/testing accuracies at each sampling
@@ -124,7 +136,7 @@ There are two ways of running the model:
    serially, and store the results in the corresponding subfolders (1
    to N, N is the number of runs preset).
 
-   type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES`
+   type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES RECVEC`
 
    * NUM: number of runs to be conducted, each using a different
      random seed;
@@ -143,8 +155,8 @@ On-screen outputs as in the first way of running will be stored in
 Note that MikeNet has to be installed on Grace before it can be linked
 into an executable.
 	
-1. copy *.c, *.h, Makefile, para.txt, phon.txt, trainexp_full.txt,
-   msf.sh into the working directory;
+1. copy msf.sh, *.c, *.h, Makefile, para.txt, phon.txt, trainexp\_full.txt, testexp\_full.txt
+   into the working directory (note that you can change the names of phon.txt, trainexp\_full.txt and testexp\_full.txt in para.txt);
 
 2. load a module for GCC: $ module load Langs/GCC
 
@@ -179,7 +191,7 @@ into an executable.
    tasklist.txt:
 
    ```
-   sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
+   sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES RECVEC
    ```
 
    * NUMRUN: total number of runs;
@@ -235,7 +247,7 @@ into an executable.
    tasklist.txt:
 
    ```
-   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES
+   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES RECVEC
    ```
 
    * NUMRUN: total number of runs;

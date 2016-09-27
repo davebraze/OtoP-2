@@ -3,7 +3,7 @@ if [ "$#" -eq 0 ]; then
 	echo "At least one argument is required!"
 	exit 1
 fi
-if [ "$#" -gt 7 ]; then
+if [ "$#" -gt 8 ]; then
 	echo "Too many arguments!"
 	exit 1
 fi
@@ -23,8 +23,10 @@ do
   	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 > $i.log
   elif [ "$#" -eq 5 ]; then
   	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 > $i.log
+  elif [ "$#" -eq 6 ]; then
+  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 -vthres $6 > $i.log
   else
-  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 -vthres $6 -> $i.log
+  	echo $i | time ./OtoP -iter $2 -rep $3 -samp $4 -met $5 -vthres $6 -recvec $7 > $i.log
   fi
   i=$((i+1))
 done

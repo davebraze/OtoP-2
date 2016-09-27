@@ -846,8 +846,6 @@ writeExp(wordDF, expFileName, epoch, PhonDic, LettDic)
 
 
 # create test word examples, based on Harm (1998):
-comb_convow = ['/tS/', '/dZ/', '/hw/', 'b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', '/N/', 'n', 'p', 'R', 'r', '/S/', 's', '/T/', '/D/', 't', 'v', 'w', 'j', '/x/', '/Z/', 'z',
-               '/(@)/', '/[@]/', '/aI/', '/Oi/', '/AU/', '/A/', '/eI/', '/oU/', '/@/', '/&/', '/-/', '/E/', '/i/', '/I/', '/O/', '/u/', '/U/', '/y/', 'Y']
 newcons = ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'T', 'D', 's', 'z', 'h', 'S', 
            'B', 'C', 'J', 'm', 'n', 'G', 'r', 'l', 'w', 'j'] # 24
 newvows = ['i', 'I', 'E', '@', '^', 'o', 'U', 'u', 'e', 'a', 'W', 'Y', 'A', 'O'] # 14
@@ -855,18 +853,38 @@ vowlett = ['a', 'e', 'i', 'o', 'u', 'y']
 phonMax = 7 # maximum number of phonemes in a word;
 lettMax = 8 # maximum number of letters in a word;
 
-wordDF = pd.read_csv('./testwords.csv')
+phonDF = pd.read_csv('./phon_Harm1998.txt', sep=' ', header=None)
+phonDF.columns = ['Symbol', 'Labial', 'Dental', 'Alveolar', 'Palatal', 'Velar', 
+                  'Glottal' ,'Stop', 'Fricative', 'Affricate', 'Nasal', 'Liquid', 
+                  'Glide', 'Voice', 'Front', 'Center', 'Back', 'High', 'Mid', 'Low', 
+                  'Tense', 'Retroflex', 'Round', 'Pre y', 'Post y', 'Post w']
+PhonDic = dict()
+for i in range(len(phonDF)):
+    PhonDic[phonDF.loc[i, 'Symbol']] = list(phonDF.loc[i,phonDF.columns[1:]])
+
+import string
+cand = string.ascii_lowercase
+lettList = len(cand)*[0]
+LettDic = dict()
+for i in range(len(cand)):
+    lettListCopy = lettList[:]
+    lettListCopy[i] = 1     
+    LettDic[cand[i]] = lettListCopy
+LettDic['_'] = lettList # filler
+
+# using nonwords from Treiman-etal-1999 Appendix
+wordDF = pd.read_csv('./Treiman-etal-1990-Appendix.csv')
 # first, create phonological and orthographical representations for words in wordDF
 wordDF['log_freq'] = 0.05; wordDF['Rep_P'] = ''; wordDF['Rep_O'] = ''
 for i in range(len(wordDF)):
     word = wordDF.wordform[i]; pron = wordDF.pron[i]
-    (phonList, lenList) = rep_split_merge_Phon(pron, comb_convow, {}, {}, {})
+    (phonList, lenList) = rep_split_merge_Phon(pron, newcons+newvows, {}, {}, {})
     (newpron, succ) = getNewPron(phonList, len(word), newvows, phonMax)
     (newform, succform) = getNewWord(word, vowlett, lettMax)
     if succ == True and succform == True: 
         wordDF.Rep_P[i] = newpron; wordDF.Rep_O[i] = newform
-
-wordDF.to_csv('./testwords.csv', index=False)
+# store modified examples
+wordDF.to_csv('./Treiman-etal-1990-Appendix.csv', index=False)
 # second, write up example files
 expFileName = './Te.txt'
 epoch = 6

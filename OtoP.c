@@ -20,6 +20,7 @@ unsigned int _iter=5e4;
 int _samp_method=0;	// linear (0) or logarithm-like (1) sampling;
 int _v_method=0;	// based on Euclidean-distance (0) or vector range (1);
 double _v_thres=0.5;	// threshold for vector range method;
+int _recVec=0;	// whether recording output and hidden layers' vectors (1) or not (0);
 
 // functions;
 float euclid_dist(Real *x1, Real *x2)
@@ -37,12 +38,12 @@ int vect_check(Real *x1, Real *x2)
 	assert(x1!=NULL); assert(x2!=NULL);
 	int i, inThres=1;
 	for(i=0;i<_pho_features;i++)
-		{ if(abs(x1[i]-x2[i])>=_v_thres) { inThres=0; break;}
+		{ if(fabs(x1[i]-x2[i])>=_v_thres) { inThres=0; break; }
 		}
 	return inThres;
 }
 
-char FindPhoneme(Real *vect, Real *trans)
+char findP(Real *vect, Real *trans)
 { // find phoneme matching vect; 
 	assert(vect!=NULL); assert(trans!=NULL); 
 	int i, j, ind, MaxDist, numInThres, *InThresSet=NULL, curind;
@@ -63,8 +64,8 @@ char FindPhoneme(Real *vect, Real *trans)
 		  		numInThres=0;
 		  		for(i=0;i<_pho_number;i++)
 					{ if(vect_check(vect,_phon[i].vec)) numInThres++;
-					}
-		  		if(numInThres==0)
+		  			}
+				if(numInThres==0)
 					{ // no such phoneme;
 		  	  		  for(i=0;i<_pho_features;i++)
 						trans[i]=-2.0;
@@ -121,7 +122,7 @@ Real calaccu(Real *out, Real *target, char *transPhon)
 		  for(j=0;j<_pho_features;j++)
 		  	trans[j]=0.0;
 
-		  transPhon[cur]=FindPhoneme(vect, trans); cur++;
+		  transPhon[cur]=findP(vect, trans); cur++;		  
 		  for(j=0;j<_pho_features;j++)
 			transout[i+j]=trans[j];
 
@@ -143,19 +144,24 @@ Real calaccu(Real *out, Real *target, char *transPhon)
 	else return 1.0;
 }
 
-Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName, FILE *f2, char *fileName2)
+Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fName, FILE *f2, char *fName2, FILE *f3, char *fName3)
 { // calculate accuracy of the network;
-	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL); assert(fileName!=NULL); assert(f2!=NULL); assert(fileName2!=NULL);
+	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL); assert(fName!=NULL); assert(f2!=NULL); assert(fName2!=NULL); 
+	if(_recVec==1) { assert(f3!=NULL); assert(fName3!=NULL); }
 	int i, j;
 	Example *ex=NULL;
   	Real *target=NULL, *out=NULL, accu, itemaccu, avgaccu;
 	char *transPhon=NULL;	// record translated phonemes;
 	
-	if((f=fopen(fileName,"a+"))==NULL) { printf("Can't open %s\n", fileName); exit(1); }
+	if((f=fopen(fName,"a+"))==NULL) { printf("Can't open %s\n", fName); exit(1); }
 	fprintf(f,"%d\t%d", iter, examples->numExamples);
-	if((f2=fopen(fileName2,"a+"))==NULL) { printf("Can't open %s\n", fileName2); exit(1); }
+	if((f2=fopen(fName2,"a+"))==NULL) { printf("Can't open %s\n", fName2); exit(1); }
 	fprintf(f2,"%d\t%d", iter, examples->numExamples);
-		
+	if(_recVec==1)
+		{ if((f3=fopen(fName3,"a+"))==NULL) { printf("Can't open %s\n", fName3); exit(1); }
+		  fprintf(f3,"%d\t%d", iter, examples->numExamples);
+		}
+	
 	accu=0.0;
 	for(i=0;i<examples->numExamples;i++)
     	{ ex=&examples->examples[i];	// get each example;
@@ -180,6 +186,13 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName, 
 		  fprintf(f2,"\t");
 		  for(j=0;j<(int)(_PhonoS/(float)(_pho_features));j++)
 		  	fprintf(f2,"%c", transPhon[j]);
+
+		  if(_recVec==1)
+		  	{ // record output vector
+		  	  fprintf(f3,"\t");
+		  	  for(j=0;j<_PhonoS;j++)
+		  		fprintf(f3,"%2.1f ", out[j]);
+			}
 		  
 		  accu+=itemaccu;	// calculate accuracy;
 
@@ -190,16 +203,19 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fileName, 
 
 	fprintf(f,"\t%5.3f\n", avgaccu); fclose(f);	
 	fprintf(f2,"\n"); fclose(f2);
+	if(_recVec==1) { fprintf(f3,"\n"); fclose(f3); }
 
   	return avgaccu;
 }
 
-void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileName1, FILE *f2, char *fileName2, FILE *f3, char *fileName3, char *weightF, FILE *f4, char *fileName4, FILE *f5, char *fileName5, FILE *f6, char *fileName6)
+void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fName1, FILE *f2, char *fName2, FILE *f3, char *fName3, char *weightF, FILE *f4, char *fName4, FILE *f5, char *fName5, FILE *f6, char *fName6, FILE *f7, char *fName7, FILE *f8, char *fName8)
 { // train the network and record the training error and accuracies;
   	assert(net!=NULL); assert(TrExm!=NULL); assert(TeExm!=NULL); 
 	assert(f1!=NULL); assert(f2!=NULL); assert(f3!=NULL); assert(f4!=NULL); assert(f5!=NULL); assert(f6!=NULL); 
+	if(_recVec==1) { assert(f7!=NULL); assert(f8!=NULL); }
 	assert(weightF!=NULL); 
-	assert(fileName1!=NULL); assert(fileName2!=NULL); assert(fileName3!=NULL); assert(fileName4!=NULL); assert(fileName5!=NULL); assert(fileName6!=NULL);
+	assert(fName1!=NULL); assert(fName2!=NULL); assert(fName3!=NULL); assert(fName4!=NULL); assert(fName5!=NULL); assert(fName6!=NULL); 
+	if(_recVec==1) { assert(fName7!=NULL); assert(fName8!=NULL); }
 	int i, iter, count;
 	int ii, jj, loop, loop_out;
 	int *trainAct=NULL;
@@ -225,23 +241,22 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileN
 		  	{ if(count==_rep)
 				{ // record status;
 				  error=error/(float)count;
-			  	  accuTr=getAccu(net, TrExm, iter, f2, fileName2, f5, fileName5); 
-				  accuTe=getAccu(net, TeExm, iter, f3, fileName3, f6, fileName6);
+			  	  accuTr=getAccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
+				  accuTe=getAccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
 
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
-	  			  if((f1=fopen(fileName1,"a+"))==NULL) { printf("Can't open %s\n", fileName1); exit(1); }
+	  			  if((f1=fopen(fName1,"a+"))==NULL) { printf("Can't open %s\n", fName1); exit(1); }
 				  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f1;
 				  fclose(f1);				  
 
 				  error=0.0; accuTr=0.0; accuTe=0.0;
 				  count=1;	// reset count;
 
-				  if((f4=fopen(fileName4,"a+"))==NULL) { printf("Can't open %s\n", fileName4); exit(1); }
+				  if((f4=fopen(fName4,"a+"))==NULL) { printf("Can't open %s\n", fName4); exit(1); }
 				  fprintf(f4, "%d\t%d", iter, TrExm->numExamples);	// store parameters and results into f4;
 				  for(i=0;i<TrExm->numExamples;i++)
 				  	fprintf(f4, "\t%d", trainAct[i]);
-				  fprintf(f4,"\n");
-				  fclose(f4);
+				  fprintf(f4,"\n"); fclose(f4);
 			 	}
     		  else count++;
 		  	}
@@ -255,22 +270,21 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileN
 					}
 				  // record status;	
 				  error=error/(float)count;
-			  	  accuTr=getAccu(net, TrExm, iter, f2, fileName2, f5, fileName5); 
-				  accuTe=getAccu(net, TeExm, iter, f3, fileName3, f6, fileName6);
+			  	  accuTr=getAccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
+				  accuTe=getAccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
-	  			  if((f1=fopen(fileName1,"a+"))==NULL) { printf("Can't open %s\n", fileName1); exit(1); }
+	  			  if((f1=fopen(fName1,"a+"))==NULL) { printf("Can't open %s\n", fName1); exit(1); }
 				  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
 				  fclose(f1);
 				  
 				  error=0.0; accuTr=0.0; accuTe=0.0;
 				  count=1;	// reset count; 
 
-				  if((f4=fopen(fileName4,"a+"))==NULL) { printf("Can't open %s\n", fileName4); exit(1); }
+				  if((f4=fopen(fName4,"a+"))==NULL) { printf("Can't open %s\n", fName4); exit(1); }
 				  fprintf(f4, "%d\t%d", iter, TrExm->numExamples);	// store parameters and results into f4;
 				  for(i=0;i<TrExm->numExamples;i++)
 				  	fprintf(f4, "\t%d", trainAct[i]);
-				  fprintf(f4,"\n");
-				  fclose(f4);
+				  fprintf(f4,"\n"); fclose(f4);
 		  		}
 		  	  else count++;
 		  	}
@@ -280,14 +294,35 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fileN
 	free(trainAct); trainAct=NULL;
 }
 
+void crtFName(char **fName, char *subDirect, char *root, char *name)
+{ // create file name as root plus name;
+	assert(root!=NULL); assert(name!=NULL);
+	*fName=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(*fName!=NULL); 
+	strcpy(*fName, root); strcat(*fName, name);
+}
+void initF(FILE **f, char *fName, char *format1, char *format2, int size, char *format3)
+{ // initialize the first line of f;
+	assert(f!=NULL); assert(fName!=NULL); assert(format1!=NULL);
+	int i;
+	if((*f=fopen(fName,"w+"))==NULL) { printf("Can't open %s\n", fName); exit(1); }
+	fprintf(*f, format1);
+	if(format2!=NULL) 
+		{ for(i=0;i<size;i++)
+			fprintf(*f,format2,i+1);
+		}
+	if(format3!=NULL) fprintf(*f, format3);
+	fclose(*f);	
+}
+
 // main function;
 void main(int argc,char *argv[])
 { // main function: initialize network, and train, and calculate parameters;
   	int i, iseq;
 	unsigned int run;
-	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL, *f4=NULL, *f5=NULL, *f6=NULL;
+	FILE *f=NULL, *f1=NULL, *f2=NULL, *f3=NULL, *f4=NULL, *f5=NULL, *f6=NULL, *f7=NULL, *f8=NULL;
 	char sep[]="/", *seedDirect=NULL, *subDirect=NULL, *locDirect=NULL, *root=NULL;
-	char *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL, *trainfreqF=NULL, *outPhonTrF=NULL, *outPhonTeF=NULL;
+	char *outF=NULL, *weightF=NULL, *itemacuTrF=NULL, *itemacuTeF=NULL, *trainfreqF=NULL, *outPhonTrF=NULL, *outPhonTeF=NULL; 
+	char *outPhonTrVecF=NULL, *outPhonTeVecF=NULL;
 	
 	printf("input subdic name(int): "); scanf("%d", &iseq); printf("subdic is %d\n", iseq);
 	_seed=(long)(time(NULL))+100*iseq;
@@ -296,20 +331,20 @@ void main(int argc,char *argv[])
 		  
 	// all the parameters can also be set by input arguments;
 	for(i=1;i<argc;i++)
-		{ if(strcmp(argv[i],"-seed")==0){ _seed=atol(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-iter",5)==0){ _iter=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-rep",4)==0){ _rep=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-samp",5)==0){ _samp_method=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-met",4)==0) { _v_method=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-thres",6)==0) { _v_thres=atof(argv[i+1]); i++; }
+		{ if(strcmp(argv[i],"-seed")==0){ assert(atoi(argv[i+1])>=0); _seed=atol(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-iter",5)==0){ assert(atoi(argv[i+1])>0); _iter=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-rep",4)==0){ assert(atoi(argv[i+1])>0); _rep=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-samp",5)==0){ assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _samp_method=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-met",4)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _v_method=atoi(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-thres",6)==0) { assert((atof(argv[i+1])>=0.0)||(atof(argv[i+1])<=1.0)); _v_thres=atof(argv[i+1]); i++; }
+		  else if(strncmp(argv[i],"-recvec",7)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _recVec=atoi(argv[i+1]); i++; }
 		}	
 	mikenet_set_seed(_seed); build_model();	// build a network, with TIME number of time ticks; 
 	printf("No. Connections: %d\n", count_connections());	// calculate number of connections and print out;
 	printf("Seed = %u\n", _seed);	// print out the seed used;
 
 	load_phoneme(_phoF);  // initialize phoneme;
-	train_exm=load_examples(_exTrF, _tick); // load training examples;
-	test_exm=load_examples(_exTeF, _tick);	// load testing examples;
+	train_exm=load_examples(_exTrF, _tick);	test_exm=load_examples(_exTeF, _tick);	// load training and testing examples;
 
 	// handle subDirect, locDirect;
 	subDirect=malloc((strlen("./")+2+(int)(log10((double)(iseq))+1)+1)*sizeof(char)); assert(subDirect!=NULL);
@@ -324,69 +359,31 @@ void main(int argc,char *argv[])
 	free(seedDirect); seedDirect=NULL;
 
 	// set up directories for result files;
-	root=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(root!=NULL); 
-	strcpy(root, subDirect);
-	outF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outF!=NULL);
-	strcpy(outF, root); strcat(outF, "output.txt");
-	itemacuTrF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(itemacuTrF!=NULL);
-	strcpy(itemacuTrF, root); strcat(itemacuTrF, "itemacu_tr.txt");
-	itemacuTeF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(itemacuTeF!=NULL);
-	strcpy(itemacuTeF, root); strcat(itemacuTeF, "itemacu_te.txt");
-	weightF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(weightF!=NULL);
-	strcpy(weightF, root); strcat(weightF, "weights.txt");
-	trainfreqF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(trainfreqF);
-	strcpy(trainfreqF, root); strcat(trainfreqF, "trainfreq.txt");
-	outPhonTrF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outPhonTrF);
-	strcpy(outPhonTrF, root); strcat(outPhonTrF, "outphonTr.txt");
-	outPhonTeF=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(outPhonTeF);
-	strcpy(outPhonTeF, root); strcat(outPhonTeF, "outphonTe.txt");
-
-	if((f1=fopen(outF,"w+"))==NULL) { printf("Can't open %s\n", outF); exit(1); }
-	fprintf(f1, "ITER\tErr\tAcuTr\tAcuTe\n");
-	fclose(f1);
-	
-	if((f2=fopen(itemacuTrF,"w+"))==NULL) { printf("Can't open %s\n", itemacuTrF); exit(1); }
-	fprintf(f2,"ITER\tNoItem");
-	for(i=0;i<train_exm->numExamples;i++)
-		fprintf(f2,"\tAcu%d",i+1);
-	fprintf(f2,"\tAvg\n");
-	fclose(f2);
-
-	if((f3=fopen(itemacuTeF,"w+"))==NULL) { printf("Can't open %s\n", itemacuTeF); exit(1); }
-	fprintf(f3,"ITER\tNoItem");
-	for(i=0;i<test_exm->numExamples;i++)
-		fprintf(f3,"\tAcu%d",i+1);
-	fprintf(f3,"\tAvg\n");
-	fclose(f3);
-
-	if((f4=fopen(trainfreqF,"w+"))==NULL) { printf("Can't open %s\n", trainfreqF); exit(1); }
-	fprintf(f4,"ITER\tNoItem");
-	for(i=0;i<train_exm->numExamples;i++)
-		fprintf(f4,"\tAct%d",i+1);
-	fprintf(f4,"\n");
-	fclose(f4);
-
-	if((f5=fopen(outPhonTrF,"w+"))==NULL) { printf("Can't open %s\n", outPhonTrF); exit(1); }
-	fprintf(f5,"ITER\tNoItem");
-	for(i=0;i<train_exm->numExamples;i++)
-		fprintf(f5,"\tPhon%d",i+1);
-	fprintf(f5,"\n");
-	fclose(f5);
-
-	if((f6=fopen(outPhonTeF,"w+"))==NULL) { printf("Can't open %s\n", outPhonTeF); exit(1); }
-		fprintf(f6,"ITER\tNoItem");
-		for(i=0;i<test_exm->numExamples;i++)
-			fprintf(f6,"\tPhon%d",i+1);
-		fprintf(f6,"\n");
-		fclose(f6);
-
+	root=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(root!=NULL); strcpy(root, subDirect);
+	crtFName(&outF, subDirect, root, "output.txt");
+	crtFName(&itemacuTrF, subDirect, root, "itemacu_tr.txt"); crtFName(&itemacuTeF, subDirect, root, "itemacu_te.txt");
+	crtFName(&weightF, subDirect, root, "weights.txt"); crtFName(&trainfreqF, subDirect, root, "trainfreq.txt"); 
+	crtFName(&outPhonTrF, subDirect, root, "outphonTr.txt"); crtFName(&outPhonTeF, subDirect, root, "outphonTe.txt");
+	if(_recVec==1) { crtFName(&outPhonTrVecF, subDirect, root, "outphonTrVec.txt"); crtFName(&outPhonTeVecF, subDirect, root, "outphonTeVec.txt"); }
+	// create result files
+	initF(&f1, outF, "ITER\tErr\tAcuTr\tAcuTe\n", NULL, 0, NULL);
+	initF(&f2, itemacuTrF, "ITER\tNoItem", "\tAcu%d", train_exm->numExamples, "\tAvg\n");
+	initF(&f3, itemacuTeF, "ITER\tNoItem", "\tAcu%d", test_exm->numExamples, "\tAvg\n");
+	initF(&f4, trainfreqF, "ITER\tNoItem", "\tF%d", train_exm->numExamples, "\n");
+	initF(&f5, outPhonTrF, "ITER\tNoItem", "\tPhon%d", train_exm->numExamples, "\n");
+	initF(&f6, outPhonTeF, "ITER\tNoItem", "\tPhon%d", test_exm->numExamples, "\n");
+	if(_recVec==1)
+		{ initF(&f7, outPhonTrVecF, "ITER\tNoItem", "\tPV%d", train_exm->numExamples, "\n");
+		  initF(&f8, outPhonTeVecF, "ITER\tNoItem", "\tPV%d", test_exm->numExamples, "\n");
+		}
 	printf("Start training!\n");
-	train(reading, train_exm, test_exm, f1, outF, f2, itemacuTrF, f3, itemacuTeF, weightF, f4, trainfreqF, f5, outPhonTrF, f6, outPhonTeF);	// train network;
+	train(reading, train_exm, test_exm, f1, outF, f2, itemacuTrF, f3, itemacuTeF, weightF, f4, trainfreqF, f5, outPhonTrF, f6, outPhonTeF, f7, outPhonTrVecF, f8, outPhonTeVecF);	// train network;
 	printf("Done!\n");
 
 	free(outF); outF=NULL; free(weightF); weightF=NULL; 
 	free(itemacuTrF); itemacuTrF=NULL; free(itemacuTeF); itemacuTeF=NULL; 
-	free(trainfreqF); trainfreqF=NULL; free(outPhonTrF); outPhonTrF=NULL; free(outPhonTeF); outPhonTeF=NULL;
+	free(trainfreqF); trainfreqF=NULL; free(outPhonTrF); outPhonTrF=NULL; free(outPhonTeF); outPhonTeF=NULL; 
+	if(_recVec==1) { free(outPhonTrVecF); outPhonTrVecF=NULL; free(outPhonTeVecF); outPhonTeVecF=NULL; }
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
 	  		  
 	free(train_exm); train_exm=NULL;	// free training_examples;
