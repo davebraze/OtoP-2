@@ -300,6 +300,7 @@ void crtFName(char **fName, char *subDirect, char *root, char *name)
 	*fName=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(*fName!=NULL); 
 	strcpy(*fName, root); strcat(*fName, name);
 }
+
 void initF(FILE **f, char *fName, char *format1, char *format2, int size, char *format3)
 { // initialize the first line of f;
 	assert(f!=NULL); assert(fName!=NULL); assert(format1!=NULL);
@@ -385,7 +386,7 @@ void main(int argc,char *argv[])
 	free(trainfreqF); trainfreqF=NULL; free(outPhonTrF); outPhonTrF=NULL; free(outPhonTeF); outPhonTeF=NULL; 
 	if(_recVec==1) { free(outPhonTrVecF); outPhonTrVecF=NULL; free(outPhonTeVecF); outPhonTeVecF=NULL; }
 	free(root); root=NULL; free(subDirect); subDirect=NULL; free(locDirect); locDirect=NULL;				
-	  		  
+	
 	free(train_exm); train_exm=NULL;	// free training_examples;
 	free(test_exm); test_exm=NULL;	// free testing_examples;
 	delete_phoneme();	// empty _phon;
