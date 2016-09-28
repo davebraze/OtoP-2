@@ -43,7 +43,7 @@ int vect_check(Real *x1, Real *x2)
 	return inThres;
 }
 
-char findP(Real *vect, Real *trans)
+char getphon(Real *vect, Real *trans)
 { // find phoneme matching vect; 
 	assert(vect!=NULL); assert(trans!=NULL); 
 	int i, j, ind, MaxDist, numInThres, *InThresSet=NULL, curind;
@@ -100,7 +100,7 @@ char findP(Real *vect, Real *trans)
 	return(curPhon);
 }
 
-Real calaccu(Real *out, Real *target, char *transPhon)
+Real cal_accu(Real *out, Real *target, char *transPhon)
 { // calculate accuracy by comparing out with target;
 	assert(out!=NULL); assert(target!=NULL); 
 	int i, j, same, NoAccu, cur;
@@ -122,7 +122,7 @@ Real calaccu(Real *out, Real *target, char *transPhon)
 		  for(j=0;j<_pho_features;j++)
 		  	trans[j]=0.0;
 
-		  transPhon[cur]=findP(vect, trans); cur++;		  
+		  transPhon[cur]=getphon(vect, trans); cur++;		  
 		  for(j=0;j<_pho_features;j++)
 			transout[i+j]=trans[j];
 
@@ -144,7 +144,7 @@ Real calaccu(Real *out, Real *target, char *transPhon)
 	else return 1.0;
 }
 
-Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fName, FILE *f2, char *fName2, FILE *f3, char *fName3)
+Real getaccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fName, FILE *f2, char *fName2, FILE *f3, char *fName3)
 { // calculate accuracy of the network;
 	assert(net!=NULL); assert(examples!=NULL); assert(f!=NULL); assert(fName!=NULL); assert(f2!=NULL); assert(fName2!=NULL); 
 	if(_recVec==1) { assert(f3!=NULL); assert(fName3!=NULL); }
@@ -179,7 +179,7 @@ Real getAccu(Net *net, ExampleSet *examples, int iter, FILE *f, char *fName, FIL
 		  for(j=0;j<(int)(_PhonoS/(float)(_pho_features));j++)
 		  	transPhon[j]='=';
 		  		  
-		  itemaccu=calaccu(out,target,transPhon);
+		  itemaccu=cal_accu(out,target,transPhon);
 		  	
 		  fprintf(f,"\t%5.3f", itemaccu);	// record accuracy;		  
 		  // record transPhon; 
@@ -241,8 +241,8 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fName
 		  	{ if(count==_rep)
 				{ // record status;
 				  error=error/(float)count;
-			  	  accuTr=getAccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
-				  accuTe=getAccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
+			  	  accuTr=getaccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
+				  accuTe=getaccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
 
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
 	  			  if((f1=fopen(fName1,"a+"))==NULL) { printf("Can't open %s\n", fName1); exit(1); }
@@ -270,8 +270,8 @@ void train(Net *net, ExampleSet *TrExm, ExampleSet *TeExm, FILE *f1, char *fName
 					}
 				  // record status;	
 				  error=error/(float)count;
-			  	  accuTr=getAccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
-				  accuTe=getAccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
+			  	  accuTr=getaccu(net, TrExm, iter, f2, fName2, f5, fName5, f7, fName7); 
+				  accuTe=getaccu(net, TeExm, iter, f3, fName3, f6, fName6, f8, fName8);
 				  printf("iter=%d\terr=%5.3f\tacuTr=%5.3f\tacuTe=%5.3f\n", iter, error, accuTr, accuTe);	// display on screen;
 	  			  if((f1=fopen(fName1,"a+"))==NULL) { printf("Can't open %s\n", fName1); exit(1); }
 				  fprintf(f1, "%d\t%5.3f\t%5.3f\t%5.3f\n", iter, error, accuTr, accuTe);	// store parameters and results into f;
@@ -332,13 +332,13 @@ void main(int argc,char *argv[])
 		  
 	// all the parameters can also be set by input arguments;
 	for(i=1;i<argc;i++)
-		{ if(strcmp(argv[i],"-seed")==0){ assert(atoi(argv[i+1])>=0); _seed=atol(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-iter",5)==0){ assert(atoi(argv[i+1])>0); _iter=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-rep",4)==0){ assert(atoi(argv[i+1])>0); _rep=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-samp",5)==0){ assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _samp_method=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-met",4)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _v_method=atoi(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-thres",6)==0) { assert((atof(argv[i+1])>=0.0)||(atof(argv[i+1])<=1.0)); _v_thres=atof(argv[i+1]); i++; }
-		  else if(strncmp(argv[i],"-recvec",7)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _recVec=atoi(argv[i+1]); i++; }
+		{ if(strcmp(argv[i],"-seed")==0){ assert(atoi(argv[i+1])>=0); _seed=atol(argv[i+1]); i++; }	// set random seed via '-seed' argument;
+		  else if(strncmp(argv[i],"-iter",5)==0){ assert(atoi(argv[i+1])>0); _iter=atoi(argv[i+1]); i++; }	// set total number of training iterations via '-iter' argument;
+		  else if(strncmp(argv[i],"-rep",4)==0){ assert(atoi(argv[i+1])>0); _rep=atoi(argv[i+1]); i++; }	// set sampling point via '-rep' argument;
+		  else if(strncmp(argv[i],"-samp",5)==0){ assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _samp_method=atoi(argv[i+1]); i++; }	// set sampling method via '-samp' argument;
+		  else if(strncmp(argv[i],"-met",4)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _v_method=atoi(argv[i+1]); i++; }	// set accuracy calculation method via '-met' argument;
+		  else if(strncmp(argv[i],"-thres",6)==0) { assert((atof(argv[i+1])>=0.0)||(atof(argv[i+1])<=1.0)); _v_thres=atof(argv[i+1]); i++; }	// set accuracy calculation threshold for vector based method via '-thres' argument;
+		  else if(strncmp(argv[i],"-recvec",7)==0) { assert((atoi(argv[i+1])==0)||(atoi(argv[i+1])==1)); _recVec=atoi(argv[i+1]); i++; }	// set recording vector output via '-recvec' argument;
 		}	
 	mikenet_set_seed(_seed); build_model();	// build a network, with TIME number of time ticks; 
 	printf("No. Connections: %d\n", count_connections());	// calculate number of connections and print out;
@@ -361,12 +361,13 @@ void main(int argc,char *argv[])
 
 	// set up directories for result files;
 	root=malloc((strlen(subDirect)+2+_FileLen)*sizeof(char)); assert(root!=NULL); strcpy(root, subDirect);
-	crtFName(&outF, subDirect, root, "output.txt");
-	crtFName(&itemacuTrF, subDirect, root, "itemacu_tr.txt"); crtFName(&itemacuTeF, subDirect, root, "itemacu_te.txt");
-	crtFName(&weightF, subDirect, root, "weights.txt"); crtFName(&trainfreqF, subDirect, root, "trainfreq.txt"); 
-	crtFName(&outPhonTrF, subDirect, root, "outphonTr.txt"); crtFName(&outPhonTeF, subDirect, root, "outphonTe.txt");
-	if(_recVec==1) { crtFName(&outPhonTrVecF, subDirect, root, "outphonTrVec.txt"); crtFName(&outPhonTeVecF, subDirect, root, "outphonTeVec.txt"); }
-	// create result files
+	crtFName(&outF, subDirect, root, "output.txt");	// record training error, training accuracy and testing accuracy;
+	crtFName(&itemacuTrF, subDirect, root, "itemacu_tr.txt"); crtFName(&itemacuTeF, subDirect, root, "itemacu_te.txt");	// record item-based training and testing accuracy;
+	crtFName(&weightF, subDirect, root, "weights.txt");	// record connection weights of the network;
+	crtFName(&trainfreqF, subDirect, root, "trainfreq.txt"); 	// record accumulative occurring frequency of training examples during training;
+	crtFName(&outPhonTrF, subDirect, root, "outphonTr.txt"); crtFName(&outPhonTeF, subDirect, root, "outphonTe.txt");	// record output phonemes of training and testing examples;
+	if(_recVec==1) { crtFName(&outPhonTrVecF, subDirect, root, "outphonTrVec.txt"); crtFName(&outPhonTeVecF, subDirect, root, "outphonTeVec.txt"); }	// record output phonological vector values of training and testing examples;
+	// create result files' headers
 	initF(&f1, outF, "ITER\tErr\tAcuTr\tAcuTe\n", NULL, 0, NULL);
 	initF(&f2, itemacuTrF, "ITER\tNoItem", "\tAcu%d", train_exm->numExamples, "\tAvg\n");
 	initF(&f3, itemacuTeF, "ITER\tNoItem", "\tAcu%d", test_exm->numExamples, "\tAvg\n");

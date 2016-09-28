@@ -9,7 +9,7 @@ ExampleSet *train_exm, *test_exm;
 // network parameters
 int _tai, _tick;
 double _intconst, _epsi;
-int _acttype; 
+int _acttype, _errortype;
 double _errrad, _range;
 int _OrthoS, _HidS, _PhonoS, _PhoHidS;
 
@@ -20,14 +20,15 @@ typedef struct
   Real *vec;	// features of phoneme;
 } Phoneme;
 Phoneme *_phon;
+
+// parameters for file names storing phonological dictionary and training and testing examples;
 char *_phoF, *_exTrF, *_exTeF;
 
 // functions to get parameter values;
-void GetUnsignedIntPara(FILE *f, unsigned int *para);
-void GetIntPara(FILE *f, int *para);
-void GetDoublePara(FILE *f, double *para);
-void GetStringPara(FILE *f, char **s);
-void readPara(void);
+void getpara_int(FILE *f, int *para);
+void getpara_double(FILE *f, double *para);
+void getpara_string(FILE *f, char **s);
+void readpara(void);
 
 // function to build the network;
 void build_model(void);

@@ -7,7 +7,7 @@ library(plyr)
 
 options(max.print=10000)
 
-drawrange <- c(1e4, 1e9)
+drawrange <- c(1e4, 1e8)
 ##################################################
 ## Get training data (O to P mappings).
 
@@ -111,6 +111,25 @@ ggplot(avgaccu, aes(x=iter, y=acute)) + scale_x_log10(labels=scinot) +
 ggsave('AvgAcc_Te.png', dpi = 300, height = 6, width = 12, units = 'in')
 
 
+# calculate distribution of words in the traing example
+f <- dir(".", pattern="^trainfreq.txt$", recursive=TRUE)
+trainfreq <- ldply(f, readOutput); names(trainfreq) <- str_to_lower(names(trainfreq))
+
+# draw distribution of occurrence of training examples
+timepoint <- 10000; runID <- 1
+trainfreq_sub <- trainfreq[trainfreq$iter==timepoint & trainfreq$run==runID,]
+wrd <- which(str_detect(names(trainfreq_sub), "^act[0-9]+$")); names(wrd) <- 1:4008
+freqdist <- tidyr::gather(trainfreq_sub, wrd, key="item", value="occur")
+
+ggplot(freqdist, aes(x=item,y=occur, group=run)) + geom_bar(stat="identity", width=0.1, group=freqdist$run) +  
+  xlab("Training Examples") + ylab("Occurrence") + ggtitle("Occurrence of Training Examples") 
+ggsave('FreqDist_bar.png', dpi = 300, height = 6, width = 18, units = 'in')
+
+ggplot(freqdist, aes(occur, group=run)) + geom_histogram(bins=50, group=freqdist$run) + 
+  xlab("Occurrence") + ylab("Count") + ggtitle("Histogram of Occurrence of Training Examples")
+ggsave('FreqDist_hist.png', dpi = 300, height = 6, width = 18, units = 'in')
+
+
 ##################################################
 ## get word-level performance data from a set of models & tidy it. 
 ## Data files ("itemacu_tr.txt") are assumed to be in subdirectories 
@@ -128,7 +147,7 @@ getItemAcuActPhon <- function(f1, f2, OPList){
   t <- tidyr::gather(t, wrd, key="OP", value="accuracy")
   t <- tidyr::separate(t, OP, into=c("O", "P"), sep="[.]")
   
-  # ## read activated phoneme data
+  ## read activated phoneme data
   actphon <- ldply(f2, readOutput); names(actphon) <- str_to_lower(names(actphon))
   actphon <- actphon[-which(names(actphon) == "noitem")] # tidyr way to do this is ??
   ## re-label item columns, with wordforms (O.P) they represent
@@ -337,7 +356,7 @@ unique(strain1995A$O[!(strain1995A$O %in% word1995A$O)])
 tr_1995A <- subset(tr, tr$O %in% strain1995A$O)
 tr_1995A <- merge(tr_1995A, strain1995A, by = c("O"), all.x = TRUE, all.y = FALSE)
 tr_freqreg <- subset(tr_1995A, freq == "H" | freq == "L")
-cat("numfreqreg: ", length(unique(tr_freqreg$O)), '\n')
+cat(length(unique(tr_freqreg$O)), '\n')
 # 56
 
 ggplot(tr_freqreg, aes(x=iter, y=accuracy, color=interaction(freq, reg))) + scale_x_log10(labels=scinot) + 
@@ -374,7 +393,7 @@ unique(TM1987A1$O[!(TM1987A1$O %in% word1987A1$O)])
 tr_1987A1 <- subset(tr, tr$O %in% TM1987A1$O)
 tr_1987A1 <- merge(tr_1987A1, TM1987A1, by = c("O"), all.x = TRUE, all.y = FALSE)
 tr_freqreg <- subset(tr_1987A1, freq == "H" | freq == "L")
-cat("numfreqreg: ", length(unique(tr_freqreg$O)), '\n')
+cat(length(unique(tr_freqreg$O)), '\n')
 # 91
 
 ggplot(tr_freqreg, aes(x=iter, y=accuracy, color=interaction(freq, reg))) + scale_x_log10(labels=scinot) + 
@@ -411,7 +430,7 @@ unique(TM1987A2$O[!(TM1987A2$O %in% word1987A2$O)])
 tr_1987A2 <- subset(tr, tr$O %in% TM1987A2$O)
 tr_1987A2 <- merge(tr_1987A2, TM1987A2, by = c("O"), all.x = TRUE, all.y = FALSE)
 tr_freqreg <- subset(tr_1987A2, freq == "H" | freq == "L")
-cat("numfreqreg: ", length(unique(tr_freqreg$O)), '\n')
+cat(length(unique(tr_freqreg$O)), '\n')
 # 94
 
 ggplot(tr_freqreg, aes(x=iter, y=accuracy, color=interaction(freq, const))) + scale_x_log10(labels=scinot) + 
@@ -433,7 +452,7 @@ xtabs(~freq, data=word1990A)
 te_1990A <- subset(te, te$O %in% treiman1990A$O)
 te_1990A <- merge(te_1990A, treiman1990A, by = c("O"), all.x = TRUE, all.y = FALSE)
 te_freqreg <- subset(te_1990A, freq == "H" | freq == "L")
-cat("numfreqreg: ", length(unique(te_freqreg$O)), '\n')
+cat(length(unique(te_freqreg$O)), '\n')
 # 48
 
 ggplot(te_freqreg, aes(x=iter, y=accuracy, color=freq)) + scale_x_log10(labels=scinot) + 
