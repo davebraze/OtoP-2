@@ -60,6 +60,8 @@ void readpara(void)
 	getpara_double(f, &_epsi);	// read _epsi; episilon value for the activation curve; default value is 0.001;
 	getpara_int(f, &_acttype);	// read _acttype; // LOGISTIC_ACTIVATION (0), TANH_ACTIVATION (1), FAST_LOGISTIC_ACTIVATION (2), LINEAR_ACTIVATION (3), or STEP_ACTIVATION (4); 
 	getpara_int(f, &_errortype); // int _errortype; SUM_SQUARED_ERROR (1) or CROSS_ENTROPY_ERROR (2)
+	getpara_int(f, &_weightnoisetype);	// int _weightnoisetype; NO_NOISE (0), ADDITIVE_NOISE (1), or MULTIPLICATIVE_NOISE (2)
+	getpara_double(f, &_weightnoise);	// double _weightnoise; noise on connection weights;
 	getpara_double(f, &_errrad);	// read _errrad; error radius, errors less than it are counted as zero; default value is 0.1;
 	getpara_double(f, &_range);	// read _range; range of initial weights, the initially randomized weights are positive and negative _range;
 	getpara_int(f, &_OrthoS);	// read _OrthoS; size (number of nodes) of the orthographical layer;
@@ -84,47 +86,48 @@ void readpara(void)
 void build_model(void)
 { // build a network, with TIME number of time ticks
 	readpara();
-
 	// set up network parameters
 	default_tai=_tai;
   	reading=create_net(_tick);
   	reading->integrationConstant=_intconst;
-
+	
   	/* learning rate, activation pattern, and error method */
   	default_epsilon=_epsi;
   	default_activationType=_acttype;
 	default_errorComputation=_errortype;
+	default_weightNoiseType=_weightnoisetype;
+	default_weightNoise=_weightnoise;
 
-  	/* error radius */
+	/* error radius */
   	default_errorRadius=_errrad;
 
-  	/* create our groups. format is: name, num of units,  ticks */
+	/* create our groups. format is: name, num of units,  ticks */
   	input=init_group("Ortho",_OrthoS,_tick);
   	hidden=init_group("Hidden",_HidS,_tick);
   	output=init_group("Phono",_PhonoS,_tick);
   	phohid=init_group("PhoHid",_PhoHidS,_tick);
 
-  	/* now add our groups to the network object */
+	/* now add our groups to the network object */
   	bind_group_to_net(reading,input);
   	bind_group_to_net(reading,hidden);
   	bind_group_to_net(reading,output);
   	bind_group_to_net(reading,phohid);
 
-  	/* now connect our groups, instantiating connection objects c1 through c4 */
+	/* now connect our groups, instantiating connection objects c1 through c4 */
   	c1=connect_groups(input,hidden);
   	c2=connect_groups(hidden,output);
   	c3=connect_groups(output,output);
   	c4=connect_groups(output,phohid);
   	c5=connect_groups(phohid,output);
 
-  	/* add connections to our network */
+	/* add connections to our network */
   	bind_connection_to_net(reading,c1);
   	bind_connection_to_net(reading,c2);
   	bind_connection_to_net(reading,c3);
   	bind_connection_to_net(reading,c4);
   	bind_connection_to_net(reading,c5);
 
-  	/* randomize the weights in the connection objects. Second argument is weight range. */
+	/* randomize the weights in the connection objects. Second argument is weight range. */
   	randomize_connections(c1,_range);
   	randomize_connections(c2,_range);
   	randomize_connections(c3,_range);
@@ -138,12 +141,10 @@ void build_model(void)
 	int i;
   	precompute_topology(reading,input);
   	for(i=0;i<reading->numGroups;i++)
-  		printf("%s %d\n",reading->groups[i]->name,reading->groups[i]->whenDataLive);
-  
+  		printf("%s %d\n",reading->groups[i]->name,reading->groups[i]->whenDataLive);  
   	for(i=0;i<c3->to->numUnits;i++)
     	{ // freeze c3 connection weights to 0.75!
-      	  c3->weights[i][i]=0.75;	 
-      	  c3->frozen[i][i]=1;
+      	  c3->weights[i][i]=0.75; c3->frozen[i][i]=1;
     	}
 }
 

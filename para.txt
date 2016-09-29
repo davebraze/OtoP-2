@@ -5,6 +5,8 @@
 1e-2	// double _epsi; episilon value for the activation curve; default value is 0.001;
 0	// int _acttype; LOGISTIC_ACTIVATION (0) (Harm 1998), TANH_ACTIVATION (1) (Harm & Seidenberg 1999), FAST_LOGISTIC_ACTIVATION (2), LINEAR_ACTIVATION (3), or STEP_ACTIVATION (4)
 1	// int _errortype; SUM_SQUARED_ERROR (1) or CROSS_ENTROPY_ERROR (2)
+0	// int _weightnoisetype; NO_NOISE (0), ADDITIVE_NOISE (1), or MULTIPLICATIVE_NOISE (2)
+0.0	// double _weightnoise; noise on connection weights;
 0.1	// double _errrad; error radius, errors less than it are counted as zero; default value is 0.1;
 0.1	// double _range; range of initial weights, the initially randomized weights are positive and negative _range;
 208	// int _OrthoS; size (number of nodes) of the orthographical layer;

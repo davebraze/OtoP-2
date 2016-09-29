@@ -10,6 +10,7 @@ ExampleSet *train_exm, *test_exm;
 int _tai, _tick;
 double _intconst, _epsi;
 int _acttype, _errortype;
+int _weightnoisetype; double _weightnoise;
 double _errrad, _range;
 int _OrthoS, _HidS, _PhonoS, _PhoHidS;
 
