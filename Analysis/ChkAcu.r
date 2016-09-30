@@ -116,17 +116,22 @@ f <- dir(".", pattern="^trainfreq.txt$", recursive=TRUE)
 trainfreq <- ldply(f, readOutput); names(trainfreq) <- str_to_lower(names(trainfreq))
 
 # draw distribution of occurrence of training examples
-timepoint <- 10000; runID <- 1
+timepoint <- 100000; runID <- 1
 trainfreq_sub <- trainfreq[trainfreq$iter==timepoint & trainfreq$run==runID,]
-wrd <- which(str_detect(names(trainfreq_sub), "^act[0-9]+$")); names(wrd) <- 1:4008
+# timepoint <- 10000
+# trainfreq_sub <- trainfreq[trainfreq$iter==timepoint,]
+wrd <- which(str_detect(names(trainfreq_sub), "^f[0-9]+$")); names(wrd) <- 1:4008
 freqdist <- tidyr::gather(trainfreq_sub, wrd, key="item", value="occur")
 
-ggplot(freqdist, aes(x=item,y=occur, group=run)) + geom_bar(stat="identity", width=0.1, group=freqdist$run) +  
-  xlab("Training Examples") + ylab("Occurrence") + ggtitle("Occurrence of Training Examples") 
+ggplot(freqdist, aes(x=item, y=occur, color=run)) + geom_bar(stat="identity", width=0.1, color=freqdist$run) +  
+  xlab("Training Examples") + ylab("Occurrence") + 
+  ggtitle(paste("Occurrence of Training Examples\nat ", timepoint, " training; Run ", runID, sep="")) +
+  facet_grid(lrnrate~hlsize)
 ggsave('FreqDist_bar.png', dpi = 300, height = 6, width = 18, units = 'in')
 
-ggplot(freqdist, aes(occur, group=run)) + geom_histogram(bins=50, group=freqdist$run) + 
-  xlab("Occurrence") + ylab("Count") + ggtitle("Histogram of Occurrence of Training Examples")
+ggplot(freqdist, aes(occur, color=run)) + geom_histogram(bins=50) + facet_grid(hlsize~lrnrate) +
+  xlab("Occurrence") + ylab("Count") + 
+  ggtitle(paste("Histogram of Occurrence of Training Examples\n at ", timepoint, " Run ", runID, sep=""))
 ggsave('FreqDist_hist.png', dpi = 300, height = 6, width = 18, units = 'in')
 
 
