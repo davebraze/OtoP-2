@@ -1,9 +1,9 @@
 #!/bin/bash
-if [ "$#" -eq 0 ]; then
-	echo "At least one argument is required!"
+if [ "$#" -lt 2 ]; then
+	echo "At least two arguments (NUMRUN and WORKDIREC) are required!"
 	exit 1
 fi
-if [ "$#" -gt 9 ]; then
+if [ "$#" -gt 12 ]; then
 	echo "Too many arguments!"
 	exit 1
 fi
@@ -23,8 +23,14 @@ do
   	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 >> tasklist.txt
   elif [ "$#" -eq 7 ]; then
   	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 >> tasklist.txt
-  else
+  elif [ "$#" -eq 8 ]; then
   	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 >> tasklist.txt
+  elif [ "$#" -eq 9 ]; then
+  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 >> tasklist.txt
+  elif [ "$#" -eq 10 ]; then
+  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 $10 >> tasklist.txt
+  else
+  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 $10 $11 >> tasklist.txt
   fi
   i=$((i+1))
 done

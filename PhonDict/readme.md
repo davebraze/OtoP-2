@@ -16,11 +16,13 @@ in order to facilitate use in a Mikenet framework.
 
 ## Details of steps from Moby/CoCa to MikeNet OtoP Dictionary
 There are two types of phonological representations following respectively 
-Harm & Seidenberg (!999) and Harm (1998). The two papers and other relevant
+Harm & Seidenberg (1999) and Harm (1998). The two papers and other relevant
 ones are stored respectively in the folders ./HarmSeidenberg1999 and ./Harm1998.
 In those folders, phon\_HarmSeidenberg1999.txt and phon\_Harm1998.txt are the dictionary
 of phonemes to be used by the code. The explanantions of those phonemes can be found 
 in phon\_HarmSeidenberg1999_key.txt and phon\_Harm1998_key.txt.
+
+Compared with the two sets of phoneme dictionaries, the sets under Harm1998 are kinda preferred, due to their binary settings of phonemes and good training performances.
 
 Below are the details of steps from Moby/Coca to MikeNet OtoP Dictionary following
 Harm & Seidenber (1999)'s way of phonological representations.
@@ -111,5 +113,6 @@ After replacements, one also needs to replace combined phomenes '/j/u/' to '/W/'
 
 In Steps 5 and 6, the created csv files become: extword1\_Harm1998.csv, extword2\_Harm1998.csv, 
 and extword1\_Harm1998.csv. The created training example files become: TrEm1\_HarmSeidenberg1999.txt,
-TrEm2\_HarmSeidenberg1999.txt, and TrEm3\_HarmSeidenberg1999.txt. The csv and txt files are in folder
-./Harm1998.
+TrEm2\_HarmSeidenberg1999.txt, and TrEm3\_HarmSeidenberg1999.txt. The csv and txt files are in folder ./Harm1998.
+
+In addition to these phonemes and training examples. There is a folder ./examples, in which there are two subfolders called nonwords and realwords. In the subfolder nonwords, we provide one set of nonwords for testing the performance of the model. The Te.txt file is the text file which can be used as the testing example of the model. The nonwords examples in this file are extracted from the excel and csv files, which are taken from the Appendix of the paper by Treiman et al. (1990). The other subfolder realwords contains some excel files, the real words in which are taken from several papers, including Strain et al. (1995) Appendices A and B (these examples address the interaction between frequency and regularity of words), Strain et al. (2002) (these examples also address the effect of regularity), and Taraba & McClelland (1987) Appendices A1 and A2 (these examples address the interaction between frequency and regularity (consistency)). All these examples are used to test whether the model can report similar results to the previous empirical findings.   

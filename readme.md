@@ -21,9 +21,10 @@ and installation packages there for installation issues of Mikenet.
 
 #### Compilation
 
-The model is compiled and run under Linux (Mint 17), with Mikenet
-package is installed. The source codes include: model.h, model.c, and
+The codes for the model is in the folder ./code. The model is compiled and run under Linux (Mint 17), with Mikenet package is installed. The source codes include: model.h, model.c, and
 OtoP.c.
+
+The model implements a multi-layer neural network from orthography to phonology. The model can be trained in two aspects: training the mapping from orthography to phonology (OtoP) and training the cleanup units in a hidden layer between the phonological output layer and itself (PtoP). The second type of trainning can occur before the first type of training, by setting related parameters during the running of the model. 
 
 To compile an executable file, type: `make -f Makefile` in command
 line. This will generate the exe file called *OtoP*.
@@ -58,25 +59,33 @@ The first line is a comment line; in each of the following lines, the
 format is: value + \t + // type and name of the parameter.  One can
 easily change the value of each parameter to fit in new condition.
 
+Parameters in this model are from four categories: parameters for the network (e.g., parameters specifying the number of nodes in different layers of the network and parameters specifying the settings about the activation curve, way of calculating training error, and noise type, etc.), parameters for phonemes (e.g., parameters specifying the number of phonemes and the number of features in each phoneme), parameters for file names (e.g., parameters specifying the names of the txt files of phoneme inventory, training and testing examples), and parameters for running (e.g., parameters specifying the number of training, the sampling frequency, the way to calculate training and testing accuracies, etc.). For each parameter, there is a brief description of its meaning or default and possible values after "//". For the parameters for running, they can also be assigned using the shell command based on different arguments (see below). This way of assignment can override the original settings in para.txt.
+
 There are two ways of running the model:
 
 1. Using exe file, type: ./OtoP. 
 
-   One can specify some model parameters as command line arguments
+   One can specify some model parameters for running as command line arguments
    when calling the executable (OtoP): 
 
    ```
-   ./OtoP -seed SEED -iter ITER -rep REP -samp SAMP -met MET -vthres VTHRES -recvec RECVEC
+   ./OtoP -seed SEED -iter ITER -rep REP -ptop PTOP -iter_ptop ITERPtoP -rep_ptop REPPtoP -samp SAMP -met MET -vthres VTHRES -recvec RECVEC
    ```
 
-   There are default values for each parameter, so one can
-   specify all or only some of them.
+   There are default values for each argument, so one can
+   specify all or only some of them. Specifying these parameters can be done either in para.txt or via the above arguments when calling the executable (OtoP). All these arguments are optional. If no arguments are provided, the code will use the values set in para.txt.
 
-   * SEED: random seed to be used in that run. Default value is 0;
+   * SEED: random seed to be used in that run. Default value is 0 (randomly assigning a seed during the run);
 
-   * ITER: number of total iterations. Default value is 50000;
+   * ITER: number of total iterations (trainings). Default value is 50000;
 
-   * REP: iterations for recording the results; default value is 1000;
+   * REP: sampling frequency for recording the results (after how many trainings to record the results). Default value is 1000;
+   
+   * PTOP: whether to include PtoP training (1) or not (0). Default value is 0;
+   
+   * ITERPtoP: number of total iterations during PtoP training. Default value is 50000;
+   
+   * REPPtoP: sampling frequency for recording the results during PtoP training. Default value is 1000; 
 
    * SAMP: sampling method (0: liner; 1: logarithm-like). If SAMP is
      set to 1, REP is no longer useful. Default value is 0;
@@ -93,16 +102,20 @@ There are two ways of running the model:
    * RECVEC: whether (1) or not (0) record vector values of the output phonemes of training and testing examples. Defaluse value is 0;  
 
    The executable will prompt the user to input an integer, which will
-   be used as a folder name. Files containing information about the simulation results
-   are stored there.
+   be used as a folder name. Files containing the information about the simulation results
+   will be stored there.
    
    * seed.txt: store random seed in that run;
 
    * weights.txt.gz: zipped connection weights of the trained
      network;
+     
+   * weights_ptop.txt.gz: zipped connection weights of the trained network after PtoP training; These connection weights will be loaded before OtoP training. This file is created when PtoP training is included (by setting PTOP to 1 during running or setting _ptop to 1 in para.txt);
 
-   * output.txt: network parameters and training and testing errors at
-     each sampling point of the training;
+   * output.txt: network training errors and training and testing accuracies at
+     each sampling point of the OtoP training;
+  
+   * output_ptop.txt: network training errors and training accuracies at each sampling point of the PtoP training. This file is created when PtoP training is included (by setting PTOP to 1 during running or setting _ptop to 1 in para.txt);
 
    * itemacu\_tr.txt: item-based accuracy based on the training data
      (training\_examples.txt) at each sampling point;
@@ -136,12 +149,12 @@ There are two ways of running the model:
    serially, and store the results in the corresponding subfolders (1
    to N, N is the number of runs preset).
 
-   type: `sh SerRunLoc.sh NUM ITER REP SAMP MET VTHRES RECVEC`
+   type: `sh SerRunLoc.sh NUM ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC`
 
    * NUM: number of runs to be conducted, each using a different
-     random seed;
+     random seed. This argument must be given;
 
-   * The other parameters are the same as above and optional.
+   * The other arguments are the same as above and optional.
 
 ## Yale HPC
 
@@ -191,15 +204,15 @@ into an executable.
    tasklist.txt:
 
    ```
-   sh genTasklist.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES RECVEC
+   sh genTasklist.sh NUMRUN WORKDIREC ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC
    ```
 
-   * NUMRUN: total number of runs;
+   * NUMRUN: total number of runs. This argument must be given;
 
    * WORKDIREC: working directory of the code. Once the code is running, 
-     subfolders will be created here for storing results;
+     subfolders will be created here for storing results. This argument must be given;
 
-   * The other parameters are the same as in running the model using exe or script file. 
+   * The other arguments are the same as in running the model using exe or script file, and they ar all optional. 
 	 
 4. run the results via SimpleQueue
 
@@ -247,13 +260,13 @@ into an executable.
    tasklist.txt:
 
    ```
-   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP SAMP MET VTHRES RECVEC
+   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC
    ```
 
-   * NUMRUN: total number of runs;
-   * WORKDIREC: working directory of the code;
+   * NUMRUN: total number of runs. This argument must be given;
+   * WORKDIREC: working directory of the code. This argument must be given;
 
-   The other parameters are the same as for Grace, and are optional.
+   The other arguments are the same as for Grace, and are optional.
       
 4. run the results via SimpleQueue
    ```
