@@ -1,4 +1,4 @@
-O,pron,freq,log_freq,Rep_P,Rep_O
+wordform,pron,freq,log_freq,Rep_P,Rep_O
 tain,ten,H,0.05,_/_/t/e/n/_/_/,_/_/t/a/i/n/_/_/
 goach,goC,H,0.05,_/_/g/o/C/_/_/,_/_/g/o/a/c/h/_/
 joal,Jol,H,0.05,_/_/J/o/l/_/_/,_/_/j/o/a/l/_/_/

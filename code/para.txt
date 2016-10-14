@@ -1,12 +1,15 @@
 // Network Parameters
-1	// int _tai; default value is 1
-7	// int _tick; number of ticks in one epoch (trial) of training; different types of training can happen in different ticks;
+7	// int _tick_OtoP; number of ticks in one epoch (trial) of otop training; different types of training can happen in different ticks;
+7	// int _tick_PtoP; number of ticks in one epoch (trial) of ptop training; different types of training can happen in different ticks; 
 0.25	// double _intconst; default value is 0.25;
-1e-2	// double _epsi; episilon value for the activation curve; default value is 0.001;
+1	// int _tai; default value is 1
+5e-2	// double _epsi; episilon value for the activation curve; default value is 0.001;
 0	// int _acttype; LOGISTIC_ACTIVATION (0) (Harm 1998), TANH_ACTIVATION (1) (Harm & Seidenberg 1999), FAST_LOGISTIC_ACTIVATION (2), LINEAR_ACTIVATION (3), or STEP_ACTIVATION (4)
 1	// int _errortype; SUM_SQUARED_ERROR (1) or CROSS_ENTROPY_ERROR (2)
 0	// int _weightnoisetype; NO_NOISE (0), ADDITIVE_NOISE (1), or MULTIPLICATIVE_NOISE (2)
 0.0	// double _weightnoise; noise on connection weights;
+0.0	// double _actnoise; activation noise;
+0.0	// double _inputnoise; input noise;
 0.1	// double _errrad; error radius, errors less than it are counted as zero; default value is 0.1;
 0.1	// double _range; range of initial weights, the initially randomized weights are positive and negative _range;
 208	// int _OrthoS; size (number of nodes) of the orthographical layer;
@@ -20,7 +23,7 @@
 ./phon_Harm1998.txt	// char *_phoF; file name of the phoneme dictionary, which is a list of phonemes and their feature values;
 ./TrEm3_Harm1998.txt	// char *_exTrF; file name of the training examples; TrEm_HarmSeidenberg1999.txt or TrEm_Harm1998.txt;
 ./Te.txt	// char *_exTeF; file name of the testing examples; TeEm_HarmSeidenberg1999.txt or TeEm_Harm1998.txt or TE.txt (for nonwords);
-./TrEm3_P2P_Harm1998.txt	// char *_exTrF_P2P; file name of the training examples training phonological cleanup units; TrEM_PtoP_HarmSeidenberg1999.txt or TrEM_PtoP_Harm1998.txt; 
+./TrEm3_PtoP_Harm1998.txt	// char *_exTrF_PtoP; file name of the training examples training phonological cleanup units; TrEM_PtoP_HarmSeidenberg1999.txt or TrEM_PtoP_Harm1998.txt; 
 // Parameters for running
 0	// unsigned int _seed; random seed for each run; if _seed=0, use random seed;
 100000000	// unsigned int _iter; total number of training;

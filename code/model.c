@@ -8,28 +8,29 @@
 #include "model.h"
 
 // function to build up the model
-void build_model(void)
-{ // build a network, with TIME number of time ticks	
-	// set up network parameters
-	default_tai=_tai;
-  	reading=create_net(_tick);
-  	reading->integrationConstant=_intconst;
-	
-  	/* learning rate, activation pattern, and error method */
-  	default_epsilon=_epsi;
+void build_reading_model(int ticks)
+{ // build a network, with TIME number of time ticks
+	assert(ticks!=0);
+		
+  	/* tai, learning rate, activation pattern, error method, error level, and error radius */
+  	default_tai=_tai;
+	default_epsilon=_epsi;
   	default_activationType=_acttype;
 	default_errorComputation=_errortype;
 	default_weightNoiseType=_weightnoisetype;
 	default_weightNoise=_weightnoise;
+	default_activationNoise=_actnoise;
+	default_inputNoise=_inputnoise;
+	default_errorRadius=_errrad;
 
-	/* error radius */
-  	default_errorRadius=_errrad;
+	/* create network */
+	reading=create_net(ticks); reading->integrationConstant=_intconst;
 
 	/* create our groups. format is: name, num of units,  ticks */
-  	input=init_group("Ortho",_OrthoS,_tick);
-  	hidden=init_group("Hidden",_HidS,_tick);
-  	output=init_group("Phono",_PhonoS,_tick);
-  	phohid=init_group("PhoHid",_PhoHidS,_tick);
+  	input=init_group("Ortho",_OrthoS,ticks);
+  	hidden=init_group("Hidden",_HidS,ticks);
+  	output=init_group("Phono",_PhonoS,ticks);
+  	phohid=init_group("PhoHid",_PhoHidS,ticks);
 
 	/* now add our groups to the network object */
   	bind_group_to_net(reading,input);
@@ -67,17 +68,16 @@ void build_model(void)
   	for(i=0;i<reading->numGroups;i++)
   		printf("%s %d\n",reading->groups[i]->name,reading->groups[i]->whenDataLive);  
   	for(i=0;i<c3->to->numUnits;i++)
-    	{ // freeze c3 connection weights to 0.75!
-      	  c3->weights[i][i]=0.75; c3->frozen[i][i]=1;
+    	{ c3->weights[i][i]=0.75; c3->frozen[i][i]=1;	// freeze c3 connection weights to 0.75!
     	}
 }
 
-int count_connections(void)
+int count_connections(Net *net)
 { // calculate number of connections in the network;
-	assert(reading!=NULL);
+	assert(net!=NULL);
   	int i, j, k, count=0;
-  	for(i=0;i<reading->numConnections;i++)
-    	count += (reading->connections[i]->from->numUnits)*(reading->connections[i]->to->numUnits);
+  	for(i=0;i<net->numConnections;i++)
+    	count += (net->connections[i]->from->numUnits)*(net->connections[i]->to->numUnits);
   	return count;
 }
 
