@@ -779,19 +779,18 @@ for i in range(len(cand)):
 LettDic['_'] = lettList # filler
 
 # write to example file
-epoch = 6
 # ver 1: using extwords1_HarmSeidenberg1999.csv
 wordDF = pd.read_csv('./extwords1_HarmSeidenberg1999.csv')
-writeExp_OtoP(wordDF, './TrEm1_HarmSeidenberg1999.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm1_PtoP_HarmSeidenberg1999.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm1_HarmSeidenberg1999.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm1_PtoP_HarmSeidenberg1999.txt', 5, 0, 0, 2, 4, PhonDic)
 # ver 2: using extwords2_HarmSeidenberg1999.csv
 wordDF = pd.read_csv('./extwords2_HarmSeidenberg1999.csv')
-writeExp_OtoP(wordDF, './TrEm2_HarmSeidenberg1999.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm2_PtoP_HarmSeidenberg1999.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm2_HarmSeidenberg1999.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm2_PtoP_HarmSeidenberg1999.txt', 5, 0, 0, 2, 4, PhonDic)
 # ver 3: using extwords3_HarmSeidenberg1999.csv
 wordDF = pd.read_csv('./extwords3_HarmSeidenberg1999.csv')
-writeExp_OtoP(wordDF, './TrEm3_HarmSeidenberg1999.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm3_PtoP_HarmSeidenberg1999.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm3_HarmSeidenberg1999.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm3_PtoP_HarmSeidenberg1999.txt', 5, 0, 0, 2, 4, PhonDic)
     
 # Based on Harm (1998)
 # encoding of phonemes:
@@ -859,19 +858,18 @@ for i in range(len(cand)):
 LettDic['_'] = lettList # filler
 
 # write to example file
-epoch = 6
 # ver 1: using extwords1_Harm1998.csv
 wordDF = pd.read_csv('./extwords1_Harm1998.csv')
-writeExp_OtoP(wordDF, './TrEm1_Harm1998.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm1_PtoP_Harm1998.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm1_Harm1998.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm1_PtoP_Harm1998.txt', 5, 0, 0, 2, 4, PhonDic)
 # ver 2: using extwords2_Harm1998.csv
 wordDF = pd.read_csv('./extwords2_Harm1998.csv')
-writeExp_OtoP(wordDF, './TrEm2_Harm1998.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm2_PtoP_Harm1998.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm2_Harm1998.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm2_PtoP_Harm1998.txt', 5, 0, 0, 2, 4, PhonDic)
 # ver 3: using extwords3_Harm1998.csv
 wordDF = pd.read_csv('./extwords3_Harm1998.csv')
-writeExp_OtoP(wordDF, './TrEm3_Harm1998.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_PtoP(wordDF, './TrEm3_PtoP_Harm1998.txt', epoch, 0, 0, 3, 6, PhonDic)
+writeExp_OtoP(wordDF, './TrEm3_Harm1998.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_PtoP(wordDF, './TrEm3_PtoP_Harm1998.txt', 5, 0, 0, 2, 4, PhonDic)
 
 
 # create test word examples, based on Harm (1998):
@@ -913,8 +911,7 @@ for i in range(len(wordDF)):
     if succ == True and succform == True: 
         wordDF.loc[i,'Rep_P'] = newpron; wordDF.loc[i,'Rep_O'] = newform
 # store modified examples
-epoch = 6
 wordDF.to_csv('./Treiman-etal-1990-Appendix.csv', index=False)
 # second, write up example files
-writeExp_OtoP(wordDF, './Te.txt', epoch, 0, 6, 4, 6, PhonDic, LettDic)
-writeExp_OtoP(wordDF, './Te_PtoP.txt', epoch, 0, 0, 3, 6, PhonDic, LettDic)
+writeExp_OtoP(wordDF, './Te.txt', 7, 0, 6, 4, 6, PhonDic, LettDic)
+writeExp_OtoP(wordDF, './Te_PtoP.txt', 7, 0, 0, 2, 4, PhonDic, LettDic)
