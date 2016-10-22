@@ -7,7 +7,9 @@ library(plyr)
 
 options(max.print=10000)
 
-drawrange <- c(1e4, 1e8)
+drawrange <- c(1e4,1e7)
+errrange_ptop <- c(10, 1e7)
+errrange_otop <- c(10, 1e7)
 ##################################################
 ## Get training data (O to P mappings).
 
@@ -91,30 +93,45 @@ scinot <- function(x){
   if(is.numeric(x)){ format(x, scientific=TRUE)
   }else{ error("x must be numeric") }
 }
-# get accuracy data
+# get OtoP accuracy data
 f <- dir(".", pattern="^output.txt$", recursive=TRUE)
 avgaccu <- ldply(f, readOutput); names(avgaccu) <- str_to_lower(names(avgaccu))
-write.csv(avgaccu, './AvgAcu.csv', row.names=FALSE)
+write.csv(avgaccu, './AvgAcu_OtoP.csv', row.names=FALSE)
+# get PtoP accuracy data
+f <- dir(".", pattern="^output_ptop.txt$", recursive=TRUE)
+avgaccu_ptop <- ldply(f, readOutput); names(avgaccu_ptop) <- str_to_lower(names(avgaccu_ptop))
+write.csv(avgaccu_ptop, './AvgAcu_PtoP.csv', row.names=FALSE)
+
+# draw training error
+ggplot(avgaccu, aes(x=iter, y=err)) + scale_x_log10(labels=scinot) +  
+  coord_cartesian(xlim=errrange_otop) + xlab("Training Trials (log10)") + ylab("Avg Err") +  
+  ggtitle("Training Error x Trials (OtoP) \n Hid Layer & Learn Rate") +
+  geom_point(alpha=.2, color="blue") + geom_smooth(span=.2, color="darkorange") + facet_grid(lrnrate~hlsize)
+ggsave('Error_OtoP.png', dpi = 300, height = 6, width = 12, units = 'in')
+# draw training error
+ggplot(avgaccu_ptop, aes(x=iter, y=err)) + scale_x_log10(labels=scinot) +  
+  coord_cartesian(xlim=errrange_ptop) + xlab("Training Trials (log10)") + ylab("Avg Err") +  
+  ggtitle("Training Error x Trials (OtoP) \n Hid Layer & Learn Rate") +
+  geom_point(alpha=.2, color="blue") + geom_smooth(span=.2, color="darkorange") + facet_grid(lrnrate~hlsize)
+ggsave('Error_PtoP.png', dpi = 300, height = 6, width = 12, units = 'in')
 
 # draw training accuracy
 ggplot(avgaccu, aes(x=iter, y=acutr)) + scale_x_log10(labels=scinot) +  
   coord_cartesian(xlim=drawrange) + xlab("Training Trials (log10)") + ylab("Avg Acc") +  
-  ggtitle("Training Acc x Trials\n Hid Layer & Learn Rate") +
+  ggtitle("Training Acc x Trials \n Hid Layer & Learn Rate") +
   geom_point(alpha=.2, color="blue") + geom_smooth(span=.2, color="darkorange") + facet_grid(lrnrate~hlsize)
-ggsave('AvgAcc_Tr.png', dpi = 300, height = 6, width = 12, units = 'in')
-
+ggsave('AvgAcc_Tr_OtoP.png', dpi = 300, height = 6, width = 12, units = 'in')
 # draw testing accuracy
 ggplot(avgaccu, aes(x=iter, y=acute)) + scale_x_log10(labels=scinot) +  
   coord_cartesian(xlim=drawrange) + xlab("Training Trials (log10)") + ylab("Avg Acc") +  
   ggtitle("Testing Acc x Trials\n Hid Layer & Learn Rate") +
   geom_point(alpha=.2, color="blue") + geom_smooth(span=.2, color="darkorange") + facet_grid(lrnrate~hlsize)
-ggsave('AvgAcc_Te.png', dpi = 300, height = 6, width = 12, units = 'in')
+ggsave('AvgAcc_Te_OtoP.png', dpi = 300, height = 6, width = 12, units = 'in')
 
 
 # calculate distribution of words in the traing example
 f <- dir(".", pattern="^trainfreq.txt$", recursive=TRUE)
 trainfreq <- ldply(f, readOutput); names(trainfreq) <- str_to_lower(names(trainfreq))
-
 # draw distribution of occurrence of training examples
 timepoint <- 100000; runID <- 1
 trainfreq_sub <- trainfreq[trainfreq$iter==timepoint & trainfreq$run==runID,]
@@ -127,12 +144,31 @@ ggplot(freqdist, aes(x=item, y=occur, color=run)) + geom_bar(stat="identity", wi
   xlab("Training Examples") + ylab("Occurrence") + 
   ggtitle(paste("Occurrence of Training Examples\nat ", timepoint, " training; Run ", runID, sep="")) +
   facet_grid(lrnrate~hlsize)
-ggsave('FreqDist_bar.png', dpi = 300, height = 6, width = 18, units = 'in')
-
+ggsave(paste('FreqDist_bar_OtoP_', timepoint, '.png'), dpi = 300, height = 6, width = 18, units = 'in')
 ggplot(freqdist, aes(occur, color=run)) + geom_histogram(bins=50) + facet_grid(hlsize~lrnrate) +
   xlab("Occurrence") + ylab("Count") + 
   ggtitle(paste("Histogram of Occurrence of Training Examples\n at ", timepoint, " Run ", runID, sep=""))
-ggsave('FreqDist_hist.png', dpi = 300, height = 6, width = 18, units = 'in')
+ggsave(paste('FreqDist_hist_OtoP_', timepoint, '.png'), dpi = 300, height = 6, width = 18, units = 'in')
+
+f <- dir(".", pattern="^trainfreq_ptop.txt$", recursive=TRUE)
+trainfreq <- ldply(f, readOutput); names(trainfreq) <- str_to_lower(names(trainfreq))
+# draw distribution of occurrence of training examples
+timepoint <- 100000; runID <- 1
+trainfreq_sub <- trainfreq[trainfreq$iter==timepoint & trainfreq$run==runID,]
+# timepoint <- 10000
+# trainfreq_sub <- trainfreq[trainfreq$iter==timepoint,]
+wrd <- which(str_detect(names(trainfreq_sub), "^f[0-9]+$")); names(wrd) <- 1:4008
+freqdist <- tidyr::gather(trainfreq_sub, wrd, key="item", value="occur")
+
+ggplot(freqdist, aes(x=item, y=occur, color=run)) + geom_bar(stat="identity", width=0.1, color=freqdist$run) +  
+  xlab("Training Examples") + ylab("Occurrence") + 
+  ggtitle(paste("Occurrence of Training Examples\nat ", timepoint, " training; Run ", runID, sep="")) +
+  facet_grid(lrnrate~hlsize)
+ggsave(paste('FreqDist_bar_PtoP_', timepoint, '.png'), dpi = 300, height = 6, width = 18, units = 'in')
+ggplot(freqdist, aes(occur, color=run)) + geom_histogram(bins=50) + facet_grid(hlsize~lrnrate) +
+  xlab("Occurrence") + ylab("Count") + 
+  ggtitle(paste("Histogram of Occurrence of Training Examples\n at ", timepoint, " Run ", runID, sep=""))
+ggsave(paste('FreqDist_hist_PtoP_', timepoint, '.png'), dpi = 300, height = 6, width = 18, units = 'in')
 
 
 ##################################################
@@ -172,12 +208,22 @@ getItemAcuActPhon <- function(f1, f2, OPList){
 f1 <- dir(".", pattern="^itemacu_tr.txt$", recursive=TRUE)
 f2 <- dir(".", pattern="^outphonTr.txt$", recursive=TRUE)
 tr <- getItemAcuActPhon(f1, f2, OPList_tr)
-write.csv(tr, './tr_allres.csv', row.names=FALSE)
+write.csv(tr, './tr_allres_OtoP.csv', row.names=FALSE)
 # for testing items
 f1 <- dir(".", pattern="^itemacu_te.txt$", recursive=TRUE)
 f2 <- dir(".", pattern="^outphonTe.txt$", recursive=TRUE)
 te <- getItemAcuActPhon(f1, f2, OPList_te)
-write.csv(te, './te_allres.csv', row.names=FALSE)
+write.csv(te, './te_allres_OtoP.csv', row.names=FALSE)
+# for training items
+f1 <- dir(".", pattern="^itemacu_tr_ptop.txt$", recursive=TRUE)
+f2 <- dir(".", pattern="^outphonTr_ptop.txt$", recursive=TRUE)
+tr_ptop <- getItemAcuActPhon(f1, f2, OPList_tr)
+write.csv(tr_ptop, './tr_allres_PtoP.csv', row.names=FALSE)
+# for testing items
+f1 <- dir(".", pattern="^itemacu_te_ptop.txt$", recursive=TRUE)
+f2 <- dir(".", pattern="^outphonTe_ptop.txt$", recursive=TRUE)
+te_ptop <- getItemAcuActPhon(f1, f2, OPList_te)
+write.csv(te_ptop, './te_allres_PtoP.csv', row.names=FALSE)
 
 # subsample accuracy outputs ?
 # if(FALSE){
@@ -332,8 +378,8 @@ ggsave('CVCAcc_te.png', dpi = 300, height = 6, width = 12, units = 'in')
 #################### accuracy based on different types of words
 DFtr <- read.csv('./trainingexp.csv'); DFtr_merge <- DFtr[,c('word', 'prob')]; names(DFtr_merge) <- c("O", "log_freq")
 DFte <- read.csv('./testingexp.csv'); DFte_merge <- DFte[,c('word', 'prob')]; names(DFte_merge) <- c("O", "log_freq")
-tr <- read.csv('./tr_allres.csv')
-te <- read.csv('./te_allres.csv')
+tr <- read.csv('./tr_allres_OtoP.csv')
+te <- read.csv('./te_allres_OtoP.csv')
 
 # strain et al. 1995 case:
 strain1995A <- read.csv("Strain-etal-1995-Appendix-A.csv")
