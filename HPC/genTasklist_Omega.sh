@@ -1,9 +1,9 @@
 #!/bin/bash
-if [ "$#" -lt 2 ]; then
-	echo "At least two arguments (NUMRUN and WORKDIREC) are required!"
+if [ "$#" -lt 4 ]; then
+	echo "At least four arguments (NUMRUN, WORKDIREC, MODE1 and LOG1) are required!"
 	exit 1
 fi
-if [ "$#" -gt 12 ]; then
+if [ "$#" -gt 6 ]; then
 	echo "Too many arguments!"
 	exit 1
 fi
@@ -11,26 +11,10 @@ fi
 i=1;
 while [ $i -le $1 ] 
 do 
-  if [ "$#" -eq 2 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i >> tasklist.txt
-  elif [ "$#" -eq 3 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 >> tasklist.txt
-  elif [ "$#" -eq 4 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 >> tasklist.txt
-  elif [ "$#" -eq 5 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 >> tasklist.txt
+  if [ "$#" -eq 4 ]; then
+  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 >> tasklist$4.txt
   elif [ "$#" -eq 6 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 >> tasklist.txt
-  elif [ "$#" -eq 7 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 >> tasklist.txt
-  elif [ "$#" -eq 8 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 >> tasklist.txt
-  elif [ "$#" -eq 9 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 >> tasklist.txt
-  elif [ "$#" -eq 10 ]; then
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 $10 >> tasklist.txt
-  else
-  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 $5 $6 $7 $8 $9 $10 $11 >> tasklist.txt
+  	echo "module load Langs/GCC/4.5.3; cd" $2 "; ./msf.sh" $i $3 $4 "; ./msf.sh" $i $5 $6 >> tasklist_PtoP_OtoP.txt
   fi
   i=$((i+1))
 done

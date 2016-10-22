@@ -8,76 +8,7 @@
 #include "model.h"
 
 // function to build up the model
-void build_PtoP(int ticks)
-{ // build a network, with TIME number of time ticks
-	assert(ticks!=0);
-
-	/* tai*/
-  	default_tai=_tai;
-	
-	/* create network */
-	PtoP=create_net(ticks); 
-
-	/* integration constant */
-	PtoP->integrationConstant=_intconst;
-	
-	/* learning rate, activation pattern, error method, error level, and error radius */
-	default_epsilon=_epsi;
-  	default_activationType=_acttype;
-	default_errorComputation=_errortype;
-	default_weightNoiseType=_weightnoisetype;
-	default_weightNoise=_weightnoise;
-	default_activationNoise=_actnoise;
-	default_inputNoise=_inputnoise;
-	default_errorRadius=_errrad;
-
-	/* create our groups. format is: name, num of units,  ticks */
-  	input_ptop=init_group("Ortho",_OrthoS,ticks);
-  	hidden_ptop=init_group("Hidden",_HidS,ticks);
-  	output_ptop=init_group("Phono",_PhonoS,ticks);
-  	phohid_ptop=init_group("PhoHid",_PhoHidS,ticks);
-
-	/* now add our groups to the network object */
-  	bind_group_to_net(PtoP,input_ptop);
-  	bind_group_to_net(PtoP,hidden_ptop);
-  	bind_group_to_net(PtoP,output_ptop);
-  	bind_group_to_net(PtoP,phohid_ptop);
-
-	/* now connect our groups, instantiating connection objects c1 through c4 */
-  	c1_ptop=connect_groups(input_ptop,hidden_ptop);
-  	c2_ptop=connect_groups(hidden_ptop,output_ptop);
-  	c3_ptop=connect_groups(output_ptop,output_ptop);
-  	c4_ptop=connect_groups(output_ptop,phohid_ptop);
-  	c5_ptop=connect_groups(phohid_ptop,output_ptop);
-
-	/* add connections to our network */
-  	bind_connection_to_net(PtoP,c1_ptop);
-  	bind_connection_to_net(PtoP,c2_ptop);
-  	bind_connection_to_net(PtoP,c3_ptop);
-  	bind_connection_to_net(PtoP,c4_ptop);
-  	bind_connection_to_net(PtoP,c5_ptop);
-
-	/* randomize the weights in the connection objects. Second argument is weight range. */
-  	randomize_connections(c1_ptop,_range);
-  	randomize_connections(c2_ptop,_range);
-  	randomize_connections(c3_ptop,_range);
-  	randomize_connections(c4_ptop,_range);
-  	randomize_connections(c5_ptop,_range);
-
-  	c3_ptop->epsilon=_epsi; 
-	c4_ptop->epsilon=_epsi; 
-	c5_ptop->epsilon=_epsi;
-
-	int i;
-  	precompute_topology(PtoP,input_ptop);
-  	for(i=0;i<PtoP->numGroups;i++)
-  		printf("%s %d\n",PtoP->groups[i]->name,PtoP->groups[i]->whenDataLive);  
-  	for(i=0;i<c3_ptop->to->numUnits;i++)
-    	{ c3_ptop->weights[i][i]=0.75; c3_ptop->frozen[i][i]=1;	// freeze c3 connection weights to 0.75!
-    	}
-}
-
-void build_OtoP(int ticks)
+void build_model(int ticks)
 { // build a network, with TIME number of time ticks
 	assert(ticks!=0);
 		
@@ -85,9 +16,9 @@ void build_OtoP(int ticks)
   	default_tai=_tai;
 
 	/* create network */
-	OtoP=create_net(ticks); 
+	reading=create_net(ticks); 
 	/* integration constant */
-	OtoP->integrationConstant=_intconst;
+	reading->integrationConstant=_intconst;
 
 	/* learning rate, activation pattern, error method, error level, and error radius */
 	default_epsilon=_epsi;
@@ -106,10 +37,10 @@ void build_OtoP(int ticks)
   	phohid=init_group("PhoHid",_PhoHidS,ticks);
 
 	/* now add our groups to the network object */
-  	bind_group_to_net(OtoP,input);
-  	bind_group_to_net(OtoP,hidden);
-  	bind_group_to_net(OtoP,output);
-  	bind_group_to_net(OtoP,phohid);
+  	bind_group_to_net(reading,input);
+  	bind_group_to_net(reading,hidden);
+  	bind_group_to_net(reading,output);
+  	bind_group_to_net(reading,phohid);
 
 	/* now connect our groups, instantiating connection objects c1 through c4 */
   	c1=connect_groups(input,hidden);
@@ -119,11 +50,11 @@ void build_OtoP(int ticks)
   	c5=connect_groups(phohid,output);
 
 	/* add connections to our network */
-  	bind_connection_to_net(OtoP,c1);
-  	bind_connection_to_net(OtoP,c2);
-  	bind_connection_to_net(OtoP,c3);
-  	bind_connection_to_net(OtoP,c4);
-  	bind_connection_to_net(OtoP,c5);
+  	bind_connection_to_net(reading,c1);
+  	bind_connection_to_net(reading,c2);
+  	bind_connection_to_net(reading,c3);
+  	bind_connection_to_net(reading,c4);
+  	bind_connection_to_net(reading,c5);
 
 	/* randomize the weights in the connection objects. Second argument is weight range. */
   	randomize_connections(c1,_range);
@@ -137,9 +68,9 @@ void build_OtoP(int ticks)
 	c5->epsilon=_epsi;
 
 	int i;
-  	precompute_topology(OtoP,input);
-  	for(i=0;i<OtoP->numGroups;i++)
-  		printf("%s %d\n",OtoP->groups[i]->name,OtoP->groups[i]->whenDataLive);  
+  	precompute_topology(reading,input);
+  	for(i=0;i<reading->numGroups;i++)
+  		printf("%s %d\n",reading->groups[i]->name,reading->groups[i]->whenDataLive);  
   	for(i=0;i<c3->to->numUnits;i++)
     	{ c3->weights[i][i]=0.75; c3->frozen[i][i]=1;	// freeze c3 connection weights to 0.75!
     	}

@@ -1,14 +1,7 @@
 #define _LineLen 300
 
 // network components
-// PtoP
-Net *PtoP;
-Group *input_ptop, *hidden_ptop, *output_ptop, *phohid_ptop;
-Connections *c1_ptop, *c2_ptop, *c3_ptop, *c4_ptop, *c5_ptop;
-ExampleSet *train_ptop_exm, *test_ptop_exm;
-
-// OtoP
-Net *OtoP;
+Net *reading;
 Group *input, *hidden, *output, *phohid;
 Connections *c1, *c2, *c3, *c4, *c5;
 ExampleSet *train_exm, *test_exm;
@@ -39,8 +32,7 @@ char *_exTrF_PtoP, *_exTeF_PtoP;
 char *_exTrF, *_exTeF;
 
 // function to build the network and phoneme dictionary;
-void build_PtoP(int ticks);
-void build_OtoP(int ticks);
+void build_model(int ticks);
 int count_connections(Net *net);
 void load_phoneme(char *PhoF);
 void delete_phoneme(void);

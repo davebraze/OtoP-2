@@ -27,9 +27,9 @@
 ./Te.txt	// char *_exTeF; file name of the testing examples; TeEm_HarmSeidenberg1999.txt or TeEm_Harm1998.txt or TE.txt (for nonwords);
 // Parameters for running
 0	// unsigned int _seed; random seed for each run; if _seed=0, use random seed;
+1	// int _runmode; 0, directly OtoP training; 1, directly PtoP training; 2, OtoP reading by loading weights from PtoP training results;
 10000000	// unsigned int _iter; total number of training;
 1000	// unsigned int _rep; sampling frequency during training;
-1	// int _ptop; whether involve ptop training (1) or not (0);
 1000000	// unsigned int _iter_ptop; total number of ptop training;
 1000	// unsigned int _rep_ptop; sampling frequency during ptop training;
 1	// int _samp_method;	sampling method; linear (0) or logarithm-like (1) sampling;

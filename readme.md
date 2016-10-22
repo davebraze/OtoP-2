@@ -37,8 +37,8 @@ is optional.
 In order to run a simulation, put the exe file (OtoP), parameter file
 (para.txt), phoneme dictionary (phon.txt, see ./dictionary for definition
 of phonological representations of phonemes following two types of feature
-vectors), and training examples (trainexp_full.txt, see ./dictionary for 
-the training examples following the two types of phonological representations
+vectors), and training and testing examples (Tr#.txt and Te#.txt, see ./dictionary for 
+the examples following the two types of phonological representations
 ) into the same directory.
 
 para.txt has the following format:
@@ -59,7 +59,9 @@ The first line is a comment line; in each of the following lines, the
 format is: value + \t + // type and name of the parameter.  One can
 easily change the value of each parameter to fit in new condition.
 
-Parameters in this model are from four categories: parameters for the network (e.g., parameters specifying the number of nodes in different layers of the network and parameters specifying the settings about the activation curve, way of calculating training error, and noise type, etc.), parameters for phonemes (e.g., parameters specifying the number of phonemes and the number of features in each phoneme), parameters for file names (e.g., parameters specifying the names of the txt files of phoneme inventory, training and testing examples), and parameters for running (e.g., parameters specifying the number of training, the sampling frequency, the way to calculate training and testing accuracies, etc.). For each parameter, there is a brief description of its meaning or default and possible values after "//". For the parameters for running, they can also be assigned using the shell command based on different arguments (see below). This way of assignment can override the original settings in para.txt.
+Parameters in this model are from four categories: parameters for the network (e.g., parameters specifying the number of nodes in different layers of the network and parameters specifying the settings about the activation curve, way of calculating training error, and noise type, etc.), parameters for phonemes (e.g., parameters specifying the number of phonemes and the number of features in each phoneme), parameters for file names (e.g., parameters specifying the names of the txt files of phoneme inventory, training and testing examples), and parameters for running (e.g., parameters specifying the number of training, the sampling frequency, the way to calculate training and testing accuracies, etc.). For each parameter, there is a brief description of its meaning or default and possible values after "//". 
+
+The parameters for running can also be assigned using the shell command based on different arguments (see below). This way of assignment can override the original settings in para.txt.
 
 There are two ways of running the model:
 
@@ -69,19 +71,19 @@ There are two ways of running the model:
    when calling the executable (OtoP): 
 
    ```
-   ./OtoP -seed SEED -iter ITER -rep REP -ptop PTOP -iter_ptop ITERPtoP -rep_ptop REPPtoP -samp SAMP -met MET -vthres VTHRES -recvec RECVEC
+   ./OtoP -seed SEED -runmode RUNMODE -iter ITER -rep REP -iter_ptop ITERPtoP -rep_ptop REPPtoP -samp SAMP -met MET -vthres VTHRES -recvec RECVEC
    ```
 
    There are default values for each argument, so one can
-   specify all or only some of them. Specifying these parameters can be done either in para.txt or via the above arguments when calling the executable (OtoP). All these arguments are optional. If no arguments are provided, the code will use the values set in para.txt.
+   specify all or only some of them. Specifying these parameters can be done either in para.txt or via the above arguments when calling the executable (OtoP). All the arguments are optional. If no arguments are provided, the code will use the values set in para.txt.
 
    * SEED: random seed to be used in that run. Default value is 0 (randomly assigning a seed during the run);
 
+   * RUNMODE: mode of running: 0, directly OtoP training; 1, directly PtoP training; 2, OtoP training after PtoP training;
+   
    * ITER: number of total iterations (trainings). Default value is 50000;
 
    * REP: sampling frequency for recording the results (after how many trainings to record the results). Default value is 1000;
-   
-   * PTOP: whether to include PtoP training (1) or not (0). Default value is 0;
    
    * ITERPtoP: number of total iterations during PtoP training. Default value is 50000;
    
@@ -110,29 +112,45 @@ There are two ways of running the model:
    * weights.txt.gz: zipped connection weights of the trained
      network;
      
-   * weights_ptop.txt.gz: zipped connection weights of the trained network after PtoP training; These connection weights will be loaded before OtoP training. This file is created when PtoP training is included (by setting PTOP to 1 during running or setting _ptop to 1 in para.txt);
+   * weights\_ptop.txt.gz: zipped connection weights of the trained network after PtoP training; These connection weights will be loaded before OtoP training. This file is created when PtoP training is included (by setting PTOP to 1 during running or setting _ptop to 1 in para.txt);
 
    * output.txt: network training errors and training and testing accuracies at
      each sampling point of the OtoP training;
   
-   * output_ptop.txt: network training errors and training accuracies at each sampling point of the PtoP training. This file is created when PtoP training is included (by setting PTOP to 1 during running or setting _ptop to 1 in para.txt);
+   * output\_ptop.txt: network training errors and training accuracies at each sampling point of the PtoP training. This file is created when PtoP training is included (by setting RUNMODE to 1 during running or setting _runmode to 1 in para.txt);
 
-   * itemacu\_tr.txt: item-based accuracy based on the training data
+   * itemacu\_tr.txt: item-based OtoP accuracy based on the training data
      (training\_examples.txt) at each sampling point;
 
-   * itemacu\_te.txt: item-based accuracy based on the testing data
+   * itemacu\_te.txt: item-based OtoP accuracy based on the testing data
      (so far same as the training data) at each sampling point;
      
-   * trainfreq.txt: the accumulated number of times each training example is chosen for training at each sampling point;
-   
-   * outphonTr.txt: phonemes activated for each training example at each sampling point;
-   
-   * outphonTe.txt: phonemes activated for each testing example at each sampling point;
-   
-   * outphonTrVec.txt: vector values of activation for each training example at each sampling point. This file is created when RECVEC is 1;
-   
-   * outphonTeVec.txt: vector values of activation for each testing example at each sampling point. This file is created when RECVEC is 1;
+   * itemacu\_tr\_ptop.txt: item-based PtoP accuracy based on the training data
+     (training\_examples.txt) at each sampling point;
 
+   * itemacu\_te\_ptop.txt: item-based PtoP accuracy based on the testing data
+     (so far same as the training data) at each sampling point;   
+     
+   * trainfreq.txt: the accumulated number of times each training example is chosen for OtoP training at each sampling point;
+   
+   * trainfreq\_ptop.txt: the accumulated number of times each training example is chosen for PtoP training at each sampling point;
+   
+   * outphonTr.txt: phonemes activated for each OtoP training example at each sampling point;
+   
+   * outphonTe.txt: phonemes activated for each OtoP testing example at each sampling point;
+   
+   * outphonTr\_ptop.txt: phonemes activated for each PtoP training example at each sampling point;
+   
+   * outphonTe\_ptop.txt: phonemes activated for each PtoP testing example at each sampling point;
+   
+   * outphonTrVec.txt: vector values of activation for each OtoP training example at each sampling point. This file is created when RECVEC is 1;
+   
+   * outphonTeVec.txt: vector values of activation for each OtoP testing example at each sampling point. This file is created when RECVEC is 1;
+
+   * outphonTrVec\_ptop.txt: vector values of activation for each PtoP training example at each sampling point. This file is created when RECVEC is 1;
+   
+   * outphonTeVec\_ptop.txt: vector values of activation for each PtoP testing example at each sampling point. This file is created when RECVEC is 1;
+   
    While the model runs, it will also print to the screen overall
    error and average training/testing accuracies at each sampling
    point. Sampling points are places where the performances of 
@@ -141,7 +159,7 @@ There are two ways of running the model:
    the total number of training.
 
 2. Using shell script, put SerRunLoc.sh into the same folder with the
-   exe file, para.txt, phon.txt, and trainexp_full.txt. On-screen
+   exe file, para.txt, phon.txt, Tr#.txt and Te#.txt. On-screen
    outputs will be stored in *.log files.
 
    This way of running allows user to set up a number of runs each
@@ -149,11 +167,11 @@ There are two ways of running the model:
    serially, and store the results in the corresponding subfolders (1
    to N, N is the number of runs preset).
 
-   type: `sh SerRunLoc.sh NUM ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC`
+   type: `sh SerRunLoc.sh NUM RUNMODE LOG ITER REP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC`
 
    * NUM: number of runs to be conducted, each using a different
      random seed. This argument must be given;
-
+   * LOG: phrase for clarifying the log file name; 
    * The other arguments are the same as above and optional.
 
 ## Yale HPC
@@ -168,8 +186,8 @@ On-screen outputs as in the first way of running will be stored in
 Note that MikeNet has to be installed on Grace before it can be linked
 into an executable.
 	
-1. copy msf.sh, *.c, *.h, Makefile, para.txt, phon.txt, trainexp\_full.txt, testexp\_full.txt
-   into the working directory (note that you can change the names of phon.txt, trainexp\_full.txt and testexp\_full.txt in para.txt);
+1. copy msf.sh, *.c, *.h, Makefile, para.txt, phon.txt, Tr#.txt, Te#.txt
+   into the working directory (note that you can change the names of phon.txt, Tr#.txt and Te#.txt in para.txt);
 
 2. load a module for GCC: $ module load Langs/GCC
 
@@ -186,25 +204,25 @@ into an executable.
 
 2. use "chmod +rwx msf.sh" to change msf.sh permission
 
-3. set up tasklist.txt with commands like this (repeat as needed):
+3. set up tasklist_*mode*.txt with commands like this (repeat as needed):
    
    ```
-   cd ~/workDirec; ./msf.sh 1 5000 1000
-   cd ~/workDirec; ./msf.sh 2 5000 1000
-   cd ~/workDirec; ./msf.sh 3 5000 1000
-   cd ~/workDirec; ./msf.sh 4 5000 1000
+   cd ~/workDirec; ./msf.sh 1 1 _PtoP; ./msf.sh 1 2 _OtoP
+   cd ~/workDirec; ./msf.sh 2 1 _PtoP; ./msf.sh 2 2 _OtoP
+   cd ~/workDirec; ./msf.sh 3 1 _PtoP; ./msf.sh 3 2 _OtoP
+   cd ~/workDirec; ./msf.sh 4 1 _PtoP; ./msf.sh 4 2 _OtoP
    ```
 
-   And so on.
+   And so on. *mode* here could be \_OtoP or \_PtoP\_OtoP. 
 
-   As shown, this example would run 4 simulations, each having 5000
-   iterations and sampling results every 1000 iterations.
+   As shown, this example would run 4 simulations, each first having PtoP training 
+   and then having OtoP training.
 
    You can use a command like the following to automatically generate
    tasklist.txt:
 
    ```
-   sh genTasklist.sh NUMRUN WORKDIREC ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC
+   sh genTasklist.sh NUMRUN WORKDIREC RUNMODE1 LOG1 RUNMODE2 LOG2
    ```
 
    * NUMRUN: total number of runs. This argument must be given;
@@ -212,7 +230,9 @@ into an executable.
    * WORKDIREC: working directory of the code. Once the code is running, 
      subfolders will be created here for storing results. This argument must be given;
 
-   * The other arguments are the same as in running the model using exe or script file, and they ar all optional. 
+   * RUNMODE1 and LOG1: specify the runmode and log file name; If there are only RUNMODE1 and LOG1 specified, the created tasklist file will be tasklist\_LOG2.txt; if RUNMODE1, LOG1, RUNMODE2, LOG2 are all specified, the created tasklist file will be tasklist\_PtoP\_OtoP.txt.
+   
+   * RUNMODE2 and LOG2: same as above, but they are used to specify the second msf.sh command. These two arguments are optional. 
 	 
 4. run the results via SimpleQueue
 
@@ -222,9 +242,8 @@ into an executable.
    bsub < job.sh
    ```
 
-   As shown, this example recruits 4 nodes (8 cpus each) to run for 24
-   hours. Note that the total number of runs has to be a multipler of
-   32.
+   As shown, this example recruits 4 nodes to run for 24
+   hours. Note that the total number of runs has to be a multipler of 4.
 
 5. You can check job status thus: 
    ```
@@ -260,13 +279,13 @@ into an executable.
    tasklist.txt:
 
    ```
-   sh genTasklist_Omega.sh NUMRUN WORKDIREC ITER REP PTOP ITERPtoP REPPtoP SAMP MET VTHRES RECVEC
+   sh genTasklist_Omega.sh NUMRUN WORKDIREC RUNMODE1 LOG1 RUNMODE2 LOG2
    ```
 
    * NUMRUN: total number of runs. This argument must be given;
    * WORKDIREC: working directory of the code. This argument must be given;
 
-   The other arguments are the same as for Grace, and are optional.
+   The other arguments are the same as for Grace, and RUNMODE2 and LOG2 are optional.
       
 4. run the results via SimpleQueue
    ```
